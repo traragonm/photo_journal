@@ -46,11 +46,11 @@ export const printRotations = [-9, 7, -2, 4, -5, 3] as const;
 
 export const layout = {
   screenGutter: 22,
-  /** Edge tab (vertical "BẢN ĐỒ"/"CHỤP" pull tabs): visible width × height, touch width. */
-  edgeTabWidth: 26,
-  edgeTabHeight: 100,
+  /** Edge tab (icon-only pull tabs): visible width × height, touch width × height. */
+  edgeTabWidth: 32,
+  edgeTabHeight: 56,
   edgeTabTouchWidth: 44,
-  edgeTabTouchHeight: 112,
+  edgeTabTouchHeight: 72,
   handleWidth: 40,
   handleHeight: 5,
   minTouch: 44,

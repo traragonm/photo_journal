@@ -30,30 +30,8 @@ export const SHORT_COORDINATE_DECIMALS = 3;
 
 // --- Overlay layout (Map.dc.html) ---------------------------------------------------------------
 
-export const SEGMENT_TOP_GAP = 16;
-export const SHEET_EXPANDED_HEIGHT = 290;
-/** Header (grab bar + title) plus a row and a half, so it is obvious the list scrolls. */
-export const SHEET_PEEK_HEIGHT = 168;
-export const SHEET_RADIUS = 24;
-export const SHEET_PADDING_BOTTOM = 24;
-
-/** Sheet height at a snap point; the home-indicator inset replaces the bottom padding when larger. */
-export function sheetHeightFor(expanded: boolean, insetBottom: number): number {
-  const base = expanded ? SHEET_EXPANDED_HEIGHT : SHEET_PEEK_HEIGHT;
-  return base - SHEET_PADDING_BOTTOM + Math.max(insetBottom, SHEET_PADDING_BOTTOM);
-}
-export const SHEET_PADDING_H = 22;
-export const SHEET_PADDING_TOP = 10;
-export const SHEET_GAP = 10;
-export const SHEET_ROW_HEIGHT = 64;
-export const SHEET_ROW_GAP = 14;
-export const SHEET_THUMB_WIDTH = 40;
-/** Fraction of the travel (or a flick, px/s) needed to commit a snap change. */
-export const SHEET_SNAP_FRACTION = 0.5;
-export const SHEET_FLICK_VELOCITY = 500;
-export const SHEET_DRAG_ACTIVATE_OFFSET = 8;
-/** Gap between the sheet's top edge and the floating locate button / notice. */
-export const FLOATING_GAP = 12;
+/** Gap between the locate button / notice and the bottom edge (above the safe area). */
+export const FLOATING_GAP = 16;
 export const LOCATE_ICON_SIZE = 20;
 
 // --- Pins (mini print on a stick) ----------------------------------------------------------------

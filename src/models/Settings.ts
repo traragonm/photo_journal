@@ -66,7 +66,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   placeNamesEnabled: false,
   soundEnabled: true,
   hapticsEnabled: true,
-  flashMode: 'off',
+  flashMode: 'auto',
   cameraFacing: 'back',
   timerSeconds: 0,
   frameType: 'square',

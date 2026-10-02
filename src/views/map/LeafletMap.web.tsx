@@ -37,7 +37,6 @@ import {
   PIN_STICK_WIDTH,
   PIN_WIDTH,
   PIN_WIDTH_SELECTED,
-  SEGMENT_TOP_GAP,
   TILE_FILTER,
   USER_DOT_BORDER,
   USER_DOT_RADIUS,
@@ -56,7 +55,6 @@ export interface LeafletMapProps {
   /** Border colour of the prints (Settings › Màu viền). */
   frameFill: string;
   /** Height of the bottom sheet covering the map; the camera centres in the visible part. */
-  bottomPadding: number;
   onMapReady: () => void;
   onRegionChangeComplete: (region: ViewportRegion) => void;
   onPhotoPress: (id: string) => void;
@@ -75,8 +73,7 @@ const FULL_CIRCLE_DEGREES = 360;
 const MS_PER_SECOND = 1000;
 const FALLBACK_VIEW_WIDTH_PX = TILE_SIZE_PX;
 const SELECTED_Z_OFFSET = 1000;
-/** Leaflet's own controls start below the floating range switch. */
-const CONTROLS_TOP_PX = SEGMENT_TOP_GAP + 44 + spacing.sm;
+const CONTROLS_TOP_PX = spacing.lg;
 
 const SHADOW_COLOR_MIX = `color-mix(in srgb, ${colors.shadow} ${shadows.soft.shadowOpacity * 100}%, transparent)`;
 const PRINT_SHADOW = `0 ${shadows.soft.shadowOffset.height}px ${shadows.soft.shadowRadius}px ${SHADOW_COLOR_MIX}`;
@@ -147,12 +144,6 @@ function zoomForLongitudeDelta(map: L.Map, longitudeDelta: number): number {
   const raw = Math.log2((width * FULL_CIRCLE_DEGREES) / (TILE_SIZE_PX * delta));
   const snapped = Math.round(raw / ZOOM_SNAP) * ZOOM_SNAP;
   return Math.min(map.getMaxZoom(), Math.max(map.getMinZoom(), snapped));
-}
-
-/** Centre that puts `target` in the middle of the part of the map not covered by the bottom sheet. */
-function centerAbovePadding(map: L.Map, target: L.LatLng, zoom: number, bottomPadding: number): L.LatLng {
-  const point = map.project(target, zoom);
-  return map.unproject(L.point(point.x, point.y + bottomPadding / 2), zoom);
 }
 
 // --- Marker HTML -----------------------------------------------------------------------------------
@@ -262,12 +253,7 @@ export const LeafletMap = forwardRef<MapController, LeafletMapProps>(function Le
         const map = mapRef.current;
         if (!map) return;
         const zoom = zoomForLongitudeDelta(map, region.longitudeDelta);
-        const center = centerAbovePadding(
-          map,
-          L.latLng(region.latitude, region.longitude),
-          zoom,
-          propsRef.current.bottomPadding,
-        );
+        const center = L.latLng(region.latitude, region.longitude);
         if (durationMs && durationMs > 0) {
           map.flyTo(center, zoom, { duration: durationMs / MS_PER_SECOND });
         } else {

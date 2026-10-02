@@ -1,14 +1,13 @@
 import { StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { borderRadius, colors, layout, spacing } from '@/theme';
-import { AppText } from './AppText';
 import { PressableScale } from './PressableScale';
 
 export interface EdgeTabProps {
   /** Which screen edge the tab hugs. */
   side: 'left' | 'right';
-  label: string;
-  icon: keyof typeof Ionicons.glyphMap;
+  /** An Ionicons glyph, or `polaroid` for the custom print icon (back to the diary). */
+  icon: keyof typeof Ionicons.glyphMap | 'polaroid';
   onPress: () => void;
   accessibilityLabel: string;
   /** Tab colours: dark ink (default), accent (camera), or light (on the dark camera body). */
@@ -17,10 +16,7 @@ export interface EdgeTabProps {
   top: number;
 }
 
-const ICON_SIZE = 15;
-/** Length of the rotated label box (it is laid out horizontally, then turned 90°). */
-const LABEL_LENGTH = 64;
-const LABEL_THICKNESS = 14;
+const ICON_SIZE = 18;
 const TONES = {
   ink: { bg: colors.ink, fg: colors.onInk },
   accent: { bg: colors.accent, fg: colors.white },
@@ -28,10 +24,10 @@ const TONES = {
 } as const;
 
 /**
- * Vertical pull-tab on the screen edge ("BẢN ĐỒ", "CHỤP", "NHẬT KÝ").
+ * Icon-only pull-tab on the screen edge.
  * Tapping it does the same as swiping toward that side.
  */
-export function EdgeTab({ side, label, icon, onPress, accessibilityLabel, tone = 'ink', top }: EdgeTabProps) {
+export function EdgeTab({ side, icon, onPress, accessibilityLabel, tone = 'ink', top }: EdgeTabProps) {
   const { bg, fg } = TONES[tone];
   const isLeft = side === 'left';
   return (
@@ -42,17 +38,24 @@ export function EdgeTab({ side, label, icon, onPress, accessibilityLabel, tone =
       style={[styles.touch, { top }, isLeft ? styles.touchLeft : styles.touchRight]}
     >
       <View style={[styles.tab, { backgroundColor: bg }, isLeft ? styles.tabLeft : styles.tabRight]}>
-        <Ionicons name={icon} size={ICON_SIZE} color={fg} />
-        <View style={styles.labelSlot}>
-          <AppText
-            variant="tab"
-            style={[styles.label, { color: fg, transform: [{ rotate: isLeft ? '-90deg' : '90deg' }] }]}
-          >
-            {label}
-          </AppText>
-        </View>
+        {icon === 'polaroid' ? (
+          <PolaroidIcon color={fg} />
+        ) : (
+          <Ionicons name={icon} size={ICON_SIZE} color={fg} />
+        )}
       </View>
     </PressableScale>
+  );
+}
+
+/** Outline print (rect 14×18 with an 8×8 window) drawn at the 18px icon size. */
+function PolaroidIcon({ color }: { color: string }) {
+  return (
+    <View style={styles.iconBox}>
+      <View style={[styles.print, { borderColor: color }]}>
+        <View style={[styles.window, { borderColor: color }]} />
+      </View>
+    </View>
   );
 }
 
@@ -75,17 +78,8 @@ const styles = StyleSheet.create({
   },
   tabLeft: { borderTopRightRadius: borderRadius.lg, borderBottomRightRadius: borderRadius.lg },
   tabRight: { borderTopLeftRadius: borderRadius.lg, borderBottomLeftRadius: borderRadius.lg },
-  labelSlot: {
-    width: LABEL_THICKNESS,
-    height: LABEL_LENGTH - ICON_SIZE,
-    justifyContent: 'center',
-  },
-  // Laid out horizontally at full length (absolutely, so the narrow slot can't clip or
-  // ellipsize it), then rotated 90° around its centre.
-  label: {
-    position: 'absolute',
-    width: LABEL_LENGTH,
-    left: (LABEL_THICKNESS - LABEL_LENGTH) / 2,
-    textAlign: 'center',
-  },
+  iconBox: { width: ICON_SIZE, height: ICON_SIZE, alignItems: 'center', justifyContent: 'center' },
+  // 24-unit icon grid scaled to 18px: stroke 2 → 1.5, rect 14×18 → 10.5×13.5, window 8 → 6.
+  print: { width: 12, height: 15, borderWidth: 1.5, borderRadius: 1.5, alignItems: 'center', paddingTop: 1.5 },
+  window: { width: 7.5, height: 7.5, borderWidth: 1.5 },
 });

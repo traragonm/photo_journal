@@ -1,27 +1,36 @@
+import { useMemo, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AppText, IconButton, PhotoImage, PolaroidFrame, PressableScale } from '@/components';
+import { AppText } from '@/components';
 import { colors, layout, printFormats, spacing } from '@/theme';
-import { formatClock } from '@/utils/date';
-import { rotationFor } from '@/utils/rotation';
-import { useFrameStyle } from '@/viewmodels/shared';
+import { dayKeyOfIso, formatWeekdayDate } from '@/utils/date';
+import { groupPhotosByDay } from '@/utils/days';
+import { useFrameStyle, usePhotoStore } from '@/viewmodels/shared';
 import { usePhotoDetailViewModel } from '@/viewmodels/usePhotoDetailViewModel';
 import { CaptionEditor } from './CaptionEditor';
+import { DetailTopBar } from './DetailTopBar';
+import { FilmStripBar } from './FilmStripBar';
+import { FlippablePrint } from './FlippablePrint';
 import { FullPhotoViewer } from './FullPhotoViewer';
 import { PhotoActions } from './PhotoActions';
-import { PhotoInfoCard } from './PhotoInfoCard';
 import { PhotoNotFound } from './PhotoNotFound';
+import { PRINT_WIDTH, PRINT_WIDTH_WIDE, STRIP_WIDTH, detailScale } from './detailConstants';
 
-const MAX_PRINT_WIDTH = 340;
-const MAX_PRINT_HEIGHT_RATIO = 0.6;
-const MAX_TILT = 2;
+const MAX_PRINT_HEIGHT_RATIO = 0.56;
 
 export function PhotoDetailScreen({ photoId }: { photoId: string | undefined }) {
   const vm = usePhotoDetailViewModel(photoId);
+  const { photos } = usePhotoStore();
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
-  const { frame, captionVariant } = useFrameStyle();
+  const { frame } = useFrameStyle();
+  const [flipped, setFlipped] = useState(false);
   const { photo } = vm;
+
+  const sameDay = useMemo(
+    () => (photo ? (groupPhotosByDay(photos).get(dayKeyOfIso(photo.createdAt)) ?? []) : []),
+    [photos, photo],
+  );
 
   if (!photo) {
     return (
@@ -31,67 +40,48 @@ export function PhotoDetailScreen({ photoId }: { photoId: string | undefined }) 
     );
   }
 
+  const scale = detailScale(width);
   const format = printFormats[photo.frameType];
-  const printWidth = Math.min(
-    width - layout.screenGutter * 2,
-    MAX_PRINT_WIDTH,
-    (height * MAX_PRINT_HEIGHT_RATIO * format.w) / format.h,
-  );
-  const tilt = Math.max(-MAX_TILT, Math.min(MAX_TILT, rotationFor(photo.id)));
+  const baseWidth = photo.frameType === 'mini' ? PRINT_WIDTH : PRINT_WIDTH_WIDE;
+  const printWidth = Math.min(baseWidth * scale, (height * MAX_PRINT_HEIGHT_RATIO * format.w) / format.h);
   const noticeIsError = vm.notice?.kind === 'error';
+  const dayIndex = Math.max(
+    0,
+    sameDay.findIndex((entry) => entry.id === photo.id),
+  );
 
   return (
     <KeyboardAvoidingView style={styles.screen} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <View style={[styles.topBar, { paddingTop: insets.top + spacing.sm }]}>
-        <IconButton icon="chevron-down" accessibilityLabel="Đóng" onPress={vm.goBack} />
-        <IconButton icon="share-outline" accessibilityLabel="Chia sẻ ảnh" onPress={vm.share} />
+      <View style={{ paddingTop: insets.top + spacing.sm }}>
+        <DetailTopBar
+          title={formatWeekdayDate(new Date(photo.createdAt))}
+          index={dayIndex}
+          count={sameDay.length}
+          flipped={flipped}
+          onBack={vm.goBack}
+          onFlip={() => setFlipped((value) => !value)}
+        />
       </View>
       <ScrollView
         contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + spacing.xl }]}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <PolaroidFrame
+        <FlippablePrint
+          photo={photo}
           width={printWidth}
-          frameType={photo.frameType}
-          colorStyle={frame}
-          rotation={tilt}
-          shadow="printLifted"
-          image={
-            <PressableScale
-              onPress={vm.openViewer}
-              accessibilityRole="imagebutton"
-              accessibilityLabel="Ảnh. Chạm để xem toàn màn hình"
-              style={styles.fill}
-            >
-              <PhotoImage
-                uri={photo.imageUri}
-                isAvailable={photo.isImageAvailable}
-                filter={photo.filter}
-                style={styles.fill}
-              />
-            </PressableScale>
-          }
-          footer={
-            <>
-              {photo.caption ? (
-                <AppText variant={captionVariant} numberOfLines={2} style={{ color: frame.ink }}>
-                  {photo.caption}
-                </AppText>
-              ) : null}
-              <AppText variant="handSmall" style={{ color: frame.inkSoft }}>
-                {formatClock(photo.createdAt)}
-              </AppText>
-            </>
-          }
+          frame={frame}
+          flipped={flipped}
+          onOpenViewer={vm.openViewer}
+          onEdit={vm.startEditing}
         />
-
+        <FilmStripBar photo={photo} width={Math.min(STRIP_WIDTH * scale, width - layout.screenGutter * 2)} />
         <View style={styles.details}>
-          <PhotoInfoCard photo={photo} />
           {vm.notice ? (
             <AppText
               variant="caption"
               color={noticeIsError ? 'accentText' : 'textMuted'}
+              align="center"
               accessibilityRole={noticeIsError ? 'alert' : undefined}
             >
               {vm.notice.text}
@@ -112,6 +102,7 @@ export function PhotoDetailScreen({ photoId }: { photoId: string | undefined }) 
               canViewOnMap={vm.canViewOnMap}
               onEditCaption={vm.startEditing}
               onViewOnMap={vm.viewOnMap}
+              onShare={vm.share}
               onDelete={vm.confirmDelete}
             />
           )}
@@ -124,18 +115,11 @@ export function PhotoDetailScreen({ photoId }: { photoId: string | undefined }) 
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.paper },
-  topBar: {
-    paddingHorizontal: layout.screenGutter,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   content: {
     alignItems: 'center',
     gap: spacing.xl,
     paddingTop: spacing.lg,
     paddingHorizontal: layout.screenGutter,
   },
-  fill: { flex: 1 },
   details: { alignSelf: 'stretch', gap: spacing.md },
 });

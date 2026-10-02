@@ -23,13 +23,25 @@ const VIEWFINDER_VERTICAL_MARGIN = 16;
 /** Design height the viewfinder area should get before the body starts shrinking. */
 const VIEWFINDER_COMFORT_HEIGHT = 340;
 
-/** Top row of round buttons: offset below the safe area, height, gap to the viewfinder. */
-export const TOP_ROW_MARGIN = 12;
+/** Top row of slide switches: offset below the safe area, height, gap to the viewfinder. */
+export const TOP_ROW_MARGIN = 8;
 export const TOP_ROW_HEIGHT = 44;
-const TOP_ROW_GAP = 14;
-/** Top-row horizontal inset (design: left 56 leaves room for the "NHẬT KÝ" edge tab; right 24). */
-export const TOP_ROW_LEFT = 56;
-export const TOP_ROW_RIGHT = 24;
+const TOP_ROW_GAP = 18;
+/** Top-row horizontal inset (design: left 60 leaves room for the back edge tab; right 20). */
+export const TOP_ROW_LEFT = 60;
+export const TOP_ROW_RIGHT = 20;
+/** Flash / timer switch width (design 110) and the narrowest it may shrink to on small phones. */
+export const TOP_SWITCH_WIDTH = 110;
+const TOP_SWITCH_MIN_WIDTH = 88;
+/** Indicator (18px icon) + gap beside each switch, and the minimum gap between the two groups. */
+const TOP_SWITCH_INDICATOR = 26;
+const TOP_SWITCH_GROUP_GAP = 8;
+
+/** Width of each top-row switch so both groups fit in `rowWidth`. */
+export function topSwitchWidth(rowWidth: number): number {
+  const fit = (rowWidth - TOP_SWITCH_GROUP_GAP) / 2 - TOP_SWITCH_INDICATOR;
+  return Math.max(TOP_SWITCH_MIN_WIDTH, Math.min(TOP_SWITCH_WIDTH, fit));
+}
 
 /**
  * The bottom "cluster" (last print, readout, knob, dial) is laid out in its own box whose

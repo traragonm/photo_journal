@@ -19,6 +19,7 @@ import {
   cluster,
   computeCameraLayout,
   filterIndexOf,
+  topSwitchWidth,
   zoomIndexOf,
   zoomSpec,
   type CameraLayout,
@@ -34,7 +35,8 @@ const READOUT_LINE_HEIGHT = 16;
 const READOUT_LETTER_SPACING = 1.3;
 
 /**
- * Camera pane: dark body with the live viewfinder print, flash/timer/flip, last print,
+ * Camera pane: dark body with flash/timer slide switches, the live viewfinder print (with the
+ * flip button on its corner), last print,
  * readout, frame knob and the zoom/filter dial around the shutter.
  * Pure view — every decision lives in `useCameraViewModel`. The native camera is mounted
  * only while this pane is active and the app is in the foreground.
@@ -95,10 +97,11 @@ export function CameraScreen() {
           <CameraTopBar
             flashMode={vm.flashMode}
             timerSeconds={vm.timerSeconds}
-            disabled={vm.isCapturing || vm.countdown !== null}
-            onCycleFlash={actions.cycleFlash}
-            onCycleTimer={actions.cycleTimer}
-            onFlip={actions.toggleFacing}
+            onChangeFlash={actions.setFlashMode}
+            onChangeTimer={actions.setTimerSeconds}
+            switchWidth={topSwitchWidth(
+              size.width - TOP_ROW_LEFT - TOP_ROW_RIGHT - insets.left - insets.right,
+            )}
             style={[
               styles.topBar,
               { top: cameraLayout.topRowTop, left: TOP_ROW_LEFT + insets.left, right: TOP_ROW_RIGHT + insets.right },
@@ -118,6 +121,8 @@ export function CameraScreen() {
               countdown={vm.countdown}
               status={status}
               camera={camera}
+              onFlip={actions.toggleFacing}
+              flipDisabled={vm.isCapturing || vm.countdown !== null}
             />
           </View>
 

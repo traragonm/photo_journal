@@ -1,6 +1,6 @@
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { borderRadius, colors, fontSizes, layout, spacing } from '@/theme';
+import { borderRadius, colors, layout, spacing } from '@/theme';
 import { AppText } from './AppText';
 import { PressableScale } from './PressableScale';
 
@@ -15,11 +15,13 @@ export interface HandleProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const ICON_SIZE = fontSizes.md;
+const ICON_SIZE = 18;
 
 /** Grab bar + hint, used at sheet edges. Tappable as an alternative to dragging. */
 export function Handle({ label, icon, barPosition = 'top', onPress, accessibilityLabel, style }: HandleProps) {
   const bar = <View style={styles.bar} />;
+
+  // Show text only when label is provided (backward compat)
   const text = label ? (
     <View style={styles.labelRow}>
       {icon ? <Ionicons name={icon} size={ICON_SIZE} color={colors.muted} /> : null}
@@ -28,10 +30,16 @@ export function Handle({ label, icon, barPosition = 'top', onPress, accessibilit
       </AppText>
     </View>
   ) : null;
+
+  // Show icon-only when label is not provided but icon is
+  const iconOnly = !label && icon ? (
+    <Ionicons name={icon} size={ICON_SIZE} color={colors.muted} />
+  ) : null;
+
   const content = (
     <>
       {barPosition === 'top' ? bar : null}
-      {text}
+      {text || iconOnly}
       {barPosition === 'bottom' ? bar : null}
     </>
   );

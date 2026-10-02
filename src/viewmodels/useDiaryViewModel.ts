@@ -22,7 +22,7 @@ export interface DiaryViewModel {
   eyebrow: string;
   /** "Hôm nay" / "Hôm qua" / weekday date. */
   title: string;
-  /** "3 tấm ảnh" / "Chưa có ảnh". */
+  /** "3 tấm" for the day; "Thư viện" when the day is empty. */
   countLabel: string;
   isToday: boolean;
   isLoaded: boolean;
@@ -43,6 +43,7 @@ export interface DiaryViewModel {
   openPhoto: (photo: PhotoEntry) => void;
   openSettings: () => void;
   openCalendar: () => void;
+  openLibrary: () => void;
   /** Only meaningful for today; past days have no capture shortcut. */
   goToCamera: () => void;
   caption: CaptionEditorState;
@@ -62,7 +63,7 @@ export interface CaptionEditorState {
 }
 
 function pluralLabel(count: number): string {
-  return count === 0 ? 'Chưa có ảnh' : `${count} tấm ảnh`;
+  return count === 0 ? 'Thư viện' : `${count} tấm`;
 }
 
 /** State and actions of the diary pane ("Hôm nay"). */
@@ -105,6 +106,7 @@ export function useDiaryViewModel(): DiaryViewModel {
   }, []);
   const openSettings = useCallback(() => openSheet('settings'), [openSheet]);
   const openCalendar = useCallback(() => openSheet('calendar'), [openSheet]);
+  const openLibrary = useCallback(() => router.push('/library'), []);
   const goToCamera = useCallback(() => goTo('camera'), [goTo]);
 
   const editingPhoto = editingId ? (allPhotos.find((photo) => photo.id === editingId) ?? null) : null;
@@ -153,6 +155,7 @@ export function useDiaryViewModel(): DiaryViewModel {
     openPhoto,
     openSettings,
     openCalendar,
+    openLibrary,
     goToCamera,
     caption: {
       photo: editingPhoto,

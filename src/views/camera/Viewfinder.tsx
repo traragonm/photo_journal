@@ -7,9 +7,10 @@ import Animated, {
   withTiming,
   ZoomIn,
 } from 'react-native-reanimated';
-import { AppText } from '@/components';
+import { Ionicons } from '@expo/vector-icons';
+import { AppText, PressableScale } from '@/components';
 import type { FilmFilter, FrameType } from '@/models';
-import { borderRadius, colors, durations, filmFilters, fontFamilies, shadows, typography } from '@/theme';
+import { borderRadius, borderWidth, colors, durations, filmFilters, fontFamilies, layout, shadows, typography } from '@/theme';
 import { cameraColors } from './cameraTokens';
 import { fitPrint, previewCoverBox } from './dialGeometry';
 
@@ -28,6 +29,13 @@ const COUNTDOWN_FONT_SIZE = 120;
 const COUNTDOWN_SHADOW_RADIUS = 12;
 /** The print's corner radius in the design (4px). */
 const VIEWFINDER_RADIUS = 4;
+/** Flip button on the print's bottom-left corner (design: 44px circle at left/bottom −16). */
+const FLIP_OFFSET = -16;
+const FLIP_ICON_SIZE = 18;
+const FLIP_SHADOW_OFFSET = 4;
+const FLIP_SHADOW_RADIUS = 10;
+const FLIP_SHADOW_OPACITY = 0.5;
+const FLIP_DISABLED_OPACITY = 0.5;
 /** iOS supports only part of the CSS `filter` style; the colour wash carries the look there. */
 const SUPPORTS_FILTER_STYLE = Platform.OS !== 'ios';
 
@@ -44,6 +52,9 @@ export interface ViewfinderProps {
   status: string | null;
   /** The live CameraView (fills its box; the window crops it). */
   camera: ReactNode;
+  /** Switch front/back camera (button on the print's corner). */
+  onFlip: () => void;
+  flipDisabled: boolean;
 }
 
 /**
@@ -61,6 +72,8 @@ export function Viewfinder({
   countdown,
   status,
   camera,
+  onFlip,
+  flipDisabled,
 }: ViewfinderProps) {
   const u = (value: number) => value * scale;
   const target = fitPrint(frameType, maxWidth, maxHeight);
@@ -169,6 +182,17 @@ export function Viewfinder({
           Viết vài chữ sau khi chụp…
         </AppText>
       </View>
+
+      <PressableScale
+        onPress={onFlip}
+        disabled={flipDisabled}
+        accessibilityRole="button"
+        accessibilityLabel="Đổi camera trước/sau"
+        accessibilityState={{ disabled: flipDisabled }}
+        style={[styles.flip, { left: u(FLIP_OFFSET), bottom: u(FLIP_OFFSET) }, flipDisabled && styles.flipDisabled]}
+      >
+        <Ionicons name="sync-outline" size={FLIP_ICON_SIZE} color={colors.onInk} />
+      </PressableScale>
     </Animated.View>
   );
 }
@@ -231,6 +255,25 @@ const styles = StyleSheet.create({
     textShadowColor: cameraColors.countdownShadow,
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: COUNTDOWN_SHADOW_RADIUS,
+  },
+  flip: {
+    position: 'absolute',
+    width: layout.iconButtonSize,
+    height: layout.iconButtonSize,
+    borderRadius: borderRadius.pill,
+    borderWidth: borderWidth.regular,
+    borderColor: colors.frameWhite,
+    backgroundColor: colors.ink,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: FLIP_SHADOW_OFFSET },
+    shadowOpacity: FLIP_SHADOW_OPACITY,
+    shadowRadius: FLIP_SHADOW_RADIUS,
+    elevation: 8,
+  },
+  flipDisabled: {
+    opacity: FLIP_DISABLED_OPACITY,
   },
   footer: {
     flex: 1,

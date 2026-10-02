@@ -13,3 +13,4 @@ export { PolaroidCard, type PolaroidCardProps } from './PolaroidCard';
 export { PhotoThumbnail, type PhotoThumbnailProps } from './PhotoThumbnail';
 export { AnimatedEntry, type AnimatedEntryProps } from './AnimatedEntry';
 export { EmptyState, type EmptyStateProps } from './EmptyState';
+export { SlideSwitch, type SlideSwitchProps, type SlideSwitchOption } from './SlideSwitch';

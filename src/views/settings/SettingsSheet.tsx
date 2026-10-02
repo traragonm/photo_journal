@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View, type LayoutChangeEvent } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { AppText, Button, SegmentedControl, type SegmentOption } from '@/components';
+import { AppText, Button, SlideSwitch, type SlideSwitchOption } from '@/components';
 import type { FrameType } from '@/models';
 import { durations, easings, spacing } from '@/theme';
 import { useSettingsViewModel } from '@/viewmodels/useSettingsViewModel';
@@ -19,10 +19,10 @@ import {
   SHEET_TOP_PADDING,
 } from './settingsConstants';
 
-const FRAME_OPTIONS: readonly SegmentOption<FrameType>[] = [
-  { value: 'mini', label: 'Mini' },
-  { value: 'square', label: 'Square' },
-  { value: 'wide', label: 'Wide' },
+const FRAME_OPTIONS: readonly SlideSwitchOption<FrameType>[] = [
+  { value: 'mini', label: 'MINI' },
+  { value: 'square', label: 'SQ' },
+  { value: 'wide', label: 'WIDE' },
 ];
 const REMINDER_UNSUPPORTED_LABEL = 'Trên điện thoại';
 /** Fraction of the width the settings body drifts left while privacy slides in (subtle depth). */
@@ -77,12 +77,11 @@ export function SettingsSheet() {
           <SettingsGroup title="Khung ảnh" tall>
             <View style={styles.tallRow}>
               <AppText variant="body">Kiểu khung</AppText>
-              <SegmentedControl
+              <SlideSwitch
                 options={FRAME_OPTIONS}
                 value={vm.frameType}
                 onChange={vm.setFrameType}
-                appearance="inset"
-                size="compact"
+                tone="light"
                 accessibilityLabel="Kiểu khung mặc định"
               />
             </View>

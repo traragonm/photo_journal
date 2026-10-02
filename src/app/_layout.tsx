@@ -71,6 +71,7 @@ export default function RootLayout() {
                 }}
               >
                 <Stack.Screen name="index" />
+                <Stack.Screen name="library" options={{ animation: 'slide_from_right' }} />
                 <Stack.Screen name="photo/[id]" options={{ animation: 'slide_from_bottom' }} />
               </Stack>
             </AppLockGate>

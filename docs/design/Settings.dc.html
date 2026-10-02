@@ -26,19 +26,25 @@ button{font:inherit}
 <div style="background: #FFFFFF; border-radius: 16px; padding: 6px 16px">
 <div style="height: 52px; display: flex; align-items: center; justify-content: space-between">
 <span style="font-size: 15px">Kiểu khung</span>
-<div role="group" aria-label="Kiểu khung mặc định" style="display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: #EFE9DF">
-<button aria-pressed="true" style="height: 30px; padding: 0 12px; border: 0; border-radius: 999px; background: #26221E; color: #F4EFE6; font-size: 12px; font-weight: 600; cursor: pointer">Mini</button>
-<button aria-pressed="false" style="height: 30px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; color: #4A433C; font-size: 12px; cursor: pointer">Square</button>
-<button aria-pressed="false" style="height: 30px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; color: #4A433C; font-size: 12px; cursor: pointer">Wide</button>
+<div style="position: relative; width: 110px; height: 44px">
+<span style="position: absolute; left: 0; top: 4px; width: 110px; height: 22px; box-sizing: border-box; border-radius: 11px; background: #1F1C19; border: 1px solid #3A3530; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8)"></span>
+<span style="position: absolute; left: {{ftLeft}}px; top: 7px; width: 38px; height: 16px; border-radius: 8px; background: repeating-linear-gradient(90deg, #E2D9CA 0px 2px, #A99F92 2px 4px); box-shadow: 0 2px 4px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.6); transition: left 0.18s ease"></span>
+<sc-for list="{{ftTicks}}" as="t" hint-placeholder-count="3">
+<span style="position: absolute; left: {{t.left}}px; top: 30px; width: 40px; text-align: center; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; color: {{t.color}}">{{t.label}}</span>
+</sc-for>
+<input type="range" min="0" max="2" step="1" value="{{ft}}" onChange="{{ftChange}}" aria-label="Kiểu khung mặc định" aria-valuetext="{{ftText}}" style="position: absolute; left: 0; top: 0; width: 110px; height: 44px; margin: 0; opacity: 0; cursor: grab">
 </div>
 </div>
 <div style="height: 1px; background: #EFE9DF"></div>
 <div style="height: 52px; display: flex; align-items: center; justify-content: space-between">
 <span style="font-size: 15px">Màu viền</span>
-<div style="display: flex; gap: 6px">
-<button aria-label="Viền trắng (đang chọn)" aria-pressed="true" style="width: 44px; height: 44px; border: 0; background: transparent; padding: 0; display: flex; align-items: center; justify-content: center; cursor: pointer"><span style="width: 26px; height: 26px; border-radius: 50%; background: #FBFAF6; border: 1px solid #CFC6BA; box-shadow: 0 0 0 2px #F7F3EC, 0 0 0 4px #26221E"></span></button>
-<button aria-label="Viền kem" aria-pressed="false" style="width: 44px; height: 44px; border: 0; background: transparent; padding: 0; display: flex; align-items: center; justify-content: center; cursor: pointer"><span style="width: 26px; height: 26px; border-radius: 50%; background: #F2E6CF; border: 1px solid #CFC6BA"></span></button>
-<button aria-label="Viền đen" aria-pressed="false" style="width: 44px; height: 44px; border: 0; background: transparent; padding: 0; display: flex; align-items: center; justify-content: center; cursor: pointer"><span style="width: 26px; height: 26px; border-radius: 50%; background: #1E1C1A"></span></button>
+<div style="display: flex; gap: 4px">
+<sc-for list="{{borders}}" as="c" hint-placeholder-count="3">
+<button aria-label="{{c.label}}" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}" style="width: 44px; height: 48px; border: 0; background: transparent; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; cursor: pointer">
+<span style="width: 32px; height: 32px; box-sizing: border-box; border-radius: 50%; padding: 4px; background: repeating-conic-gradient(#8A8178 0deg 6deg, #5E574F 6deg 12deg); box-shadow: 0 2px 3px rgba(0,0,0,0.3)"><span style="display: block; width: 24px; height: 24px; border-radius: 50%; background: {{c.color}}; box-shadow: {{c.cap}}; transform: scale({{c.scale}}); transition: transform 0.12s ease"></span></span>
+<span style="width: 5px; height: 5px; border-radius: 50%; background: {{c.dot}}"></span>
+</button>
+</sc-for>
 </div>
 </div>
 </div>
@@ -48,7 +54,7 @@ button{font:inherit}
 <h2 style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #6B6258">Nhật ký</h2>
 <div style="background: #FFFFFF; border-radius: 16px; padding: 4px 16px">
 <sc-for list="{{toggles}}" as="t" hint-placeholder-count="3">
-<button aria-pressed="{{t.pressed}}" onClick="{{t.flip}}" style="width: 100%; height: 50px; border: 0; background: transparent; padding: 0; display: flex; align-items: center; justify-content: space-between; color: #26221E; font-size: 15px; text-align: left; cursor: pointer">{{t.label}}<span style="width: 44px; height: 26px; border-radius: 13px; background: {{t.track}}; display: flex; align-items: center; justify-content: {{t.align}}; padding: 0 3px; box-sizing: border-box"><span style="width: 20px; height: 20px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.25)"></span></span></button>
+<button aria-pressed="{{t.pressed}}" onClick="{{t.flip}}" style="width: 100%; height: 50px; border: 0; background: transparent; padding: 0; display: flex; align-items: center; justify-content: space-between; color: #26221E; font-size: 15px; text-align: left; cursor: pointer">{{t.label}}<span style="display: flex; align-items: center; gap: 8px"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{t.led}}; box-shadow: {{t.glow}}"></span><span style="position: relative; width: 56px; height: 24px; box-sizing: border-box; border-radius: 12px; background: #1F1C19; border: 1px solid #3A3530; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8)"><span style="position: absolute; left: {{t.thumb}}px; top: 2px; width: 26px; height: 18px; border-radius: 9px; background: repeating-linear-gradient(90deg, #E2D9CA 0px 2px, #A99F92 2px 4px); box-shadow: 0 2px 4px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.6); transition: left 0.18s ease"></span></span></span></button>
 </sc-for>
 <button style="width: 100%; height: 50px; border: 0; background: transparent; padding: 0; display: flex; align-items: center; justify-content: space-between; color: #26221E; font-size: 15px; text-align: left; cursor: pointer">Nhắc chụp mỗi ngày<span style="display: flex; align-items: center; gap: 4px; color: #6B6258; font-size: 14px">20:00<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></span></button>
 </div>
@@ -76,7 +82,7 @@ button{font:inherit}
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { location: true, develop: true, handwriting: true };
+    this.state = { location: true, develop: true, handwriting: true, ft: 0, border: 0 };
   }
   renderVals() {
     const defs = [
@@ -89,12 +95,36 @@ class Component extends DCLogic {
       return {
         label: d.label,
         pressed: on ? 'true' : 'false',
-        track: on ? '#26221E' : '#CFC6BA',
-        align: on ? 'flex-end' : 'flex-start',
+        led: on ? '#E0892E' : '#CFC6BA',
+        glow: on ? '0 0 6px rgba(224,137,46,0.8)' : 'none',
+        thumb: on ? 26 : 2,
         flip: () => this.setState({ [d.key]: !on })
       };
     });
-    return { toggles };
+    const ft = this.state.ft;
+    const FT = ['MINI', 'SQ', 'WIDE'];
+    const B = [
+      { name: 'trắng', color: '#FBFAF6' },
+      { name: 'kem', color: '#F2E6CF' },
+      { name: 'đen', color: '#1E1C1A' }
+    ];
+    const bi = this.state.border;
+    const borders = B.map((b, i) => ({
+      color: b.color,
+      label: 'Viền ' + b.name + (i === bi ? ' (đang chọn)' : ''),
+      pressed: i === bi ? 'true' : 'false',
+      cap: i === bi ? 'inset 0 2px 4px rgba(0,0,0,0.45)' : 'inset 0 -2px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.3)',
+      scale: i === bi ? '0.9' : '1',
+      dot: i === bi ? '#C2402A' : 'transparent',
+      pick: () => this.setState({ border: i })
+    }));
+    return {
+      toggles, borders, ft,
+      ftLeft: 3 + ft * 33,
+      ftText: FT[ft],
+      ftTicks: FT.map((l, i) => ({ label: l, left: 2 + i * 33 - 1, color: i === ft ? '#26221E' : '#6B6258' })),
+      ftChange: (e) => this.setState({ ft: Number(e.target.value) })
+    };
   }
 }
 </script>

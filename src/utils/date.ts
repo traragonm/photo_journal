@@ -67,3 +67,9 @@ export function formatDayTitle(key: DayKey, today: Date = new Date()): string {
   if (key === dayKeyOf(addDays(today, -1))) return 'Hôm qua';
   return formatWeekdayDate(dateOfDayKey(key));
 }
+
+/** Film date stamp: "'26 10 02" */
+export function formatFilmStamp(iso: string): string {
+  const d = new Date(iso);
+  return `'${pad2(d.getFullYear() % 100)} ${pad2(d.getMonth() + 1)} ${pad2(d.getDate())}`;
+}

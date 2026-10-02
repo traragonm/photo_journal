@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { StyleSheet, View, type LayoutChangeEvent } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppText, EmptyState, Handle, PressableScale } from '@/components';
 import { borderRadius, colors, layout, shadows, spacing } from '@/theme';
@@ -11,6 +12,7 @@ import { WeekStrip } from './WeekStrip';
 
 const HEADER_GUTTER = 28;
 const HINT_TEXT = 'Chạm để xem ảnh · Giữ để viết ghi chú';
+const LIBRARY_ICON_SIZE = 20;
 const BOTTOM_EXTRA = spacing.xs;
 
 /** Main "Hôm nay" pane: a day's prints scattered on the table, the week strip and the sheet handles. */
@@ -28,7 +30,7 @@ export function DiaryScreen() {
   return (
     <View style={[styles.root, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
       <SheetPullZone sheet="settings" intent="open" style={styles.topZone}>
-        <Handle label="Cài đặt" icon="settings-outline" onPress={vm.openSettings} accessibilityLabel="Mở cài đặt" />
+        <Handle icon="settings-outline" onPress={vm.openSettings} accessibilityLabel="Mở cài đặt" />
       </SheetPullZone>
 
       <View style={styles.header}>
@@ -40,9 +42,18 @@ export function DiaryScreen() {
             {vm.title}
           </AppText>
         </View>
-        <AppText variant="handLarge" color="textMuted" style={styles.count}>
-          {vm.countLabel}
-        </AppText>
+        <PressableScale
+          onPress={vm.openLibrary}
+          hitSlop={layout.hitSlop}
+          accessibilityRole="button"
+          accessibilityLabel="Mở thư viện ảnh"
+          style={styles.libraryPill}
+        >
+          <AppText variant="handLarge" color="textMuted">
+            {vm.countLabel}
+          </AppText>
+          <Ionicons name="grid-outline" size={LIBRARY_ICON_SIZE} color={colors.textMuted} />
+        </PressableScale>
       </View>
 
       <View style={styles.pileArea} onLayout={onAreaLayout}>
@@ -101,7 +112,6 @@ export function DiaryScreen() {
 
       <SheetPullZone sheet="calendar" intent="open" style={styles.bottomZone}>
         <Handle
-          label="Kéo lên · Lịch ảnh"
           icon="calendar-outline"
           barPosition="bottom"
           onPress={vm.openCalendar}
@@ -133,8 +143,14 @@ const styles = StyleSheet.create({
   headerText: {
     flexShrink: 1,
   },
-  count: {
-    paddingBottom: spacing.xs,
+  libraryPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    height: layout.minTouch,
+    paddingHorizontal: spacing.md,
+    marginRight: -spacing.md,
+    borderRadius: borderRadius.pill,
   },
   pileArea: {
     flex: 1,

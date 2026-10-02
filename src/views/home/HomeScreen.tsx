@@ -23,8 +23,8 @@ import { SettingsSheet } from '@/views/settings/SettingsSheet';
 import { HomeNavProvider, PANES, type HomeNav, type Pane, type Sheet } from './HomeNavigator';
 import { SheetPullZone } from './SheetPullZone';
 
-/** Edge tabs sit at the same height on every pane (352 / 844 in the design). */
-const EDGE_TAB_TOP_RATIO = 352 / 844;
+/** Edge tabs sit at the same height on every pane (372 / 844 in the design). */
+const EDGE_TAB_TOP_RATIO = 372 / 844;
 /** Settings curtain leaves this much paper below it for the "Kéo lên để đóng" handle. */
 const SETTINGS_BOTTOM_GAP = 68;
 /** Calendar sheet starts this far below the safe area. */
@@ -182,8 +182,7 @@ export function HomeScreen() {
                 <EdgeSwipe gesture={panePan} side="right" />
                 <EdgeTab
                   side="right"
-                  label="NHẬT KÝ"
-                  icon="chevron-forward"
+                  icon="polaroid"
                   top={edgeTabTop}
                   onPress={() => goTo('diary')}
                   accessibilityLabel="Quay lại nhật ký"
@@ -196,7 +195,6 @@ export function HomeScreen() {
                   <DiaryScreen />
                   <EdgeTab
                     side="left"
-                    label="BẢN ĐỒ"
                     icon="map-outline"
                     top={edgeTabTop}
                     onPress={() => goTo('map')}
@@ -204,7 +202,6 @@ export function HomeScreen() {
                   />
                   <EdgeTab
                     side="right"
-                    label="CHỤP"
                     icon="camera-outline"
                     tone="accent"
                     top={edgeTabTop}
@@ -220,8 +217,7 @@ export function HomeScreen() {
                 <EdgeSwipe gesture={panePan} side="left" />
                 <EdgeTab
                   side="left"
-                  label="NHẬT KÝ"
-                  icon="chevron-back"
+                  icon="polaroid"
                   tone="light"
                   top={edgeTabTop}
                   onPress={() => goTo('diary')}

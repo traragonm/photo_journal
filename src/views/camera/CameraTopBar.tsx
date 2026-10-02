@@ -1,77 +1,79 @@
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
-import type { Ionicons } from '@expo/vector-icons';
-import { AppText, IconButton } from '@/components';
+import { Ionicons } from '@expo/vector-icons';
+import { SlideSwitch, type SlideSwitchOption } from '@/components';
 import type { FlashMode, TimerSeconds } from '@/models';
-import { borderRadius, colors, fontFamilies, fontSizes, spacing } from '@/theme';
+import { colors, spacing } from '@/theme';
 
-type IconName = keyof typeof Ionicons.glyphMap;
-
-const FLASH: Record<FlashMode, { icon: IconName; spoken: string; badge: string | null }> = {
-  off: { icon: 'flash-off-outline', spoken: 'tắt', badge: null },
-  on: { icon: 'flash', spoken: 'bật', badge: null },
-  auto: { icon: 'flash-outline', spoken: 'tự động', badge: 'A' },
+const FLASH_OPTIONS: readonly SlideSwitchOption<FlashMode>[] = [
+  { value: 'off', label: 'TẮT' },
+  { value: 'auto', label: 'AUTO' },
+  { value: 'on', label: 'BẬT' },
+];
+const TIMER_OPTIONS: readonly SlideSwitchOption<TimerSeconds>[] = [
+  { value: 0, label: 'TẮT' },
+  { value: 3, label: '3s' },
+  { value: 10, label: '10s' },
+];
+const FLASH_LED: Record<FlashMode, string> = {
+  on: colors.cameraLedOn,
+  auto: colors.cameraLedAuto,
+  off: colors.cameraLedOff,
 };
 
-const TIMER_SPOKEN: Record<TimerSeconds, string> = { 0: 'tắt', 3: '3 giây', 10: '10 giây' };
-const BADGE_MIN_SIZE = 16;
-const BADGE_OFFSET = -2;
+const ICON_SIZE = 18;
+const LED_SIZE = 6;
 
 export interface CameraTopBarProps {
   flashMode: FlashMode;
   timerSeconds: TimerSeconds;
-  disabled: boolean;
-  onCycleFlash: () => void;
-  onCycleTimer: () => void;
-  onFlip: () => void;
+  onChangeFlash: (mode: FlashMode) => void;
+  onChangeTimer: (seconds: TimerSeconds) => void;
+  /** Width of each switch (design 110; narrower on small phones). */
+  switchWidth?: number;
   style?: StyleProp<ViewStyle>;
 }
 
-/** Flash · self-timer · flip — round translucent buttons on the camera body. */
+/** Flash · self-timer — two hardware slide switches with status LEDs on the camera body. */
 export function CameraTopBar({
   flashMode,
   timerSeconds,
-  disabled,
-  onCycleFlash,
-  onCycleTimer,
-  onFlip,
+  onChangeFlash,
+  onChangeTimer,
+  switchWidth,
   style,
 }: CameraTopBarProps) {
-  const flash = FLASH[flashMode];
   return (
     <View style={[styles.row, style]} pointerEvents="box-none">
-      <View>
-        <IconButton
-          icon={flash.icon}
-          tone="camera"
-          onPress={onCycleFlash}
-          accessibilityLabel={`Đèn flash: ${flash.spoken}`}
+      <View style={styles.group}>
+        <Indicator icon="flash-outline" led={FLASH_LED[flashMode]} />
+        <SlideSwitch
+          options={FLASH_OPTIONS}
+          value={flashMode}
+          onChange={onChangeFlash}
+          width={switchWidth}
+          accessibilityLabel="Đèn flash"
         />
-        {flash.badge ? <Badge text={flash.badge} /> : null}
       </View>
-      <View>
-        <IconButton
-          icon="timer-outline"
-          tone="camera"
-          onPress={onCycleTimer}
-          accessibilityLabel={`Hẹn giờ: ${TIMER_SPOKEN[timerSeconds]}`}
+      <View style={styles.group}>
+        <Indicator icon="timer-outline" led={timerSeconds > 0 ? colors.cameraLedOn : colors.cameraLedOff} />
+        <SlideSwitch
+          options={TIMER_OPTIONS}
+          value={timerSeconds}
+          onChange={onChangeTimer}
+          width={switchWidth}
+          accessibilityLabel="Hẹn giờ"
         />
-        {timerSeconds > 0 ? <Badge text={`${timerSeconds}`} /> : null}
       </View>
-      <IconButton
-        icon="sync-outline"
-        tone="camera"
-        onPress={onFlip}
-        disabled={disabled}
-        accessibilityLabel="Đổi camera trước/sau"
-      />
     </View>
   );
 }
 
-function Badge({ text }: { text: string }) {
+/** Small engraved icon with a status LED below it (decorative; the switch carries the a11y value). */
+function Indicator({ icon, led }: { icon: keyof typeof Ionicons.glyphMap; led: string }) {
   return (
-    <View pointerEvents="none" style={styles.badge} importantForAccessibility="no-hide-descendants">
-      <AppText style={styles.badgeText}>{text}</AppText>
+    <View style={styles.indicator} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden>
+      <Ionicons name={icon} size={ICON_SIZE} color={colors.cameraSwitchIcon} />
+      <View style={[styles.led, { backgroundColor: led }]} />
     </View>
   );
 }
@@ -82,22 +84,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  badge: {
-    position: 'absolute',
-    right: BADGE_OFFSET,
-    top: BADGE_OFFSET,
-    minWidth: BADGE_MIN_SIZE,
-    height: BADGE_MIN_SIZE,
-    paddingHorizontal: spacing.xxs,
-    borderRadius: borderRadius.pill,
-    backgroundColor: colors.accent,
+  group: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    gap: spacing.sm,
   },
-  badgeText: {
-    fontFamily: fontFamilies.bold,
-    fontSize: fontSizes.micro,
-    lineHeight: BADGE_MIN_SIZE,
-    color: colors.white,
+  indicator: {
+    alignItems: 'center',
+    gap: spacing.xs,
+  },
+  led: {
+    width: LED_SIZE,
+    height: LED_SIZE,
+    borderRadius: LED_SIZE / 2,
   },
 });

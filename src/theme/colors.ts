@@ -50,6 +50,30 @@ const palette = {
   cameraLabelIdle: '#8E857A',
   cameraButton: 'rgba(255,255,255,0.09)',
   cameraBadge: 'rgba(0,0,0,0.55)',
+  // Camera slide switches (flash / timer) + LEDs
+  cameraSwitchIcon: '#D8D0C4',
+  cameraSwitchTrack: '#0E0D0C',
+  cameraSwitchTrackLight: '#1F1C19',
+  cameraSwitchTrackBorder: '#3A3530',
+  cameraSwitchTrackShadow: 'rgba(0,0,0,0.8)',
+  cameraSwitchKnurlLight: '#E2D9CA',
+  cameraSwitchKnurlDark: '#A99F92',
+  cameraSwitchThumbShadow: 'rgba(0,0,0,0.6)',
+  cameraSwitchThumbShadowLight: 'rgba(0,0,0,0.45)',
+  cameraSwitchThumbHighlight: 'rgba(255,255,255,0.5)',
+  cameraSwitchThumbHighlightLight: 'rgba(255,255,255,0.6)',
+  cameraLedOn: '#F2B441',
+  cameraLedAuto: '#8A6A2A',
+  cameraLedOff: '#3A3530',
+
+  // Settings hardware switches (toggle LED, border-colour knurled ring)
+  switchLedOn: '#E0892E',
+  switchLedGlow: 'rgba(224,137,46,0.8)',
+  knurlRingLight: '#8A8178',
+  knurlRingDark: '#5E574F',
+  ringShadow: 'rgba(0,0,0,0.3)',
+  capShadowPressed: 'rgba(0,0,0,0.45)',
+  capShadowRaised: 'rgba(0,0,0,0.3)',
 
   // Map (paper-toned cartography)
   mapLand: '#E7E1D4',
@@ -61,6 +85,11 @@ const palette = {
   mapLabelPark: '#56663F',
   userLocation: '#2F6FB0',
   userLocationHalo: 'rgba(47,111,176,0.18)',
+
+  // Detail screen: film date stamp + film-strip info bar
+  filmStamp: '#FF8A3D',
+  filmStampGlow: 'rgba(255,120,40,0.7)',
+  filmStripText: '#F2A65A',
 
   white: '#FFFFFF',
   black: '#000000',

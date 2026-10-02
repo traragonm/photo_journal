@@ -1,31 +1,18 @@
-import { useMemo, useRef } from 'react';
+import { useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MapView from 'react-native-maps';
-import { colors, layout } from '@/theme';
+import { colors } from '@/theme';
 import { useFrameStyle } from '@/viewmodels/shared';
 import { useMapViewModel } from '@/viewmodels/useMapViewModel';
 import { MapClusterMarker } from './MapClusterMarker';
 import { MapOverlay } from './MapOverlay';
 import { MapPhotoMarker } from './MapPhotoMarker';
-import { PAPER_MAP_STYLE, SEGMENT_TOP_GAP, sheetHeightFor } from './mapConstants';
+import { PAPER_MAP_STYLE } from './mapConstants';
 
 export function MapScreen() {
   const mapRef = useRef<MapView>(null);
   const vm = useMapViewModel(mapRef);
-  const insets = useSafeAreaInsets();
   const { frame } = useFrameStyle();
-
-  // Keep the usable map between the floating switch and the sheet.
-  const mapPadding = useMemo(
-    () => ({
-      top: insets.top + SEGMENT_TOP_GAP + layout.iconButtonSize,
-      right: 0,
-      bottom: sheetHeightFor(vm.sheetExpanded, insets.bottom),
-      left: 0,
-    }),
-    [insets.top, insets.bottom, vm.sheetExpanded],
-  );
 
   return (
     <View style={styles.screen}>
@@ -35,7 +22,6 @@ export function MapScreen() {
           style={StyleSheet.absoluteFill}
           initialRegion={vm.initialRegion}
           customMapStyle={PAPER_MAP_STYLE}
-          mapPadding={mapPadding}
           userInterfaceStyle="light"
           showsUserLocation={vm.showsUserLocation}
           showsMyLocationButton={false}

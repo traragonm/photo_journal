@@ -15,8 +15,6 @@ import {
   type MapItem,
   type ViewportRegion,
 } from '@/utils/clustering';
-import { formatClock } from '@/utils/date';
-import { photosInRange, type TimeRange } from '@/utils/days';
 import { useHomeNav } from '@/views/home/HomeNavigator';
 import {
   CITY_ZOOM,
@@ -27,24 +25,12 @@ import {
   MAX_PREVIEW_PHOTOS,
   NOTICE_DURATION_MS,
   REGION_ANIMATION_MS,
-  SHORT_COORDINATE_DECIMALS,
   VIEWPORT_QUERY_PADDING,
 } from '@/views/map/mapConstants';
 import { usePhotoStore } from './shared';
 
 export type LocatedPhoto = PhotoEntry & { latitude: number; longitude: number };
 type ClusterItem = Extract<MapItem, { kind: 'cluster' }>;
-
-/** One row of the bottom sheet. */
-export interface PlaceRow {
-  photo: LocatedPhoto;
-  /** Caption, or the time when the photo has none. */
-  title: string;
-  hasCaption: boolean;
-  /** "place · 17:58" (just the place when the title already is the time). */
-  subtitle: string;
-  selected: boolean;
-}
 
 export interface MapViewModel {
   isLoaded: boolean;
@@ -56,39 +42,21 @@ export interface MapViewModel {
   /** Photo lookup for markers. */
   photosById: ReadonlyMap<string, LocatedPhoto>;
   selectedIds: ReadonlySet<string>;
-  range: TimeRange;
-  onRangeChange: (range: TimeRange) => void;
-  sheetTitle: string;
-  sheetCount: string;
-  /** Shown instead of the list when there is nothing to list. */
-  sheetEmptyMessage: string | null;
-  rows: PlaceRow[];
-  sheetExpanded: boolean;
-  setSheetExpanded: (expanded: boolean) => void;
   showsUserLocation: boolean;
   isLocating: boolean;
-  /** Gentle one-line message (permission denied, no fix…). */
+  /** Gentle one-line message (permission denied, no fixâ€¦). */
   notice: string | null;
   onMapReady: () => void;
   onRegionChangeComplete: (region: ViewportRegion) => void;
   onPhotoPress: (id: string) => void;
-  onRowPress: (id: string) => void;
   onClusterPress: (item: ClusterItem) => void;
   onMapPress: () => void;
   onLocatePress: () => void;
   onTakePhoto: () => void;
 }
 
-const NOTICE_DENIED = 'Vị trí đang tắt. Bạn có thể bật lại trong cài đặt.';
-const NOTICE_NO_FIX = 'Chưa tìm thấy vị trí của bạn. Thử lại sau nhé.';
-const EMPTY_IN_RANGE = 'Chưa đi đâu trong khoảng này.';
-
-const RANGE_TITLES: Record<TimeRange, string> = {
-  today: 'Hôm nay đã đi qua',
-  week: 'Tuần này đã đi qua',
-  all: 'Những nơi đã đến',
-};
-const CO_LOCATED_TITLE = 'Ảnh ở nơi này';
+const NOTICE_DENIED = 'Vá»‹ trÃ­ Ä‘ang táº¯t. Báº¡n cÃ³ thá»ƒ báº­t láº¡i trong cÃ i Ä‘áº·t.';
+const NOTICE_NO_FIX = 'ChÆ°a tÃ¬m tháº¥y vá»‹ trÃ­ cá»§a báº¡n. Thá»­ láº¡i sau nhÃ©.';
 
 /**
  * Minimal imperative map API the ViewModel needs. react-native-maps' MapView satisfies it
@@ -96,11 +64,6 @@ const CO_LOCATED_TITLE = 'Ảnh ở nơi này';
  */
 export interface MapController {
   animateToRegion(region: ViewportRegion, durationMs?: number): void;
-}
-
-function placeLabel(photo: LocatedPhoto): string {
-  if (photo.locationName) return photo.locationName;
-  return `${photo.latitude.toFixed(SHORT_COORDINATE_DECIMALS)}, ${photo.longitude.toFixed(SHORT_COORDINATE_DECIMALS)}`;
 }
 
 function openPhoto(id: string): void {
@@ -121,9 +84,7 @@ export function useMapViewModel(mapRef: RefObject<MapController | null>): MapVie
   const [initialRegion, setInitialRegion] = useState<ViewportRegion | null>(null);
   const [region, setRegion] = useState<ViewportRegion | null>(null);
   const regionRef = useRef<ViewportRegion>(FALLBACK_REGION);
-  const [userRange, setUserRange] = useState<TimeRange | null>(null);
   const [selectedIdList, setSelectedIdList] = useState<string[]>([]);
-  const [sheetExpanded, setSheetExpanded] = useState(true);
   const [permission, setPermission] = useState<LocationPermission>('undetermined');
   const [isLocating, setIsLocating] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
@@ -132,14 +93,10 @@ export function useMapViewModel(mapRef: RefObject<MapController | null>): MapVie
   const located = useMemo(() => photos.filter(hasLocation) as LocatedPhoto[], [photos]);
   const photosById = useMemo(() => new Map(located.map((photo) => [photo.id, photo])), [located]);
 
-  // Default range: today, unless today has nothing but other days do.
-  const todayCount = useMemo(() => photosInRange(located, 'today').length, [located]);
-  const range: TimeRange = userRange ?? (todayCount === 0 && located.length > 0 ? 'all' : 'today');
-
-  // Newest first, like the diary.
+  // All located photos, newest first, like the diary.
   const rangePhotos = useMemo(
-    () => photosInRange(located, range).sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
-    [located, range],
+    () => [...located].sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
+    [located],
   );
   const index = useMemo(
     () => createClusterIndex(
@@ -213,7 +170,7 @@ export function useMapViewModel(mapRef: RefObject<MapController | null>): MapVie
     [animateTo],
   );
 
-  // Focus from the photo detail ("Xem trên bản đồ"): show everything, centre + select, then clear.
+  // Focus from the photo detail ("Xem trÃªn báº£n Ä‘á»“"): show everything, centre + select, then clear.
   useEffect(() => {
     if (!mapFocusId || !isLoaded || !isMapReady || !initialRegion) return;
     const target = photosById.get(mapFocusId);
@@ -221,7 +178,6 @@ export function useMapViewModel(mapRef: RefObject<MapController | null>): MapVie
       animateTo(regionForZoom(target, FOCUS_ZOOM, regionRef.current));
       // Syncing with an external event (navigation request), not derived state.
       /* eslint-disable react-hooks/set-state-in-effect */
-      setUserRange('all');
       setSelectedIdList([target.id]);
       /* eslint-enable react-hooks/set-state-in-effect */
     }
@@ -255,16 +211,6 @@ export function useMapViewModel(mapRef: RefObject<MapController | null>): MapVie
     setRegion(next);
   }, []);
 
-  const onRangeChange = useCallback(
-    (next: TimeRange) => {
-      setUserRange(next);
-      setSelectedIdList([]);
-      const fitted = fitRegion(photosInRange(located, next), FIT_PADDING);
-      if (fitted) animateTo(fitted);
-    },
-    [located, animateTo],
-  );
-
   /** First press selects + centres; pressing the selected place again opens the photo. */
   const onPhotoPress = useCallback(
     (id: string) => {
@@ -278,15 +224,6 @@ export function useMapViewModel(mapRef: RefObject<MapController | null>): MapVie
       centerOn(photo);
     },
     [photosById, selectedIds, centerOn],
-  );
-
-  /** Rows behave like pins, except in the co-located list where a tap opens the photo. */
-  const onRowPress = useCallback(
-    (id: string) => {
-      if (selectedIds.size > 1) openPhoto(id);
-      else onPhotoPress(id);
-    },
-    [selectedIds, onPhotoPress],
   );
 
   const onClusterPress = useCallback(
@@ -337,25 +274,6 @@ export function useMapViewModel(mapRef: RefObject<MapController | null>): MapVie
   const onTakePhoto = useCallback(() => goTo('camera'), [goTo]);
   const onMapReady = useCallback(() => setIsMapReady(true), []);
 
-  // Sheet content: the range's places, or only the co-located photos of a tapped cluster.
-  const coLocated = selectedPhotos.length > 1;
-  const listed = coLocated ? selectedPhotos : rangePhotos;
-  const rows = useMemo<PlaceRow[]>(
-    () =>
-      listed.map((photo) => {
-        const time = formatClock(photo.createdAt);
-        const hasCaption = Boolean(photo.caption);
-        return {
-          photo,
-          hasCaption,
-          title: photo.caption ?? time,
-          subtitle: hasCaption ? `${placeLabel(photo)} · ${time}` : placeLabel(photo),
-          selected: selectedIds.has(photo.id),
-        };
-      }),
-    [listed, selectedIds],
-  );
-
   return {
     isLoaded,
     isEmpty: isLoaded && located.length === 0,
@@ -363,21 +281,12 @@ export function useMapViewModel(mapRef: RefObject<MapController | null>): MapVie
     items,
     photosById,
     selectedIds,
-    range,
-    onRangeChange,
-    sheetTitle: coLocated ? CO_LOCATED_TITLE : RANGE_TITLES[range],
-    sheetCount: coLocated ? `${rows.length} tấm` : `${rows.length} nơi`,
-    sheetEmptyMessage: rows.length === 0 ? EMPTY_IN_RANGE : null,
-    rows,
-    sheetExpanded,
-    setSheetExpanded,
     showsUserLocation: permission === 'granted' && paneActive,
     isLocating,
     notice,
     onMapReady,
     onRegionChangeComplete,
     onPhotoPress,
-    onRowPress,
     onClusterPress,
     onMapPress,
     onLocatePress,

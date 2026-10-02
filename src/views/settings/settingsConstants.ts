@@ -15,21 +15,22 @@ export const ROW_HEIGHT = 50;
 export const ROW_HEIGHT_TALL = 52;
 export const CHEVRON_SIZE = 16;
 export const ROW_GAP = spacing.md;
+export const SWATCH_WIDTH = 44;
+export const SWATCH_HEIGHT = 48;
+export const SWATCH_SPACING = 4;
+export const RING_SIZE = 32;
+export const RING_PADDING = 3;
+export const CAP_SIZE = 24;
+export const CAP_PRESSED_SCALE = 0.9;
+export const DOT_SIZE = 5;
+export const DOT_GAP = 3;
 
-export const SWATCH_SIZE = 26;
-export const SWATCH_GAP = 2;
-export const SWATCH_RING = 2;
-/** Outer size of a selected swatch: swatch + gap + ring on both sides. */
-export const SWATCH_OUTER = SWATCH_SIZE + 2 * (SWATCH_GAP + SWATCH_RING);
-export const SWATCH_SPACING = 6;
 
 export const rowColors = {
   label: colors.ink,
   value: colors.muted,
   chevron: colors.muted,
-  swatchRing: colors.ink,
-  swatchGap: colors.sheet,
-  swatchBorder: colors.hairline,
+  selectedDot: colors.accent,
 } as const;
 
 export const FOOTER_NOTE = 'Ảnh của bạn chỉ nằm trên máy này. Không tài khoản, không máy chủ.';

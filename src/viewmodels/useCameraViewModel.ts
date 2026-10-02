@@ -28,8 +28,6 @@ const TOAST_DURATION_MS = 3200;
 const COUNTDOWN_TICK_MS = 1000;
 /** Keeps a warm GPS fix while the camera is open, so captures rarely wait on GPS. */
 const GPS_WARMUP_MS = 20_000;
-const FLASH_CYCLE: readonly FlashMode[] = ['off', 'on', 'auto'];
-const TIMER_CYCLE: readonly TimerSeconds[] = [0, 3, 10];
 const FRAME_CYCLE: readonly FrameType[] = ['mini', 'square', 'wide'];
 const DEFAULT_ZOOM: ZoomStop = 1;
 
@@ -92,12 +90,13 @@ export interface CameraViewModel {
     /** Shutter: captures, starts the self-timer, or cancels a running countdown. */
     pressShutter: () => void;
     toggleFacing: () => void;
-    cycleFlash: () => void;
-    cycleTimer: () => void;
+    setFlashMode: (mode: FlashMode) => void;
+    setTimerSeconds: (seconds: TimerSeconds) => void;
     selectZoom: (zoom: ZoomStop) => void;
     selectFilter: (filter: FilmFilter) => void;
     selectFrameType: (frameType: FrameType) => void;
     cycleFrameType: () => void;
+    /** Last-print button: opens the diary on the day of the latest photo. */
     openDiary: () => void;
     allowLocation: () => void;
     dismissLocationPrompt: () => void;
@@ -401,17 +400,23 @@ export function useCameraViewModel(cameraRef: RefObject<CameraView | null>): Cam
     persistSetting({ cameraFacing: currentSettings().cameraFacing === 'back' ? 'front' : 'back' });
   }, [tick, persistSetting, currentSettings]);
 
-  const cycleFlash = useCallback(() => {
-    tick();
-    const index = FLASH_CYCLE.indexOf(currentSettings().flashMode);
-    persistSetting({ flashMode: FLASH_CYCLE[(index + 1) % FLASH_CYCLE.length] });
-  }, [tick, persistSetting, currentSettings]);
+  const setFlashMode = useCallback(
+    (flashMode: FlashMode) => {
+      if (flashMode === currentSettings().flashMode) return;
+      tick();
+      persistSetting({ flashMode });
+    },
+    [tick, persistSetting, currentSettings],
+  );
 
-  const cycleTimer = useCallback(() => {
-    tick();
-    const index = TIMER_CYCLE.indexOf(currentSettings().timerSeconds);
-    persistSetting({ timerSeconds: TIMER_CYCLE[(index + 1) % TIMER_CYCLE.length] });
-  }, [tick, persistSetting, currentSettings]);
+  const setTimerSeconds = useCallback(
+    (timerSeconds: TimerSeconds) => {
+      if (timerSeconds === currentSettings().timerSeconds) return;
+      tick();
+      persistSetting({ timerSeconds });
+    },
+    [tick, persistSetting, currentSettings],
+  );
 
   const selectZoom = useCallback(
     (next: ZoomStop) => {
@@ -553,8 +558,8 @@ export function useCameraViewModel(cameraRef: RefObject<CameraView | null>): Cam
       onMountError,
       pressShutter,
       toggleFacing,
-      cycleFlash,
-      cycleTimer,
+      setFlashMode,
+      setTimerSeconds,
       selectZoom,
       selectFilter,
       selectFrameType,

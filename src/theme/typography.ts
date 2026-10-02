@@ -11,6 +11,8 @@ export const fontFamilies = {
   semibold: 'BeVietnamPro_600SemiBold',
   bold: 'BeVietnamPro_700Bold',
   hand: 'PatrickHand_400Regular',
+  /** LCD film date stamp */
+  lcd: 'VT323_400Regular',
 } as const;
 
 export const fontSizes = {
@@ -55,6 +57,11 @@ export const typography = {
   /** Handwritten caption on a print */
   hand: { fontFamily: fontFamilies.hand, fontSize: 19, lineHeight: 21 },
   handLarge: { fontFamily: fontFamilies.hand, fontSize: 22, lineHeight: 25 },
+  /** Detail print: title and note under the photo */
+  handTitle: { fontFamily: fontFamilies.hand, fontSize: 27, lineHeight: 28 },
+  handNote: { fontFamily: fontFamilies.hand, fontSize: 17, lineHeight: 20 },
+  /** Film date stamp (LCD font) */
+  lcd: { fontFamily: fontFamilies.lcd, fontSize: 20 },
   handSmall: { fontFamily: fontFamilies.hand, fontSize: 14, lineHeight: 16 },
 } as const satisfies Record<string, TextStyle>;
 
