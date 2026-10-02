@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Lịch ảnh</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Patrick+Hand&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#26221E}a:hover{color:#000000}
+button{font:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #ECE6DB; font-family: 'Be Vietnam Pro', system-ui, sans-serif; color: #26221E">
+
+<div style="position: absolute; left: 0; right: 0; top: 40px; bottom: 0; box-sizing: border-box; padding: 0 16px 24px; background: #F7F3EC; border-radius: 28px 28px 0 0; box-shadow: 0 -10px 30px rgba(60,40,20,0.16); display: flex; flex-direction: column">
+
+<a href="Main.dc.html" aria-label="Kéo xuống để đóng lịch" style="display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 10px 0 6px; text-decoration: none; color: #6B6258">
+<span style="width: 40px; height: 5px; border-radius: 3px; background: #B9AFA2"></span>
+<span style="font-size: 12px">Kéo xuống để đóng</span>
+</a>
+
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 4px 0">
+<button aria-label="Tháng trước" style="width: 44px; height: 44px; border: 0; border-radius: 50%; background: #EFE9DF; color: #26221E; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"></path></svg></button>
+<div style="text-align: center">
+<h1 style="margin: 0; font-size: 24px; font-weight: 600">Tháng 10, 2026</h1>
+<div style="font-size: 12px; color: #6B6258; margin-top: 2px">2 ngày có ảnh · 4 tấm · chuỗi 3 ngày</div>
+</div>
+<button aria-label="Tháng sau" style="width: 44px; height: 44px; border: 0; border-radius: 50%; background: #EFE9DF; color: #26221E; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></button>
+</div>
+
+<div style="margin-top: 18px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; font-size: 11px; font-weight: 600; color: #6B6258; text-align: center; letter-spacing: 0.04em">
+<span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span>
+</div>
+
+<div style="margin-top: 8px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px">
+<sc-for list="{{cells}}" as="c" hint-placeholder-count="35">
+<button aria-label="{{c.label}}" style="height: 66px; border: 0; border-radius: 10px; background: {{c.bg}}; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 3px; cursor: pointer; color: {{c.fg}}; opacity: {{c.opacity}}">
+<sc-if value="{{c.photo}}" hint-placeholder-val="{{false}}">
+<span style="position: relative; display: block; width: 34px; height: 42px; margin-top: 5px">
+<sc-if value="{{c.multi}}" hint-placeholder-val="{{false}}">
+<span style="position: absolute; left: 0; top: 0; width: 34px; height: 42px; background: #EFE9DF; border-radius: 2px; transform: rotate(9deg); box-shadow: 0 1px 3px rgba(60,40,20,0.2)"></span>
+</sc-if>
+<span style="position: absolute; left: 0; top: 0; width: 34px; height: 42px; box-sizing: border-box; padding: 3px 3px 9px; background: #FFFFFF; border-radius: 2px; box-shadow: {{c.shadow}}; transform: rotate({{c.rot}})"><span style="display: block; width: 100%; height: 100%; background: {{c.color}}"></span></span>
+</span>
+<span style="font-size: 11px; font-weight: 600">{{c.num}}</span>
+</sc-if>
+<sc-if value="{{c.plain}}" hint-placeholder-val="{{true}}">
+<span style="margin-top: 22px; font-size: 15px; font-weight: 500">{{c.num}}</span>
+</sc-if>
+</button>
+</sc-for>
+</div>
+
+<div style="margin-top: auto; background: #FFFFFF; border-radius: 20px; padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">Thứ Sáu, 2 tháng 10</h2>
+<a href="Main.dc.html" style="font-size: 13px; font-weight: 600; color: #A8361F; text-decoration: none; padding: 12px 0; margin: -12px 0">Mở nhật ký</a>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 4px 6px 2px">
+<figure style="margin: 0; width: 92px; height: 132px; box-sizing: border-box; padding: 6px 6px 0; background: #FBFAF6; border-radius: 2px; box-shadow: 0 6px 14px rgba(60,40,20,0.2); transform: rotate(-4deg); display: flex; flex-direction: column"><span style="display: block; width: 80px; height: 96px; background: #B98D66"></span><figcaption style="flex-grow: 1; display: flex; align-items: center; font-family: 'Patrick Hand', cursive; font-size: 14px; color: #2E2A26">07:42</figcaption></figure>
+<figure style="margin: 0; width: 92px; height: 132px; box-sizing: border-box; padding: 6px 6px 0; background: #FBFAF6; border-radius: 2px; box-shadow: 0 6px 14px rgba(60,40,20,0.2); transform: rotate(3deg); display: flex; flex-direction: column"><span style="display: block; width: 80px; height: 96px; background: #6E8B5C"></span><figcaption style="flex-grow: 1; display: flex; align-items: center; font-family: 'Patrick Hand', cursive; font-size: 14px; color: #2E2A26">12:30</figcaption></figure>
+<figure style="margin: 0; width: 92px; height: 132px; box-sizing: border-box; padding: 6px 6px 0; background: #FBFAF6; border-radius: 2px; box-shadow: 0 6px 14px rgba(60,40,20,0.2); transform: rotate(-2deg); display: flex; flex-direction: column"><span style="display: block; width: 80px; height: 96px; background: #EBB08A"></span><figcaption style="flex-grow: 1; display: flex; align-items: center; font-family: 'Patrick Hand', cursive; font-size: 14px; color: #2E2A26">17:58</figcaption></figure>
+</div>
+</div>
+
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C2402A"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#C2402A';
+    const photos = {
+      '9-28': ['#7C8E96'],
+      '9-30': ['#D8B48C'],
+      '10-1': ['#5D7A8A'],
+      '10-2': ['#EBB08A', '#6E8B5C', '#B98D66']
+    };
+    const list = [['9', 28], ['9', 29], ['9', 30]];
+    for (let d = 1; d <= 31; d++) list.push(['10', d]);
+    list.push(['11', 1]);
+    const rots = ['-5deg', '4deg', '-2deg', '6deg', '-3deg'];
+    const cells = list.map(([m, d], i) => {
+      const p = photos[m + '-' + d] || [];
+      const today = m === '10' && d === 2;
+      const other = m !== '10';
+      const future = (m === '10' && d > 2) || m === '11';
+      return {
+        num: String(d),
+        label: d + ' tháng ' + m + (p.length ? ', ' + p.length + ' ảnh' : '') + (today ? ', hôm nay' : ''),
+        photo: p.length > 0,
+        plain: p.length === 0,
+        multi: p.length > 1,
+        color: p[0] || 'transparent',
+        rot: rots[i % rots.length],
+        shadow: today ? '0 0 0 2px ' + accent + ', 0 3px 8px rgba(60,40,20,0.3)' : '0 2px 5px rgba(60,40,20,0.25)',
+        bg: today ? '#EFE6D8' : 'transparent',
+        fg: today ? accent : (future ? '#A0968A' : '#26221E'),
+        opacity: other ? '0.5' : '1'
+      };
+    });
+    return { cells };
+  }
+}
+</script>
+</body>
+</html>

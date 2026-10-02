@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Camera</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Patrick+Hand&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#F4EFE6}a:hover{color:#FFFFFF}
+button{font:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #171513; font-family: 'Be Vietnam Pro', system-ui, sans-serif; color: #F4EFE6">
+
+<div style="position: absolute; left: 56px; right: 24px; top: 18px; display: flex; justify-content: space-between; align-items: center">
+<button aria-label="Đèn flash: tự động" style="width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255,255,255,0.09); color: #F4EFE6; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"></path></svg></button>
+<button aria-label="Hẹn giờ: tắt" style="width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255,255,255,0.09); color: #F4EFE6; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2 2M9 2h6"></path></svg></button>
+<button aria-label="Đổi camera trước/sau" style="width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255,255,255,0.09); color: #F4EFE6; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5"></path></svg></button>
+</div>
+
+<div style="position: absolute; left: 0; right: 0; top: 76px; height: 476px; display: flex; align-items: center; justify-content: center">
+<div style="width: {{fw}}px; height: {{fh}}px; box-sizing: border-box; padding: {{pad}}px {{pad}}px 0; background: #FBFAF6; border-radius: 4px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; transition: width 0.35s ease, height 0.35s ease, padding 0.35s ease">
+<div style="position: relative; width: {{iw}}px; height: {{ih}}px; overflow: hidden; background: #3E4A52; transition: width 0.35s ease, height 0.35s ease">
+<svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="width: 100%; height: 100%; display: block; transform: scale({{zs}}); transform-origin: 55% 50%; filter: {{filterCss}}; transition: transform 0.45s cubic-bezier(.3,.7,.2,1), filter 0.35s ease"><rect width="300" height="170" fill="#7C8E96"></rect><circle cx="190" cy="118" r="30" fill="#E9D3B0" opacity="0.85"></circle><path d="M0 178 70 136 128 166 196 126 300 172V196H0z" fill="#4E5A58"></path><rect y="192" width="300" height="108" fill="#3E4A52"></rect><rect x="166" y="212" width="52" height="3" fill="#E9D3B0" opacity="0.6"></rect><rect x="178" y="228" width="30" height="3" fill="#E9D3B0" opacity="0.4"></rect></svg>
+<span style="position: absolute; left: 12px; top: 12px; width: 22px; height: 22px; border-left: 2px solid #FFFFFF; border-top: 2px solid #FFFFFF"></span>
+<span style="position: absolute; right: 12px; top: 12px; width: 22px; height: 22px; border-right: 2px solid #FFFFFF; border-top: 2px solid #FFFFFF"></span>
+<span style="position: absolute; left: 12px; bottom: 12px; width: 22px; height: 22px; border-left: 2px solid #FFFFFF; border-bottom: 2px solid #FFFFFF"></span>
+<span style="position: absolute; right: 12px; bottom: 12px; width: 22px; height: 22px; border-right: 2px solid #FFFFFF; border-bottom: 2px solid #FFFFFF"></span>
+<span style="position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); padding: 3px 10px; border-radius: 999px; background: rgba(0,0,0,0.55); color: #FFFFFF; font-size: 12px; font-weight: 600">{{zoomLabel}} · {{filterName}}</span>
+</div>
+<div style="flex-grow: 1; display: flex; align-items: center; padding: 0 4px; font-family: 'Patrick Hand', cursive; font-size: 20px; color: #7A7066">Viết vài chữ sau khi chụp…</div>
+</div>
+</div>
+
+<a href="Main.dc.html" aria-label="Mở nhật ký hôm nay" style="position: absolute; left: 20px; top: 572px; width: 52px; height: 64px; display: flex; align-items: center; justify-content: center; text-decoration: none">
+<span style="width: 40px; height: 52px; box-sizing: border-box; padding: 4px 4px 12px; background: #FBFAF6; border-radius: 2px; transform: rotate(-6deg); display: block"><span style="display: block; width: 100%; height: 100%; background: #EBB08A"></span></span>
+</a>
+
+<div style="position: absolute; left: 130px; top: 588px; width: 130px; text-align: center; font-size: 11px; line-height: 16px; letter-spacing: 0.12em; color: #B5ACA0">ZOOM <span style="color: #F4EFE6; font-weight: 700; letter-spacing: 0">{{zoomLabel}}</span><br>LỌC <span style="color: #F4EFE6; font-weight: 700; letter-spacing: 0.02em">{{filterName}}</span></div>
+
+<sc-for list="{{frames}}" as="f" hint-placeholder-count="3">
+<button aria-pressed="{{f.pressed}}" onClick="{{f.pick}}" style="position: absolute; left: {{f.left}}px; top: {{f.top}}px; width: 44px; height: 28px; border: 0; background: transparent; padding: 0; font-size: 10px; font-weight: {{f.weight}}; letter-spacing: 0.08em; color: {{f.color}}; cursor: pointer">{{f.short}}</button>
+</sc-for>
+<button aria-label="Lẫy kiểu khung, đang chọn {{frameName}}. Chạm để đổi" onClick="{{cycleFrame}}" style="position: absolute; left: 287px; top: 573px; width: 62px; height: 62px; border: 0; border-radius: 50%; padding: 6px; background: repeating-conic-gradient(#4A433C 0deg 5deg, #2A2622 5deg 10deg); box-shadow: 0 4px 10px rgba(0,0,0,0.6); cursor: pointer">
+<span style="position: relative; display: block; width: 50px; height: 50px; border-radius: 50%; background: #D9CFBF; box-shadow: inset 0 -3px 6px rgba(0,0,0,0.25), inset 0 2px 3px rgba(255,255,255,0.6); transform: rotate({{knobRot}}deg); transition: transform 0.35s cubic-bezier(.3,.7,.2,1)"><span style="position: absolute; left: 23px; top: 4px; width: 4px; height: 17px; border-radius: 2px; background: {{accent}}"></span></span>
+</button>
+
+<span aria-hidden="true" style="position: absolute; left: 187px; top: 626px; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 12px solid {{accent}}; z-index: 3"></span>
+
+<div style="position: absolute; left: 45px; top: 640px; width: 300px; height: 300px">
+<div style="position: absolute; left: 0; top: 0; width: 300px; height: 300px; border-radius: 50%; transform: rotate({{ringRot}}deg); transition: transform 0.5s cubic-bezier(.3,.7,.2,1)">
+<span style="position: absolute; left: 0; top: 0; width: 300px; height: 300px; box-sizing: border-box; border-radius: 50%; padding: 5px; background: repeating-conic-gradient(#4A433C 0deg 3deg, #2A2622 3deg 6deg)"><span style="display: block; width: 290px; height: 290px; border-radius: 50%; background: #E9E1D2"></span></span>
+<svg width="300" height="300" viewBox="0 0 300 300" aria-hidden="true" style="position: absolute; left: 0; top: 0"><path d="{{ticks}}" stroke="#6B6258" stroke-width="1.5" fill="none"></path></svg>
+<sc-for list="{{zooms}}" as="z" hint-placeholder-count="5">
+<button aria-label="Zoom {{z.label}}" aria-pressed="{{z.pressed}}" onClick="{{z.pick}}" style="position: absolute; left: {{z.left}}px; top: {{z.top}}px; width: 44px; height: 32px; border: 0; background: transparent; padding: 0; transform: rotate({{z.rot}}deg); font-size: 14px; font-weight: 700; color: {{z.color}}; cursor: pointer">{{z.label}}</button>
+</sc-for>
+</div>
+<div style="position: absolute; left: 45px; top: 45px; width: 210px; height: 210px; border-radius: 50%; background: #1F1C19; box-shadow: 0 0 0 2px #8A7A5C, inset 0 6px 18px rgba(0,0,0,0.6); transform: rotate({{filterRot}}deg); transition: transform 0.5s cubic-bezier(.3,.7,.2,1)">
+<svg width="210" height="210" viewBox="0 0 210 210" aria-hidden="true" style="position: absolute; left: 0; top: 0"><path d="{{innerTicks}}" stroke="#5A524A" stroke-width="1.5" fill="none"></path></svg>
+<sc-for list="{{filters}}" as="f" hint-placeholder-count="6">
+<button aria-label="Bộ lọc {{f.name}}" aria-pressed="{{f.pressed}}" onClick="{{f.pick}}" style="position: absolute; left: {{f.left}}px; top: {{f.top}}px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; padding: 0; display: flex; align-items: center; justify-content: center; cursor: pointer"><span style="width: 22px; height: 22px; border-radius: 50%; background: {{f.swatch}}; box-shadow: {{f.ring}}"></span></button>
+</sc-for>
+</div>
+<span aria-hidden="true" style="position: absolute; left: 144px; top: 47px; width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 9px solid #F4EFE6; z-index: 2"></span>
+<button aria-label="Chụp ảnh" style="position: absolute; left: 108px; top: 108px; width: 84px; height: 84px; border-radius: 50%; border: 4px solid #F4EFE6; background: transparent; padding: 6px; cursor: pointer"><span style="display: block; width: 100%; height: 100%; border-radius: 50%; background: {{accent}}"></span></button>
+</div>
+
+<a href="Main.dc.html" aria-label="Quay lại nhật ký" style="position: absolute; left: 0; top: 352px; width: 44px; height: 112px; display: flex; align-items: center; justify-content: flex-start; text-decoration: none; z-index: 5">
+<span style="width: 26px; height: 100px; border-radius: 0 14px 14px 0; background: #F4EFE6; color: #171513; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"></path></svg>
+<span style="writing-mode: vertical-rl; transform: rotate(180deg); font-size: 10px; font-weight: 600; letter-spacing: 0.08em">NHẬT KÝ</span>
+</span>
+</a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C2402A"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { zoom: 1, frame: 1, filter: 0 };
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#C2402A';
+    const Z = [0.5, 1, 2, 3, 5];
+    const ZA = [-50, -25, 0, 25, 50];
+    const zi = this.state.zoom;
+    const rad = (d) => d * Math.PI / 180;
+    const zooms = Z.map((v, i) => {
+      const a = ZA[i], r = 118;
+      const x = 150 + r * Math.sin(rad(a)), y = 150 - r * Math.cos(rad(a));
+      return {
+        label: (v === 0.5 ? '.5' : String(v)) + '×',
+        left: Math.round(x - 22), top: Math.round(y - 16), rot: a,
+        pressed: i === zi ? 'true' : 'false',
+        color: i === zi ? accent : '#26221E',
+        pick: () => this.setState({ zoom: i })
+      };
+    });
+    let ticks = '';
+    for (let a = 0; a < 360; a += 5) {
+      const major = ZA.indexOf(a > 180 ? a - 360 : a) >= 0;
+      const r1 = 145, r2 = major ? 131 : 138;
+      const s = Math.sin(rad(a)), c = Math.cos(rad(a));
+      ticks += 'M' + (150 + r1 * s).toFixed(1) + ' ' + (150 - r1 * c).toFixed(1) + 'L' + (150 + r2 * s).toFixed(1) + ' ' + (150 - r2 * c).toFixed(1);
+    }
+    const F = [
+      { name: 'Mini', short: 'MINI', w: 54, h: 86, iw: 46, ih: 62, ang: -55 },
+      { name: 'Square', short: 'SQ', w: 72, h: 86, iw: 62, ih: 62, ang: 0 },
+      { name: 'Wide', short: 'WIDE', w: 108, h: 86, iw: 99, ih: 62, ang: 55 }
+    ];
+    const fi = this.state.frame;
+    const cur = F[fi];
+    const k = Math.min(340 / cur.w, 400 / cur.h);
+    const frames = F.map((f, i) => {
+      const x = 318 + 58 * Math.sin(rad(f.ang)), y = 604 - 58 * Math.cos(rad(f.ang));
+      return {
+        short: f.short,
+        left: Math.round(x - 22), top: Math.round(y - 14),
+        pressed: i === fi ? 'true' : 'false',
+        weight: i === fi ? '700' : '500',
+        color: i === fi ? '#F4EFE6' : '#8E857A',
+        pick: () => this.setState({ frame: i })
+      };
+    });
+    const FL = [
+      { name: 'Gốc', swatch: '#9AA3A6', css: 'none' },
+      { name: 'Ấm', swatch: '#E2A65F', css: 'sepia(0.25) saturate(1.35) hue-rotate(-10deg)' },
+      { name: 'Phai', swatch: '#CFC5B6', css: 'contrast(0.8) brightness(1.1) saturate(0.65)' },
+      { name: 'Đen trắng', swatch: 'linear-gradient(90deg, #111111 50%, #EEEEEE 50%)', css: 'grayscale(1) contrast(1.1)' },
+      { name: 'Lạnh', swatch: '#6E9AB8', css: 'hue-rotate(15deg) saturate(1.15) brightness(1.03)' },
+      { name: 'Hoài cổ', swatch: '#A9805A', css: 'sepia(0.7) contrast(0.95)' }
+    ];
+    const li = this.state.filter;
+    const filters = FL.map((f, i) => {
+      const a = i * 60, r = 80;
+      return {
+        name: f.name, swatch: f.swatch,
+        left: Math.round(105 + r * Math.sin(rad(a)) - 20), top: Math.round(105 - r * Math.cos(rad(a)) - 20),
+        pressed: i === li ? 'true' : 'false',
+        ring: i === li ? '0 0 0 2px #1F1C19, 0 0 0 4px #F4EFE6' : '0 0 0 1px rgba(255,255,255,0.25)',
+        pick: () => this.setState({ filter: i })
+      };
+    });
+    let innerTicks = '';
+    for (let a = 30; a < 360; a += 60) {
+      const s1 = Math.sin(rad(a)), c1 = Math.cos(rad(a));
+      innerTicks += 'M' + (105 + 98 * s1).toFixed(1) + ' ' + (105 - 98 * c1).toFixed(1) + 'L' + (105 + 90 * s1).toFixed(1) + ' ' + (105 - 90 * c1).toFixed(1);
+    }
+    const zv = Z[zi];
+    return {
+      accent, zooms, ticks, frames, filters, innerTicks,
+      filterRot: -li * 60, filterName: FL[li].name, filterCss: FL[li].css,
+      ringRot: -ZA[zi],
+      zs: (1 + (zv - 0.5) * 0.35).toFixed(3),
+      zoomLabel: (zv === 0.5 ? '0.5' : String(zv)) + '×',
+      fw: Math.round(cur.w * k), fh: Math.round(cur.h * k),
+      iw: Math.round(cur.iw * k), ih: Math.round(cur.ih * k),
+      pad: Math.round((cur.w - cur.iw) / 2 * k),
+      knobRot: cur.ang,
+      frameName: cur.name,
+      cycleFrame: () => this.setState({ frame: (fi + 1) % F.length })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($env:Path = \"C:\\\\Program Files\\\\nodejs;\" + $env:Path; node --version; npm --version; cd $env:TEMP; npx --yes create-expo-app@latest photo_j_scaffold --template blank-typescript --no-install 2>&1 | Select-Object -Last 5)"
+    ]
+  }
+}
