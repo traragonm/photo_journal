@@ -17,12 +17,19 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
   <tr>
     <td align="center"><img src="docs/screenshots/calendar.png" width="200" alt="Calendar sheet — month of prints"><br><sub><b>Calendar</b> · pull up from the day strip</sub></td>
     <td align="center"><img src="docs/screenshots/settings.png" width="200" alt="Settings sheet"><br><sub><b>Settings</b> · pull down from the top</sub></td>
+    <td align="center"><img src="docs/screenshots/library.png" width="200" alt="Library — every print grouped by month"><br><sub><b>Library</b> · all prints by month</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screenshots/detail.png" width="200" alt="Photo detail — print, film strip and actions"><br><sub><b>Detail</b> · tap a print</sub></td>
+    <td></td>
     <td></td>
   </tr>
 </table>
 
 Swipe left/right between Map ← Diary → Camera; Calendar and Settings are sheets over the diary.
-Images are rendered from the design artboards in [docs/design/](docs/design/).
+The grid icon opens the Library; tapping a print opens its Detail view.
+Images are rendered from the design artboards in [docs/design/](docs/design/), with sample photos from
+[Unsplash](https://unsplash.com) (Unsplash License) standing in for the user's own prints.
 
 ## Requirements
 
