@@ -8,8 +8,8 @@ export type FrameColor = 'white' | 'cream' | 'black';
 /** Self-timer before the shutter fires, in seconds (0 = off). */
 export type TimerSeconds = 0 | 3 | 10;
 
-/** Zoom stops on the camera's outer dial. */
-export type ZoomStop = 0.5 | 1 | 2 | 3 | 5;
+/** Zoom stops on the camera's zoom ruler. */
+export type ZoomStop = 0.5 | 1 | 1.5 | 2 | 3 | 4 | 5;
 
 export interface AppSettings {
   /** User wants GPS attached to new photos (still subject to OS permission). */
@@ -19,6 +19,15 @@ export interface AppSettings {
    * Off by default: the system geocoder may contact Apple/Google servers.
    */
   placeNamesEnabled: boolean;
+  /**
+   * Fill the camera's weather drum from the local forecast (Open-Meteo, rounded coordinates).
+   * Needs location; the user can still turn the drum by hand.
+   */
+  autoWeatherEnabled: boolean;
+  /** "Hiệu ứng thời tiết" — animated sun / clouds / rain / snow over the pages. */
+  weatherEffectsEnabled: boolean;
+  /** "Màu giao diện theo thời tiết" — page colours follow the sky. */
+  weatherThemeEnabled: boolean;
   soundEnabled: boolean;
   hapticsEnabled: boolean;
   flashMode: FlashMode;
@@ -64,6 +73,9 @@ export function sanitizeSettings(settings: AppSettings): AppSettings {
 export const DEFAULT_SETTINGS: AppSettings = {
   locationEnabled: true,
   placeNamesEnabled: false,
+  autoWeatherEnabled: true,
+  weatherEffectsEnabled: true,
+  weatherThemeEnabled: true,
   soundEnabled: true,
   hapticsEnabled: true,
   flashMode: 'auto',

@@ -114,6 +114,16 @@ export function SettingsSheet() {
             </ToggleRow>
             <ToggleRow label="Hiệu ứng ảnh hiện dần" value={vm.developEffect} onValueChange={vm.setDevelopEffect} />
             <ToggleRow label="Ghi chú kiểu chữ viết tay" value={vm.handwriting} onValueChange={vm.setHandwriting} />
+            <ToggleRow
+              label="Hiệu ứng thời tiết"
+              value={vm.weatherEffectsEnabled}
+              onValueChange={vm.setWeatherEffectsEnabled}
+            />
+            <ToggleRow
+              label="Màu giao diện theo thời tiết"
+              value={vm.weatherThemeEnabled}
+              onValueChange={vm.setWeatherThemeEnabled}
+            />
             <ToggleRow label="Âm thanh màn trập" value={vm.soundEnabled} onValueChange={vm.setSoundEnabled} />
             <ToggleRow label="Rung khi chụp" value={vm.hapticsEnabled} onValueChange={vm.setHapticsEnabled} />
             <NavRow

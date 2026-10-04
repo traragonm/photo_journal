@@ -15,83 +15,99 @@ a{color:#F4EFE6}a:hover{color:#FFFFFF}
 button{font:inherit}
 </style>
 </helmet>
-<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #171513; font-family: 'Be Vietnam Pro', system-ui, sans-serif; color: #F4EFE6">
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #161412; font-family: 'Be Vietnam Pro', system-ui, sans-serif; color: #F1E9DA">
 
-<div style="position: absolute; left: 60px; right: 20px; top: 14px; display: flex; justify-content: space-between; align-items: center">
-<div style="display: flex; align-items: center; gap: 8px">
-<span style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: #D8D0C4"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"></path></svg><span style="width: 6px; height: 6px; border-radius: 50%; background: {{flashLed}}"></span></span>
-<div style="position: relative; width: 110px; height: 44px">
-<span style="position: absolute; left: 0; top: 4px; width: 110px; height: 22px; box-sizing: border-box; border-radius: 11px; background: #0E0D0C; border: 1px solid #3A3530; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8)"></span>
-<span style="position: absolute; left: {{flashLeft}}px; top: 7px; width: 38px; height: 16px; border-radius: 8px; background: repeating-linear-gradient(90deg, #E2D9CA 0px 2px, #A99F92 2px 4px); box-shadow: 0 2px 4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.5); transition: left 0.18s ease"></span>
-<sc-for list="{{flashTicks}}" as="t" hint-placeholder-count="3">
-<span style="position: absolute; left: {{t.left}}px; top: 30px; width: 40px; text-align: center; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; color: {{t.color}}">{{t.label}}</span>
-</sc-for>
-<input type="range" min="0" max="2" step="1" value="{{flash}}" onChange="{{flashChange}}" aria-label="Đèn flash" aria-valuetext="{{flashText}}" style="position: absolute; left: 0; top: 0; width: 110px; height: 44px; margin: 0; opacity: 0; cursor: grab">
-</div>
-</div>
-<div style="display: flex; align-items: center; gap: 8px">
-<span style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: #D8D0C4"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2 2M9 2h6"></path></svg><span style="width: 6px; height: 6px; border-radius: 50%; background: {{timerLed}}"></span></span>
-<div style="position: relative; width: 110px; height: 44px">
-<span style="position: absolute; left: 0; top: 4px; width: 110px; height: 22px; box-sizing: border-box; border-radius: 11px; background: #0E0D0C; border: 1px solid #3A3530; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8)"></span>
-<span style="position: absolute; left: {{timerLeft}}px; top: 7px; width: 38px; height: 16px; border-radius: 8px; background: repeating-linear-gradient(90deg, #E2D9CA 0px 2px, #A99F92 2px 4px); box-shadow: 0 2px 4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.5); transition: left 0.18s ease"></span>
-<sc-for list="{{timerTicks}}" as="t" hint-placeholder-count="3">
-<span style="position: absolute; left: {{t.left}}px; top: 30px; width: 40px; text-align: center; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; color: {{t.color}}">{{t.label}}</span>
-</sc-for>
-<input type="range" min="0" max="2" step="1" value="{{timer}}" onChange="{{timerChange}}" aria-label="Hẹn giờ" aria-valuetext="{{timerText}}" style="position: absolute; left: 0; top: 0; width: 110px; height: 44px; margin: 0; opacity: 0; cursor: grab">
-</div>
-</div>
-</div>
-
-<div style="position: absolute; left: 0; right: 0; top: 76px; height: 476px; display: flex; align-items: center; justify-content: center">
-<div style="width: {{fw}}px; height: {{fh}}px; box-sizing: border-box; padding: {{pad}}px {{pad}}px 0; background: #FBFAF6; border-radius: 4px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; display: flex; flex-direction: column; transition: width 0.35s ease, height 0.35s ease, padding 0.35s ease">
+<div style="position: absolute; left: 0; right: 0; top: 14px; height: 440px; display: flex; align-items: center; justify-content: center; pointer-events: none">
+<div style="position: relative; width: {{fw}}px; height: {{fh}}px; box-sizing: border-box; padding: {{pad}}px {{pad}}px 0; background: #FBFAF6; border-radius: 4px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); display: flex; flex-direction: column; pointer-events: auto; transition: width 0.35s ease, height 0.35s ease, padding 0.35s ease">
 <div style="position: relative; width: {{iw}}px; height: {{ih}}px; overflow: hidden; background: #3E4A52; transition: width 0.35s ease, height 0.35s ease">
 <svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="width: 100%; height: 100%; display: block; transform: scale({{zs}}); transform-origin: 55% 50%; filter: {{filterCss}}; transition: transform 0.45s cubic-bezier(.3,.7,.2,1), filter 0.35s ease"><rect width="300" height="170" fill="#7C8E96"></rect><circle cx="190" cy="118" r="30" fill="#E9D3B0" opacity="0.85"></circle><path d="M0 178 70 136 128 166 196 126 300 172V196H0z" fill="#4E5A58"></path><rect y="192" width="300" height="108" fill="#3E4A52"></rect><rect x="166" y="212" width="52" height="3" fill="#E9D3B0" opacity="0.6"></rect><rect x="178" y="228" width="30" height="3" fill="#E9D3B0" opacity="0.4"></rect></svg>
-<span style="position: absolute; left: 12px; top: 12px; width: 22px; height: 22px; border-left: 2px solid #FFFFFF; border-top: 2px solid #FFFFFF"></span>
-<span style="position: absolute; right: 12px; top: 12px; width: 22px; height: 22px; border-right: 2px solid #FFFFFF; border-top: 2px solid #FFFFFF"></span>
-<span style="position: absolute; left: 12px; bottom: 12px; width: 22px; height: 22px; border-left: 2px solid #FFFFFF; border-bottom: 2px solid #FFFFFF"></span>
-<span style="position: absolute; right: 12px; bottom: 12px; width: 22px; height: 22px; border-right: 2px solid #FFFFFF; border-bottom: 2px solid #FFFFFF"></span>
-<span style="position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); padding: 3px 10px; border-radius: 999px; background: rgba(0,0,0,0.55); color: #FFFFFF; font-size: 12px; font-weight: 600">{{zoomLabel}} · {{filterName}}</span>
+<span style="position: absolute; left: 10px; top: 10px; width: 16px; height: 16px; border-left: 2px solid #FFFFFF; border-top: 2px solid #FFFFFF"></span>
+<span style="position: absolute; right: 10px; top: 10px; width: 16px; height: 16px; border-right: 2px solid #FFFFFF; border-top: 2px solid #FFFFFF"></span>
+<span style="position: absolute; left: 10px; bottom: 10px; width: 16px; height: 16px; border-left: 2px solid #FFFFFF; border-bottom: 2px solid #FFFFFF"></span>
+<span style="position: absolute; right: 10px; bottom: 10px; width: 16px; height: 16px; border-right: 2px solid #FFFFFF; border-bottom: 2px solid #FFFFFF"></span>
+<span style="position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); display: flex; align-items: center; gap: 5px; white-space: nowrap; padding: 3px 9px; border-radius: 999px; background: rgba(0,0,0,0.55); color: #FFFFFF; font-size: 11px; font-weight: 600">{{zoomLabel}} · {{filterName}}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{weatherD}}"></path></svg><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{moodD}}"></path></svg></span>
 </div>
-<div style="flex-grow: 1; display: flex; align-items: center; padding: 0 4px; font-family: 'Patrick Hand', cursive; font-size: 20px; color: #7A7066">Viết vài chữ sau khi chụp…</div>
-<button aria-label="Đổi camera trước/sau" style="position: absolute; left: -16px; bottom: -16px; width: 44px; height: 44px; border-radius: 50%; border: 2px solid #FBFAF6; background: #26221E; color: #F4EFE6; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5); cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5"></path></svg></button>
+<div style="flex-grow: 1; display: flex; align-items: center; padding: 0 2px 0 22px; font-family: 'Patrick Hand', cursive; font-size: 17px; color: #7A7066">Viết vài chữ…</div>
+<button aria-label="Đổi camera trước/sau" style="position: absolute; left: -16px; bottom: -16px; width: 44px; height: 44px; border-radius: 50%; border: 2px solid #FBFAF6; background: #2A2622; color: #F1E9DA; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5); cursor: pointer; z-index: 2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5"></path></svg></button>
 </div>
 </div>
 
-<a href="Main.dc.html" aria-label="Mở nhật ký hôm nay" style="position: absolute; left: 20px; top: 572px; width: 52px; height: 64px; display: flex; align-items: center; justify-content: center; text-decoration: none">
-<span style="width: 40px; height: 52px; box-sizing: border-box; padding: 4px 4px 12px; background: #FBFAF6; border-radius: 2px; transform: rotate(-6deg); display: block"><span style="display: block; width: 100%; height: 100%; background: #EBB08A"></span></span>
-</a>
 
-<div style="position: absolute; left: 130px; top: 588px; width: 130px; text-align: center; font-size: 11px; line-height: 16px; letter-spacing: 0.12em; color: #B5ACA0">ZOOM <span style="color: #F4EFE6; font-weight: 700; letter-spacing: 0">{{zoomLabel}}</span><br>LỌC <span style="color: #F4EFE6; font-weight: 700; letter-spacing: 0.02em">{{filterName}}</span></div>
 
-<sc-for list="{{frames}}" as="f" hint-placeholder-count="3">
-<button aria-pressed="{{f.pressed}}" onClick="{{f.pick}}" style="position: absolute; left: {{f.left}}px; top: {{f.top}}px; width: 44px; height: 28px; border: 0; background: transparent; padding: 0; font-size: 10px; font-weight: {{f.weight}}; letter-spacing: 0.08em; color: {{f.color}}; cursor: pointer">{{f.short}}</button>
+<sc-for list="{{sliders}}" as="sl" hint-placeholder-count="2">
+<div style="position: absolute; left: {{sl.x}}px; top: 634px; display: flex; align-items: center; gap: 8px">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: #CFC6B8"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{sl.icon}}"></path></svg><span style="width: 6px; height: 6px; border-radius: 50%; background: {{sl.led}}; box-shadow: {{sl.glow}}"></span></span>
+<div style="position: relative; width: 110px; height: 44px">
+<span style="position: absolute; left: 0; top: 4px; width: 110px; height: 22px; box-sizing: border-box; border-radius: 11px; background: #0E0C0B; border: 1px solid #3A3530; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8)"></span>
+<span style="position: absolute; left: {{sl.thumb}}px; top: 7px; width: 38px; height: 16px; border-radius: 8px; background: repeating-linear-gradient(90deg, #E9E1D2 0px 2px, #B5AB9C 2px 4px); box-shadow: 0 2px 4px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.6); transition: left 0.18s ease"></span>
+<sc-for list="{{sl.ticks}}" as="t" hint-placeholder-count="3">
+<span style="position: absolute; left: {{t.left}}px; top: 30px; width: 40px; text-align: center; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; color: {{t.color}}">{{t.label}}</span>
 </sc-for>
-<button aria-label="Lẫy kiểu khung, đang chọn {{frameName}}. Chạm để đổi" onClick="{{cycleFrame}}" style="position: absolute; left: 287px; top: 573px; width: 62px; height: 62px; border: 0; border-radius: 50%; padding: 6px; background: repeating-conic-gradient(#4A433C 0deg 5deg, #2A2622 5deg 10deg); box-shadow: 0 4px 10px rgba(0,0,0,0.6); cursor: pointer">
-<span style="position: relative; display: block; width: 50px; height: 50px; border-radius: 50%; background: #D9CFBF; box-shadow: inset 0 -3px 6px rgba(0,0,0,0.25), inset 0 2px 3px rgba(255,255,255,0.6); transform: rotate({{knobRot}}deg); transition: transform 0.35s cubic-bezier(.3,.7,.2,1)"><span style="position: absolute; left: 23px; top: 4px; width: 4px; height: 17px; border-radius: 2px; background: {{accent}}"></span></span>
-</button>
-
-<span aria-hidden="true" style="position: absolute; left: 187px; top: 626px; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 12px solid {{accent}}; z-index: 3"></span>
-
-<div style="position: absolute; left: 45px; top: 640px; width: 300px; height: 300px">
-<div style="position: absolute; left: 0; top: 0; width: 300px; height: 300px; border-radius: 50%; transform: rotate({{ringRot}}deg); transition: transform 0.5s cubic-bezier(.3,.7,.2,1)">
-<span style="position: absolute; left: 0; top: 0; width: 300px; height: 300px; box-sizing: border-box; border-radius: 50%; padding: 5px; background: repeating-conic-gradient(#4A433C 0deg 3deg, #2A2622 3deg 6deg)"><span style="display: block; width: 290px; height: 290px; border-radius: 50%; background: #E9E1D2"></span></span>
-<svg width="300" height="300" viewBox="0 0 300 300" aria-hidden="true" style="position: absolute; left: 0; top: 0"><path d="{{ticks}}" stroke="#6B6258" stroke-width="1.5" fill="none"></path></svg>
-<sc-for list="{{zooms}}" as="z" hint-placeholder-count="5">
-<button aria-label="Zoom {{z.label}}" aria-pressed="{{z.pressed}}" onClick="{{z.pick}}" style="position: absolute; left: {{z.left}}px; top: {{z.top}}px; width: 44px; height: 32px; border: 0; background: transparent; padding: 0; transform: rotate({{z.rot}}deg); font-size: 14px; font-weight: 700; color: {{z.color}}; cursor: pointer">{{z.label}}</button>
-</sc-for>
+<input type="range" min="0" max="2" step="1" value="{{sl.value}}" onChange="{{sl.change}}" aria-label="{{sl.label}}" aria-valuetext="{{sl.text}}" style="position: absolute; left: 0; top: 0; width: 110px; height: 44px; margin: 0; opacity: 0; cursor: grab">
 </div>
-<div style="position: absolute; left: 45px; top: 45px; width: 210px; height: 210px; border-radius: 50%; background: #1F1C19; box-shadow: 0 0 0 2px #8A7A5C, inset 0 6px 18px rgba(0,0,0,0.6); transform: rotate({{filterRot}}deg); transition: transform 0.5s cubic-bezier(.3,.7,.2,1)">
-<svg width="210" height="210" viewBox="0 0 210 210" aria-hidden="true" style="position: absolute; left: 0; top: 0"><path d="{{innerTicks}}" stroke="#5A524A" stroke-width="1.5" fill="none"></path></svg>
-<sc-for list="{{filters}}" as="f" hint-placeholder-count="6">
-<button aria-label="Bộ lọc {{f.name}}" aria-pressed="{{f.pressed}}" onClick="{{f.pick}}" style="position: absolute; left: {{f.left}}px; top: {{f.top}}px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; padding: 0; display: flex; align-items: center; justify-content: center; cursor: pointer"><span style="width: 22px; height: 22px; border-radius: 50%; background: {{f.swatch}}; box-shadow: {{f.ring}}"></span></button>
+</div>
+</sc-for>
+
+<span aria-hidden="true" style="position: absolute; left: 189px; top: 462px; width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 9px solid #F2A65A; filter: drop-shadow(0 0 4px rgba(242,166,90,0.8)); z-index: 3"></span>
+<div role="slider" tabindex="0" aria-label="Zoom" aria-valuemin="0" aria-valuemax="{{zoomS.max}}" aria-valuenow="{{zoomS.value}}" aria-valuetext="{{zoomLabel}}" onPointerDown="{{zoomS.down}}" onPointerMove="{{zoomS.move}}" onPointerUp="{{zoomS.up}}" onPointerCancel="{{zoomS.up}}" onKeyDown="{{zoomS.key}}" style="position: absolute; left: 0; top: 470px; width: 390px; height: 44px; overflow: hidden; touch-action: none; cursor: grab; user-select: none; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000000 22%, #000000 78%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0%, #000000 22%, #000000 78%, transparent 100%)">
+<div style="position: absolute; left: 0; top: 0; height: 44px; display: flex; transform: translateX({{zoomS.x}}px); transition: {{zoomS.tr}}">
+<sc-for list="{{zoomS.items}}" as="it" hint-placeholder-count="7">
+<span style="position: relative; width: 72px; height: 44px; flex-shrink: 0; box-sizing: border-box; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 2px; background: repeating-linear-gradient(90deg, #5A524A 0px 1px, transparent 1px 12px) 0 0 / 100% 9px no-repeat; color: {{it.color}}; font-size: {{it.size}}px; font-weight: 700; text-shadow: {{it.glow}}"><span style="position: absolute; left: 35px; top: 0; width: 2px; height: 16px; border-radius: 1px; background: {{it.tick}}"></span>{{it.label}}</span>
 </sc-for>
 </div>
-<span aria-hidden="true" style="position: absolute; left: 144px; top: 47px; width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 9px solid #F4EFE6; z-index: 2"></span>
-<button aria-label="Chụp ảnh" style="position: absolute; left: 108px; top: 108px; width: 84px; height: 84px; border-radius: 50%; border: 4px solid #F4EFE6; background: transparent; padding: 6px; cursor: pointer"><span style="display: block; width: 100%; height: 100%; border-radius: 50%; background: {{accent}}"></span></button>
 </div>
 
-<a href="Main.dc.html" aria-label="Quay lại nhật ký" style="position: absolute; left: 0; top: 372px; width: 44px; height: 72px; display: flex; align-items: center; justify-content: flex-start; text-decoration: none; z-index: 5">
-<span style="width: 32px; height: 56px; border-radius: 0 14px 14px 0; background: #F4EFE6; color: #171513; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px">
+<div role="slider" tabindex="0" aria-label="Bộ lọc màu" aria-valuemin="0" aria-valuemax="{{filterS.max}}" aria-valuenow="{{filterS.value}}" aria-valuetext="{{filterName}}" onPointerDown="{{filterS.down}}" onPointerMove="{{filterS.move}}" onPointerUp="{{filterS.up}}" onPointerCancel="{{filterS.up}}" onKeyDown="{{filterS.key}}" style="position: absolute; left: 0; top: 522px; width: 390px; height: 82px; overflow: hidden; touch-action: none; cursor: grab; user-select: none; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000000 16%, #000000 84%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0%, #000000 16%, #000000 84%, transparent 100%)">
+<div style="position: absolute; left: 0; top: 0; height: 82px; display: flex; transform: translateX({{filterS.x}}px); transition: {{filterS.tr}}">
+<sc-for list="{{filterS.items}}" as="it" hint-placeholder-count="6">
+<span style="width: 72px; height: 82px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; font-size: 10px; font-weight: 600; color: {{it.color}}; white-space: nowrap">
+<span style="width: 52px; height: 52px; box-sizing: border-box; border-radius: 12px; overflow: hidden; border: 2px solid {{it.border}}; box-shadow: {{it.glow}}; background: #3E4A52"><svg viewBox="40 60 220 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="width: 100%; height: 100%; display: block; filter: {{it.css}}"><rect width="300" height="170" fill="#7C8E96"></rect><circle cx="190" cy="118" r="30" fill="#E9D3B0" opacity="0.85"></circle><path d="M0 178 70 136 128 166 196 126 300 172V196H0z" fill="#4E5A58"></path><rect y="192" width="300" height="108" fill="#3E4A52"></rect></svg></span>
+{{it.name}}</span>
+</sc-for>
+</div>
+</div>
+
+<div style="position: absolute; left: 165px; top: 620px; width: 60px; height: 76px; z-index: 6">
+<div role="slider" tabindex="0" aria-label="Kiểu khung" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="2" aria-valuenow="{{frameD.value}}" aria-valuetext="{{frameD.name}}" onPointerDown="{{frameD.down}}" onPointerMove="{{frameD.move}}" onPointerUp="{{frameD.up}}" onPointerCancel="{{frameD.up}}" onKeyDown="{{frameD.key}}" style="width: 60px; height: 76px; box-sizing: border-box; border-radius: 12px; background: #22180C; border: 2px solid #3A3530; box-shadow: inset 0 2px 8px rgba(0,0,0,0.8), 0 0 0 1px #6E7888; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 4px 0; color: #FFB547; text-shadow: 0 0 6px rgba(255,181,71,0.55); touch-action: none; cursor: grab; user-select: none">
+<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#7A5A2E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"></path></svg>
+<span style="display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 9px; font-weight: 700"><span style="width: {{frameD.w}}px; height: {{frameD.h}}px; box-sizing: border-box; border: 1.5px solid currentColor; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: {{frameD.fs}}px; font-weight: 800; line-height: 1">{{frameD.letter}}</span>{{frameD.name}}</span>
+<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#7A5A2E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+</div>
+<sc-if value="{{frameD.open}}" hint-placeholder-val="{{false}}">
+<div aria-hidden="true" style="position: absolute; left: -6px; top: -58px; width: 72px; height: 192px; border-radius: 14px; background: #22180C; border: 2px solid #3A3530; box-shadow: 0 10px 24px rgba(0,0,0,0.6), 0 0 0 1px #6E7888, inset 0 2px 8px rgba(0,0,0,0.8); overflow: hidden; pointer-events: none; z-index: 20">
+<span style="position: absolute; left: 6px; top: 68px; width: 56px; height: 52px; box-sizing: border-box; border-radius: 10px; border: 2px solid #F2A65A; box-shadow: 0 0 8px rgba(242,166,90,0.6)"></span>
+<div style="position: absolute; left: 0; top: 0; width: 68px; display: flex; flex-direction: column; transform: translateY({{frameD.rowY}}px)">
+<sc-for list="{{frameD.items}}" as="it" hint-placeholder-count="3">
+<span style="width: 68px; height: 52px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: {{it.color}}; text-shadow: 0 0 6px rgba(255,181,71,0.4); font-size: 9px; font-weight: 700"><span style="width: {{it.w}}px; height: {{it.h}}px; box-sizing: border-box; border: 1.5px solid currentColor; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: {{it.fs}}px; font-weight: 800; line-height: 1">{{it.letter}}</span>{{it.name}}</span>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</div>
+<button aria-label="Chụp ảnh" style="position: absolute; left: 155px; top: 728px; width: 80px; height: 80px; border-radius: 50%; border: 3px solid #D8DEE8; background: #2A2622; padding: 6px; box-shadow: 0 0 0 2px #6E7888, 0 6px 16px rgba(0,0,0,0.6); cursor: pointer"><span style="display: block; width: 100%; height: 100%; border-radius: 50%; background: {{accent}}; box-shadow: inset 0 -4px 6px rgba(80,0,10,0.45), inset 0 6px 6px -2px rgba(255,255,255,0.5)"></span></button>
+
+<sc-for list="{{drums}}" as="dr" hint-placeholder-count="3">
+<div style="position: absolute; left: {{dr.left}}px; top: {{dr.top}}px; width: 100px">
+<div role="slider" tabindex="0" aria-label="{{dr.title}}" aria-valuemin="0" aria-valuemax="{{dr.max}}" aria-valuenow="{{dr.value}}" aria-valuetext="{{dr.name}}" onPointerDown="{{dr.down}}" onPointerMove="{{dr.move}}" onPointerUp="{{dr.up}}" onPointerCancel="{{dr.up}}" onKeyDown="{{dr.key}}" style="position: relative; width: 100px; height: 42px; box-sizing: border-box; border-radius: 12px; background: #22180C; border: 2px solid #3A3530; box-shadow: inset 0 2px 8px rgba(0,0,0,0.8), 0 0 0 1px #6E7888; display: flex; align-items: center; justify-content: space-between; padding: 0 5px; color: #FFB547; text-shadow: 0 0 6px rgba(255,181,71,0.55); touch-action: none; cursor: grab; user-select: none">
+<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#7A5A2E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"></path></svg>
+<span style="display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; white-space: nowrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{dr.d}}"></path></svg>{{dr.name}}</span>
+<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#7A5A2E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg>
+</div>
+<sc-if value="{{dr.open}}" hint-placeholder-val="{{false}}">
+<div aria-hidden="true" style="position: absolute; left: {{dr.olLeft}}px; top: -6px; width: 236px; height: 54px; border-radius: 14px; background: #22180C; border: 2px solid #3A3530; box-shadow: 0 10px 24px rgba(0,0,0,0.6), 0 0 0 1px #6E7888, inset 0 2px 8px rgba(0,0,0,0.8); overflow: hidden; pointer-events: none; z-index: 20">
+<span style="position: absolute; left: {{dr.hl}}px; top: 5px; width: 64px; height: 42px; box-sizing: border-box; border-radius: 10px; border: 2px solid #F2A65A; box-shadow: 0 0 8px rgba(242,166,90,0.6)"></span>
+<div style="position: absolute; left: 0; top: 0; height: 54px; display: flex; transform: translateX({{dr.rowX}}px)">
+<sc-for list="{{dr.items}}" as="it" hint-placeholder-count="4">
+<span style="width: 64px; height: 54px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: {{it.color}}; font-size: 10px; font-weight: 600; white-space: nowrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{it.d}}"></path></svg>{{it.name}}</span>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</div>
+</sc-for>
+
+<a href="Main.dc.html" aria-label="Quay lại nhật ký" style="position: absolute; left: 0; top: 226px; width: 44px; height: 72px; display: flex; align-items: center; justify-content: flex-start; text-decoration: none; z-index: 5">
+<span style="width: 32px; height: 56px; border-radius: 0 14px 14px 0; background: #F1E9DA; color: #161412; display: flex; flex-direction: column; align-items: center; justify-content: center">
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1.5"></rect><rect x="8" y="6" width="8" height="8"></rect></svg>
 </span>
 </a>
@@ -102,100 +118,165 @@ button{font:inherit}
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { zoom: 1, frame: 1, filter: 0, flash: 1, timer: 0 };
+    this.state = { zoom: 1, frame: 0, filter: 0, flash: 1, timer: 0, weather: 0, mood: 0, drag: null };
+  }
+  handlers(key, n, item, width, tapSelect, axis) {
+    const V = axis === 'y';
+    const pos = (e) => (V ? e.clientY : e.clientX);
+    const clamp = (i) => Math.max(0, Math.min(n - 1, i));
+    return {
+      down: (e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+        this.setState({ drag: { key, x: pos(e), left: V ? r.top : r.left, scale: ((V ? r.height : r.width) / width) || 1, start: this.state[key], dx: 0 } });
+      },
+      move: (e) => {
+        const d = this.state.drag;
+        if (!d || d.key !== key) return;
+        this.setState({ drag: { ...d, dx: (pos(e) - d.x) / d.scale } });
+      },
+      up: (e) => {
+        const d = this.state.drag;
+        if (!d || d.key !== key) return;
+        let i;
+        if (Math.abs(d.dx) < 5) {
+          i = tapSelect === 'cycle' ? (d.start + 1) % n : tapSelect ? clamp(d.start + Math.round(((pos(e) - d.left) / d.scale - width / 2) / item)) : d.start;
+        } else {
+          i = clamp(Math.round(d.start - d.dx / item));
+        }
+        this.setState({ [key]: i, drag: null });
+      },
+      key: (e) => {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); this.setState({ [key]: clamp(this.state[key] - 1) }); }
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); this.setState({ [key]: clamp(this.state[key] + 1) }); }
+      }
+    };
+  }
+  stripPos(key, n, item, width) {
+    const d = this.state.drag;
+    const v = this.state[key];
+    const open = !!d && d.key === key;
+    const dx = open ? Math.max(-(n - 1 - d.start) * item - 30, Math.min(d.start * item + 30, d.dx)) : 0;
+    const hover = open ? Math.max(0, Math.min(n - 1, Math.round(d.start - dx / item))) : v;
+    return { open, dx, hover, base: open ? d.start : v };
   }
   renderVals() {
     const accent = this.props.accent ?? '#C2402A';
-    const Z = [0.5, 1, 2, 3, 5];
-    const ZA = [-50, -25, 0, 25, 50];
-    const zi = this.state.zoom;
-    const rad = (d) => d * Math.PI / 180;
-    const zooms = Z.map((v, i) => {
-      const a = ZA[i], r = 118;
-      const x = 150 + r * Math.sin(rad(a)), y = 150 - r * Math.cos(rad(a));
-      return {
-        label: (v === 0.5 ? '.5' : String(v)) + '×',
-        left: Math.round(x - 22), top: Math.round(y - 16), rot: a,
-        pressed: i === zi ? 'true' : 'false',
-        color: i === zi ? accent : '#26221E',
-        pick: () => this.setState({ zoom: i })
-      };
-    });
-    let ticks = '';
-    for (let a = 0; a < 360; a += 5) {
-      const major = ZA.indexOf(a > 180 ? a - 360 : a) >= 0;
-      const r1 = 145, r2 = major ? 131 : 138;
-      const s = Math.sin(rad(a)), c = Math.cos(rad(a));
-      ticks += 'M' + (150 + r1 * s).toFixed(1) + ' ' + (150 - r1 * c).toFixed(1) + 'L' + (150 + r2 * s).toFixed(1) + ' ' + (150 - r2 * c).toFixed(1);
-    }
-    const F = [
-      { name: 'Mini', short: 'MINI', w: 54, h: 86, iw: 46, ih: 62, ang: -55 },
-      { name: 'Square', short: 'SQ', w: 72, h: 86, iw: 62, ih: 62, ang: 0 },
-      { name: 'Wide', short: 'WIDE', w: 108, h: 86, iw: 99, ih: 62, ang: 55 }
-    ];
-    const fi = this.state.frame;
-    const cur = F[fi];
-    const k = Math.min(340 / cur.w, 400 / cur.h);
-    const frames = F.map((f, i) => {
-      const x = 318 + 58 * Math.sin(rad(f.ang)), y = 604 - 58 * Math.cos(rad(f.ang));
-      return {
-        short: f.short,
-        left: Math.round(x - 22), top: Math.round(y - 14),
-        pressed: i === fi ? 'true' : 'false',
-        weight: i === fi ? '700' : '500',
-        color: i === fi ? '#F4EFE6' : '#8E857A',
-        pick: () => this.setState({ frame: i })
-      };
-    });
+
+    const Z = [0.5, 1, 1.5, 2, 3, 4, 5];
+    const zp = this.stripPos('zoom', Z.length, 72, 390);
+    const fmt = (v) => (v === 0.5 ? '.5' : String(v)) + '×';
+    const zoomS = {
+      max: Z.length - 1, value: this.state.zoom,
+      x: Math.round(195 - 36 - zp.base * 72 + zp.dx),
+      tr: zp.open ? 'none' : 'transform 0.25s ease',
+      items: Z.map((v, i) => ({
+        label: fmt(v),
+        color: i === zp.hover ? '#F2A65A' : '#CFC6B8',
+        size: i === zp.hover ? 16 : 13,
+        glow: i === zp.hover ? '0 0 8px rgba(242,166,90,0.7)' : 'none',
+        tick: i === zp.hover ? '#F2A65A' : '#8A7F70'
+      })),
+      ...this.handlers('zoom', Z.length, 72, 390, true)
+    };
+
     const FL = [
-      { name: 'Gốc', swatch: '#9AA3A6', css: 'none' },
-      { name: 'Ấm', swatch: '#E2A65F', css: 'sepia(0.25) saturate(1.35) hue-rotate(-10deg)' },
-      { name: 'Phai', swatch: '#CFC5B6', css: 'contrast(0.8) brightness(1.1) saturate(0.65)' },
-      { name: 'Đen trắng', swatch: 'linear-gradient(90deg, #111111 50%, #EEEEEE 50%)', css: 'grayscale(1) contrast(1.1)' },
-      { name: 'Lạnh', swatch: '#6E9AB8', css: 'hue-rotate(15deg) saturate(1.15) brightness(1.03)' },
-      { name: 'Hoài cổ', swatch: '#A9805A', css: 'sepia(0.7) contrast(0.95)' }
+      { name: 'Gốc', css: 'none' },
+      { name: 'Ấm', css: 'sepia(0.25) saturate(1.35) hue-rotate(-10deg)' },
+      { name: 'Phai', css: 'contrast(0.8) brightness(1.1) saturate(0.65)' },
+      { name: 'Đen trắng', css: 'grayscale(1) contrast(1.1)' },
+      { name: 'Lạnh', css: 'hue-rotate(15deg) saturate(1.15) brightness(1.03)' },
+      { name: 'Hoài cổ', css: 'sepia(0.7) contrast(0.95)' }
     ];
-    const li = this.state.filter;
-    const filters = FL.map((f, i) => {
-      const a = i * 60, r = 80;
-      return {
-        name: f.name, swatch: f.swatch,
-        left: Math.round(105 + r * Math.sin(rad(a)) - 20), top: Math.round(105 - r * Math.cos(rad(a)) - 20),
-        pressed: i === li ? 'true' : 'false',
-        ring: i === li ? '0 0 0 2px #1F1C19, 0 0 0 4px #F4EFE6' : '0 0 0 1px rgba(255,255,255,0.25)',
-        pick: () => this.setState({ filter: i })
-      };
-    });
-    let innerTicks = '';
-    for (let a = 30; a < 360; a += 60) {
-      const s1 = Math.sin(rad(a)), c1 = Math.cos(rad(a));
-      innerTicks += 'M' + (105 + 98 * s1).toFixed(1) + ' ' + (105 - 98 * c1).toFixed(1) + 'L' + (105 + 90 * s1).toFixed(1) + ' ' + (105 - 90 * c1).toFixed(1);
-    }
-    const mkTicks = (labels, v) => labels.map((l, i) => ({ label: l, left: 2 + i * 33 - 1, color: i === v ? '#F4EFE6' : '#8E857A' }));
+    const fp = this.stripPos('filter', FL.length, 72, 390);
+    const filterS = {
+      max: FL.length - 1, value: this.state.filter,
+      x: Math.round(195 - 36 - fp.base * 72 + fp.dx),
+      tr: fp.open ? 'none' : 'transform 0.25s ease',
+      items: FL.map((f, i) => ({
+        name: f.name, css: f.css,
+        color: i === fp.hover ? '#F1E9DA' : '#8E857A',
+        border: i === fp.hover ? '#F2A65A' : 'transparent',
+        glow: i === fp.hover ? '0 0 10px rgba(242,166,90,0.5)' : 'none'
+      })),
+      ...this.handlers('filter', FL.length, 72, 390, true)
+    };
+
+    const mkTicks = (labels, v) => labels.map((l, i) => ({ label: l, left: 2 + i * 33 - 1, color: i === v ? '#F1E9DA' : '#8E857A' }));
     const fl = this.state.flash, tm = this.state.timer;
     const FLL = ['TẮT', 'AUTO', 'BẬT'], TML = ['TẮT', '3s', '10s'];
-    const sv = {
-      flash: fl, flashLeft: 3 + fl * 33, flashTicks: mkTicks(FLL, fl), flashText: FLL[fl],
-      flashLed: fl === 2 ? '#F2B441' : (fl === 1 ? '#8A6A2A' : '#3A3530'),
-      flashChange: (e) => this.setState({ flash: Number(e.target.value) }),
-      timer: tm, timerLeft: 3 + tm * 33, timerTicks: mkTicks(TML, tm), timerText: TML[tm],
-      timerLed: tm > 0 ? '#F2B441' : '#3A3530',
-      timerChange: (e) => this.setState({ timer: Number(e.target.value) })
+    const sliders = [
+      { x: 14, label: 'Đèn flash', icon: 'M13 2 4 14h7l-1 8 9-12h-7z', value: fl, thumb: 3 + fl * 33, ticks: mkTicks(FLL, fl), text: FLL[fl],
+        led: fl === 2 ? '#F2B441' : (fl === 1 ? '#8A6A2A' : '#3A3530'), glow: fl === 2 ? '0 0 6px rgba(242,180,65,0.9)' : 'none',
+        change: (e) => this.setState({ flash: Number(e.target.value) }) },
+      { x: 238, label: 'Hẹn giờ', icon: 'M12 5a8 8 0 1 0 0 16a8 8 0 1 0 0-16M12 9v4l2 2M9 2h6', value: tm, thumb: 3 + tm * 33, ticks: mkTicks(TML, tm), text: TML[tm],
+        led: tm > 0 ? '#F2B441' : '#3A3530', glow: tm > 0 ? '0 0 6px rgba(242,180,65,0.9)' : 'none',
+        change: (e) => this.setState({ timer: Number(e.target.value) }) }
+    ];
+
+    const FACE = 'M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18';
+    const FR = [
+      { name: 'Mini', letter: 'M', bw: 12, bh: 17, fs: 8, d: 'M8 3h8v18H8z', w: 54, h: 86, iw: 46, ih: 62 },
+      { name: 'Square', letter: 'SQ', bw: 16, bh: 16, fs: 7, d: 'M5 4h14v16H5z', w: 72, h: 86, iw: 62, ih: 62 },
+      { name: 'Wide', letter: 'W', bw: 21, bh: 14, fs: 8, d: 'M2 7h20v11H2z', w: 108, h: 86, iw: 99, ih: 62 }
+    ];
+    const WE = [
+      { name: 'Nắng', d: 'M12 8a4 4 0 1 0 0 8a4 4 0 1 0 0-8M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4' },
+      { name: 'Mây', d: 'M7 18h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.5 3.5 0 0 0 7 18z' },
+      { name: 'Mưa', d: 'M7 14h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 14zM8 17l-1 3M12 17l-1 3M16 17l-1 3' },
+      { name: 'Lạnh', d: 'M12 2v20M4 6l16 12M20 6 4 18' }
+    ];
+    const MO = [
+      { name: 'Vui', d: FACE + 'M9 10h.01M15 10h.01M8 14c1.2 1.6 2.5 2.4 4 2.4s2.8-.8 4-2.4' },
+      { name: 'Bình yên', d: FACE + 'M7.5 10.5c.6-.6 1.4-.6 2 0M14.5 10.5c.6-.6 1.4-.6 2 0M9.5 15c1.5 1 3.5 1 5 0' },
+      { name: 'Buồn', d: FACE + 'M9 10h.01M15 10h.01M8 16.5c1.2-1.6 2.5-2.4 4-2.4s2.8.8 4 2.4' },
+      { name: 'Mệt', d: FACE + 'M8 10h2.5M13.5 10h2.5M9 15.5h6' }
+    ];
+
+    const ITEM = 64;
+    const mkDrum = (key, title, opts, left, top) => {
+      const v = this.state[key];
+      const n = opts.length;
+      const p = this.stripPos(key, n, ITEM, 100);
+      const winCenter = left + 50;
+      const olAbs = Math.max(14, Math.min(376 - 236, winCenter - 118));
+      const centerInOl = winCenter - olAbs;
+      return {
+        title, left, top, max: n - 1, value: v, name: opts[v].name, d: opts[v].d, open: p.open,
+        olLeft: olAbs - left,
+        hl: centerInOl - 32,
+        rowX: Math.round(centerInOl - ITEM / 2 - p.base * ITEM + p.dx),
+        items: opts.map((o, i) => ({ name: o.name, d: o.d, color: i === p.hover ? '#FFB547' : '#7A5A2E' })),
+        ...this.handlers(key, n, ITEM, 100, false)
+      };
     };
-    const zv = Z[zi];
+    const drums = [
+      mkDrum('weather', 'THỜI TIẾT', WE, 20, 747),
+      mkDrum('mood', 'CẢM XÚC', MO, 270, 747)
+    ];
+
+    const fpv = this.stripPos('frame', FR.length, 52, 76);
+    const fv = this.state.frame;
+    const frameD = {
+      value: fv, name: FR[fv].name, letter: FR[fv].letter, w: FR[fv].bw, h: FR[fv].bh, fs: FR[fv].fs, open: fpv.open,
+      rowY: Math.round(94 - 26 - fpv.base * 52 + fpv.dx),
+      items: FR.map((o, i) => ({ name: o.name, letter: o.letter, w: o.bw, h: o.bh, fs: o.fs, color: i === fpv.hover ? '#FFB547' : '#7A5A2E' })),
+      ...this.handlers('frame', FR.length, 52, 76, false, 'y')
+    };
+    const cur = FR[this.state.frame];
+    const k = Math.min(356 / cur.w, 430 / cur.h);
+    const zv = Z[this.state.zoom];
+    const li = this.state.filter;
     return {
-      ...sv,
-      accent, zooms, ticks, frames, filters, innerTicks,
-      filterRot: -li * 60, filterName: FL[li].name, filterCss: FL[li].css,
-      ringRot: -ZA[zi],
+      accent, sliders, drums, zoomS, filterS, frameD,
+      filterName: FL[li].name, filterCss: FL[li].css,
       zs: (1 + (zv - 0.5) * 0.35).toFixed(3),
       zoomLabel: (zv === 0.5 ? '0.5' : String(zv)) + '×',
+      weatherD: WE[this.state.weather].d,
+      moodD: MO[this.state.mood].d,
       fw: Math.round(cur.w * k), fh: Math.round(cur.h * k),
       iw: Math.round(cur.iw * k), ih: Math.round(cur.ih * k),
-      pad: Math.round((cur.w - cur.iw) / 2 * k),
-      knobRot: cur.ang,
-      frameName: cur.name,
-      cycleFrame: () => this.setState({ frame: (fi + 1) % F.length })
+      pad: Math.round((cur.w - cur.iw) / 2 * k)
     };
   }
 }

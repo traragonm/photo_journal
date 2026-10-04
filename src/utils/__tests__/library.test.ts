@@ -12,6 +12,8 @@ const photo = (id: string, y: number, m: number, d: number): PhotoEntry => ({
   cameraType: 'back',
   frameType: 'mini',
   filter: 'original',
+  weather: null,
+  mood: null,
   width: null,
   height: null,
   isImageAvailable: true,

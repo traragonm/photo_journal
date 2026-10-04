@@ -36,11 +36,11 @@ export class FakeDatabase {
         this.failNextInsert = false;
         throw new Error('disk full');
       }
-      const [id, file_name, created_at, latitude, longitude, location_name, caption, camera_type, frame_type, filter, width, height] =
+      const [id, file_name, created_at, latitude, longitude, location_name, caption, camera_type, frame_type, filter, weather, mood, width, height] =
         params;
       if (this.photos.has(String(id))) return { changes: 0 };
       this.photos.set(String(id), {
-        id, file_name, created_at, latitude, longitude, location_name, caption, camera_type, frame_type, filter, width, height,
+        id, file_name, created_at, latitude, longitude, location_name, caption, camera_type, frame_type, filter, weather, mood, width, height,
       });
       return { changes: 1 };
     }

@@ -16,7 +16,8 @@ thicker bottom border, handwritten caption (Patrick Hand) + time.
   card), `chip #EFE9DF` (segmented bg, round buttons), `ink #26221E`, `inkSoft #4A433C`, `muted #6B6258`,
   `faint #A0968A` (future days), `handle #B9AFA2`, `hairline #CFC6BA`, `accent #C2402A`,
   `accentText #A8361F` (links, AA contrast), `onInk #F4EFE6`. Print borders: `frameColors.white|cream|black`.
-  Camera body: `cameraBody #171513` + `camera*` tokens. Map: `map*` tokens, `userLocation`.
+  Camera body: `cameraBody #161412` + `camera*` tokens (amber selection `cameraAmber #F2A65A`,
+  LCD drums `cameraLcd*`). Map: `map*` tokens, `userLocation`.
 - Type (`typography`): `display` 32/600 ("Hôm nay"), `title` 30/600 ("Cài đặt"), `heading` 24/600
   ("Tháng 10, 2026"), `subheading` 20/600, `cardTitle` 16/600, `body` 15, `label` 13/600, `caption` 12,
   `eyebrow` 12 uppercase tracking, `tab` 10/600, `hand` 19, `handLarge` 22, `handSmall` 14.
@@ -25,8 +26,18 @@ thicker bottom border, handwritten caption (Patrick Hand) + time.
 - Shadows: `soft`, `print`, `printLifted`, `float`, `sheet`, `sheetFromTop`, `viewfinder`.
 - Print formats: `printFormats.mini|square|wide` (print + window proportions); use `PolaroidFrame` /
   `printGeometry(width, frameType)`. Tilts: `printRotations`, `rotationFor(id)`.
-- Film looks: `filmFilters` (label, swatch, `filter` string, `tint`), dial order
+- Film looks: `filmFilters` (label, swatch, `filter` string, `tint`), strip order
   original · warm · fade · mono · cool · vintage (Gốc · Ấm · Phai · Đen trắng · Lạnh · Hoài cổ).
+- Capture notes: `weatherStyles` (Nắng · Mây · Mưa · Lạnh) and `moodStyles` (Vui · Bình yên · Hào hứng ·
+  Buồn · Mệt), label + MaterialCommunityIcons glyph; saved on each photo, shown on the Detail film strip.
+- Weather theme (`useWeatherLook`, `skyStyles`, `diaryPalettes`): five skies (Nắng · Mây · Mưa · Tuyết · Giông)
+  from the local forecast, or picked on the diary's weather chip. Page colours: sun `#F2E8D5`, cloud
+  `#E4E2DE`, rain `#D3DADD`, snow `#EEF2F6`, storm `#C9CCD3` (the diary goes dark `#34373F` with light ink).
+  `WeatherEffects` draws a back layer (smiling sun, outlined clouds) and a front layer (teardrop rain with
+  splashes, storm leaves + lightning, snowflakes) on the diary, library, detail, calendar and map; none
+  with reduced motion. Settings › Nhật ký: "Hiệu ứng thời tiết", "Màu giao diện theo thời tiết".
+- Floating "trạng thái" button (`MoodButton`): 56 amber LCD circle bottom-right on every paper page and the
+  map; tap opens a strip of the 5 moods, hold + slide sideways rolls them. Shared with the camera's mood drum.
 - Motion: `durations.frameMorph` 350, `durations.dial` 480, `easings.dial` = cubic-bezier(.3,.7,.2,1), `springs`.
 
 ## Navigation (built: `src/views/home`)
@@ -65,13 +76,14 @@ Photo detail is a separate route: `router.push({ pathname: '/photo/[id]', params
   shadow); hint "Chạm để xem ảnh · Giữ để viết ghi chú"; Monday-first week strip (44×66 buttons,
   radius 14, today/selected = ink pill with onInk text, dot = accent when the day has photos, future
   days faint); bottom handle "Kéo lên · Lịch ảnh" opens Calendar.
-- **Camera**: dark body. Top row: flash, timer, flip (round translucent). Viewfinder = the live camera
-  inside a print whose proportions follow the frame knob (Mini/Square/Wide), with white corner brackets
-  and a "1× · Gốc" badge; strip under the window reads "Viết vài chữ sau khi chụp…". Bottom-left: last
-  print (opens the diary). Center readout "ZOOM 1× / LỌC Gốc". Right: knurled frame knob with
-  MINI/SQ/WIDE labels. Big dial: outer cream ring with zoom stops .5× 1× 2× 3× 5× (rotates to bring the
-  choice under the accent pointer), inner dark ring with 6 film swatches (rotates likewise), shutter in
-  the middle (84, white ring, accent core).
+- **Camera**: dark body. Viewfinder = the live camera inside a print whose proportions follow the frame
+  drum (Mini/Square/Wide), white corner brackets, a "1× · Gốc ☀ ☺" badge (zoom · filter · weather · mood),
+  "Viết vài chữ…" under the window, flip button on the print's bottom-left corner. Below: an amber pointer
+  over a draggable zoom ruler (.5× 1× 1.5× 2× 3× 4× 5×), then a film strip of 6 swatches (tiny landscape
+  with the look applied); both snap the choice to the centre, fade at the edges, tap an item to centre it.
+  Row: flash switch · vertical amber LCD frame drum · timer switch. Bottom: weather drum · shutter (80,
+  steel ring, accent core) · mood drum. LCD drums roll by dragging (a strip pops out showing the
+  neighbours) or step by tapping either end.
 - **Map**: paper-toned map; top floating segmented "Hôm nay · Tuần này · Tất cả"; pins = tilted mini
   prints on a stick with an ink dot (selected: accent ring/stick/dot); user location blue dot with halo;
   bottom sheet (white, radius 24): "Hôm nay đã đi qua" + "3 nơi", rows = mini print + handwritten caption

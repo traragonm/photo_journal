@@ -1,12 +1,16 @@
 import {
   toFilmFilter,
   toFrameType,
+  toMood,
+  toWeather,
   type CameraType,
   type FilmFilter,
   type FrameType,
+  type Mood,
   type NewPhotoEntry,
   type PhotoEntry,
   type PhotoEntryPatch,
+  type Weather,
 } from '@/models';
 import type { IPhotoRepository, PhotoRepositoryState } from '../contracts';
 import { Observable } from '../Observable';
@@ -27,6 +31,9 @@ interface PhotoRecord {
   /** Optional: records written before v2 lack these. */
   frameType?: FrameType;
   filter?: FilmFilter;
+  /** Optional: records written before v3 lack these. */
+  weather?: Weather | null;
+  mood?: Mood | null;
   width: number | null;
   height: number | null;
   imageBytes: ArrayBuffer | null;
@@ -83,6 +90,8 @@ export class WebPhotoRepository extends Observable<PhotoRepositoryState> impleme
       cameraType: toCameraType(record.cameraType),
       frameType: toFrameType(record.frameType),
       filter: toFilmFilter(record.filter),
+      weather: toWeather(record.weather),
+      mood: toMood(record.mood),
       width: record.width,
       height: record.height,
       isImageAvailable: available,
@@ -150,6 +159,8 @@ export class WebPhotoRepository extends Observable<PhotoRepositoryState> impleme
       cameraType: input.cameraType,
       frameType: input.frameType,
       filter: input.filter,
+      weather: input.weather,
+      mood: input.mood,
       width: input.width,
       height: input.height,
       imageBytes: await image.arrayBuffer(),

@@ -8,6 +8,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppText, Button } from '@/components';
 import { AppServicesProvider, createAppServices, type AppServices } from '@/services/AppServices';
+import { AmbientProvider } from '@/viewmodels/useAmbient';
 import { borderWidth, colors, durations, fontAssets, spacing } from '@/theme';
 import { AppLockGate } from '@/views/privacy/AppLockGate';
 
@@ -63,6 +64,7 @@ export default function RootLayout() {
         {bootState.status === 'ready' ? (
           <AppServicesProvider services={bootState.services}>
             <AppLockGate>
+              <AmbientProvider>
               <Stack
                 screenOptions={{
                   headerShown: false,
@@ -74,6 +76,7 @@ export default function RootLayout() {
                 <Stack.Screen name="library" options={{ animation: 'slide_from_right' }} />
                 <Stack.Screen name="photo/[id]" options={{ animation: 'slide_from_bottom' }} />
               </Stack>
+              </AmbientProvider>
             </AppLockGate>
           </AppServicesProvider>
         ) : bootState.status === 'error' ? (

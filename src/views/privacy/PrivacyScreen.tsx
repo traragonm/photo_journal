@@ -20,6 +20,7 @@ type PrivacyViewModel = Pick<
   | 'cameraPermission'
   | 'locationPermission'
   | 'placeNamesEnabled'
+  | 'autoWeatherEnabled'
   | 'appLockEnabled'
   | 'appLockSupport'
   | 'photoCount'
@@ -27,6 +28,7 @@ type PrivacyViewModel = Pick<
   | 'fixCameraPermission'
   | 'fixLocationPermission'
   | 'setPlaceNamesEnabled'
+  | 'setAutoWeatherEnabled'
   | 'setAppLockEnabled'
   | 'confirmDeleteAll'
 >;
@@ -95,10 +97,10 @@ export function PrivacyScreen({ viewModel, onBack }: PrivacyScreenProps) {
         <View style={styles.statement}>
           <AppText variant="cardTitle">Ảnh của bạn chỉ nằm trên máy này.</AppText>
           <AppText variant="body" color="textSecondary">
-            Không tài khoản, không máy chủ: ảnh, ghi chú và vị trí được lưu ngay trên thiết bị. Chỉ có hai
+            Không tài khoản, không máy chủ: ảnh, ghi chú và vị trí được lưu ngay trên thiết bị. Chỉ có ba
             trường hợp dùng mạng, đều tuỳ chọn: tên địa điểm (bộ giải mã địa chỉ của điện thoại có thể liên
-            hệ Apple hoặc Google) và ô bản đồ (nhà cung cấp bản đồ biết khu vực bạn đang xem, nhưng không bao
-            giờ thấy ảnh).
+            hệ Apple hoặc Google), thời tiết tự động (gửi toạ độ làm tròn khoảng 1 km tới Open-Meteo) và ô bản
+            đồ (nhà cung cấp bản đồ biết khu vực bạn đang xem, nhưng không bao giờ thấy ảnh).
           </AppText>
         </View>
 
@@ -114,6 +116,13 @@ export function PrivacyScreen({ viewModel, onBack }: PrivacyScreenProps) {
             value={viewModel.placeNamesEnabled}
             onValueChange={viewModel.setPlaceNamesEnabled}
             note="Đổi toạ độ thành tên nơi chốn (ví dụ “Hoàn Kiếm, Hà Nội”) bằng bộ giải mã địa chỉ của hệ điều hành, có thể cần mạng và liên hệ máy chủ của Apple hoặc Google. Tắt thì chỉ lưu toạ độ."
+          />
+          <Hairline />
+          <ToggleRow
+            label="Thời tiết tự động"
+            value={viewModel.autoWeatherEnabled}
+            onValueChange={viewModel.setAutoWeatherEnabled}
+            note="Khi mở camera, lấy thời tiết hiện tại ở nơi bạn đứng từ Open-Meteo (chỉ gửi toạ độ làm tròn khoảng 1 km, không gửi ảnh). Cần bật ghi vị trí. Bạn vẫn xoay ô thời tiết bằng tay được."
           />
         </SettingsGroup>
 

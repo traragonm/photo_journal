@@ -1,10 +1,14 @@
-import { useCallback, useState } from 'react';
-import { SectionList, StyleSheet, View, type LayoutChangeEvent } from 'react-native';
+import { useCallback } from 'react';
+import { SectionList, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppText, EmptyState, IconButton } from '@/components';
 import type { PhotoEntry } from '@/models';
 import { colors, spacing } from '@/theme';
+import { useWeatherLook } from '@/viewmodels/useAmbient';
 import { LIBRARY_COLUMNS, useLibraryViewModel } from '@/viewmodels/useLibraryViewModel';
+import { MoodButton } from '@/views/weather/MoodButton';
+import { useLayoutSize } from '@/views/weather/useLayoutSize';
+import { WeatherEffects } from '@/views/weather/WeatherEffects';
 import { LibraryCell } from './LibraryCell';
 
 const PAGE_PADDING = 18;
@@ -13,15 +17,18 @@ const COLUMN_GAP = 12;
 const TITLE_SIZE = 28;
 const SUBTITLE_SIZE = 12;
 const COUNT_SIZE = 16;
+/** Floating mood button (design: right 18, bottom 32). */
+const MOOD_RIGHT = 18;
+const MOOD_BOTTOM = 32;
 
 /** "Thư viện": every photo, grouped by month, as a grid of mini prints. */
 export function LibraryScreen() {
   const vm = useLibraryViewModel();
   const insets = useSafeAreaInsets();
-  const [width, setWidth] = useState(0);
+  const [size, onLayout] = useLayoutSize();
+  const { width } = size;
+  const look = useWeatherLook();
   const cellWidth = Math.floor((width - PAGE_PADDING * 2 - COLUMN_GAP * (LIBRARY_COLUMNS - 1)) / LIBRARY_COLUMNS);
-
-  const onLayout = (event: LayoutChangeEvent) => setWidth(event.nativeEvent.layout.width);
 
   const renderRow = useCallback(
     ({ item, index }: { item: PhotoEntry[]; index: number }) => (
@@ -41,7 +48,8 @@ export function LibraryScreen() {
   );
 
   return (
-    <View style={[styles.root, { paddingTop: insets.top }]} onLayout={onLayout}>
+    <View style={[styles.root, { paddingTop: insets.top }, look.page ? { backgroundColor: look.page } : null]} onLayout={onLayout}>
+      <WeatherEffects sky={look.effectsSky} layer="back" width={size.width} height={size.height} />
       <View style={styles.header}>
         <IconButton
           icon="chevron-back"
@@ -85,6 +93,9 @@ export function LibraryScreen() {
           showsVerticalScrollIndicator={false}
         />
       ) : null}
+
+      <WeatherEffects sky={look.effectsSky} layer="front" width={size.width} height={size.height} />
+      <MoodButton style={{ right: MOOD_RIGHT, bottom: insets.bottom + MOOD_BOTTOM }} />
     </View>
   );
 }

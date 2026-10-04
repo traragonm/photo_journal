@@ -20,6 +20,9 @@ import { CameraScreen } from '@/views/camera/CameraScreen';
 import { DiaryScreen } from '@/views/diary/DiaryScreen';
 import { MapScreen } from '@/views/map/MapScreen';
 import { SettingsSheet } from '@/views/settings/SettingsSheet';
+import { useWeatherLook } from '@/viewmodels/useAmbient';
+import { MoodButton } from '@/views/weather/MoodButton';
+import { WeatherEffects } from '@/views/weather/WeatherEffects';
 import { HomeNavProvider, PANES, type HomeNav, type Pane, type Sheet } from './HomeNavigator';
 import { SheetPullZone } from './SheetPullZone';
 
@@ -28,7 +31,11 @@ const EDGE_TAB_TOP_RATIO = 372 / 844;
 /** Settings curtain leaves this much paper below it for the "Kéo lên để đóng" handle. */
 const SETTINGS_BOTTOM_GAP = 68;
 /** Calendar sheet starts this far below the safe area. */
-const CALENDAR_TOP_GAP = 24;
+/** Room above the calendar sheet where the weather shows through (design: sheet top 150). */
+const CALENDAR_TOP_GAP = 134;
+/** Floating mood button on the calendar (design: right 18, bottom 40). */
+const MOOD_RIGHT = 18;
+const MOOD_BOTTOM = 40;
 /** Width of the swipe-back strip on the inner edge of the map and camera panes. */
 const EDGE_SWIPE_WIDTH = 28;
 const PANE_COMMIT_FRACTION = 0.25;
@@ -55,6 +62,7 @@ export function HomeScreen() {
   const params = useLocalSearchParams<{ pane?: string; focus?: string; day?: string }>();
 
   const [size, setSize] = useState({ width: 0, height: 0 });
+  const look = useWeatherLook();
   const [pane, setPane] = useState<Pane>('diary');
   const [sheet, setSheet] = useState<Sheet | null>(null);
   const [mounted, setMounted] = useState<ReadonlySet<Pane>>(() => new Set<Pane>(['diary', 'camera']));
@@ -171,7 +179,7 @@ export function HomeScreen() {
 
   return (
     <HomeNavProvider value={nav}>
-      {isFocused ? <StatusBar style={pane === 'camera' ? 'light' : 'dark'} /> : null}
+      {isFocused ? <StatusBar style={pane === 'camera' || (pane === 'diary' && look.diary.dark) ? 'light' : 'dark'} /> : null}
       <View style={styles.root} onLayout={onLayout}>
         {ready ? (
           <>
@@ -226,7 +234,19 @@ export function HomeScreen() {
               </View>
             </Animated.View>
 
-            <SheetLayer progress={calendarProgress} active={sheet === 'calendar'} onClose={closeSheet}>
+            <SheetLayer
+              progress={calendarProgress}
+              active={sheet === 'calendar'}
+              onClose={closeSheet}
+              backdropColor={look.page ?? undefined}
+            >
+              <WeatherEffects
+                sky={look.effectsSky}
+                layer="back"
+                width={size.width}
+                height={size.height}
+                active={sheet === 'calendar'}
+              />
               <SheetContainer
                 progress={calendarProgress}
                 height={size.height - insets.top - CALENDAR_TOP_GAP}
@@ -238,6 +258,16 @@ export function HomeScreen() {
                 </SheetPullZone>
                 <CalendarSheet />
               </SheetContainer>
+              <WeatherEffects
+                sky={look.effectsSky}
+                layer="front"
+                width={size.width}
+                height={size.height}
+                active={sheet === 'calendar'}
+              />
+              {sheet === 'calendar' ? (
+                <MoodButton style={{ right: MOOD_RIGHT, bottom: insets.bottom + MOOD_BOTTOM }} />
+              ) : null}
             </SheetLayer>
 
             <SheetLayer progress={settingsProgress} active={sheet === 'settings'} onClose={closeSheet}>
@@ -283,11 +313,14 @@ function SheetLayer({
   progress,
   active,
   onClose,
+  backdropColor,
   children,
 }: {
   progress: SharedValue<number>;
   active: boolean;
   onClose: () => void;
+  /** Backdrop colour (default paper; the calendar uses the weather page colour). */
+  backdropColor?: string;
   children: ReactNode;
 }) {
   const backdropStyle = useAnimatedStyle(() => ({ opacity: progress.get() }));
@@ -298,7 +331,9 @@ function SheetLayer({
       pointerEvents={active ? 'auto' : 'box-none'}
       accessibilityViewIsModal={active}
     >
-      <Animated.View style={[StyleSheet.absoluteFill, styles.backdrop, backdropStyle]}>
+      <Animated.View
+        style={[StyleSheet.absoluteFill, styles.backdrop, backdropColor ? { backgroundColor: backdropColor } : null, backdropStyle]}
+      >
         <View style={StyleSheet.absoluteFill} onTouchEnd={onClose} accessible={false} />
       </Animated.View>
       {children}

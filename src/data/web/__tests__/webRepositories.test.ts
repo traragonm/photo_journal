@@ -21,6 +21,8 @@ function newEntry(id: string, createdAt: string, overrides: Partial<NewPhotoEntr
     cameraType: 'back',
     frameType: 'square',
     filter: 'original',
+    weather: 'sunny',
+    mood: 'calm',
     width: 1080,
     height: 1440,
     ...overrides,

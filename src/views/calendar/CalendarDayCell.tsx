@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   miniBox: {
     width: MINI_WIDTH,
     height: MINI_HEIGHT,
-    marginTop: 4,
+    marginTop: 1,
   },
   mini: {
     position: 'absolute',
@@ -132,6 +132,6 @@ const styles = StyleSheet.create({
     lineHeight: 14,
   },
   plainNumber: {
-    marginTop: 22,
+    marginTop: 19,
   },
 });

@@ -2,6 +2,8 @@ import type { SQLiteDatabase } from 'expo-sqlite';
 import {
   toFilmFilter,
   toFrameType,
+  toMood,
+  toWeather,
   type CameraType,
   type NewPhotoEntry,
   type PhotoEntry,
@@ -22,6 +24,8 @@ interface PhotoRow {
   camera_type: string;
   frame_type: string;
   filter: string;
+  weather: string | null;
+  mood: string | null;
   width: number | null;
   height: number | null;
 }
@@ -61,6 +65,8 @@ export class LocalPhotoRepository extends Observable<PhotoRepositoryState> imple
       cameraType: toCameraType(row.camera_type),
       frameType: toFrameType(row.frame_type),
       filter: toFilmFilter(row.filter),
+      weather: toWeather(row.weather),
+      mood: toMood(row.mood),
       width: row.width,
       height: row.height,
       isImageAvailable: this.storage.exists(row.file_name),
@@ -118,8 +124,8 @@ export class LocalPhotoRepository extends Observable<PhotoRepositoryState> imple
     try {
       await this.db.runAsync(
         `INSERT OR IGNORE INTO photos
-          (id, file_name, created_at, latitude, longitude, location_name, caption, camera_type, frame_type, filter, width, height, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          (id, file_name, created_at, latitude, longitude, location_name, caption, camera_type, frame_type, filter, weather, mood, width, height, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         input.id,
         fileName,
         input.createdAt,
@@ -130,6 +136,8 @@ export class LocalPhotoRepository extends Observable<PhotoRepositoryState> imple
         input.cameraType,
         input.frameType,
         input.filter,
+        input.weather,
+        input.mood,
         input.width,
         input.height,
         now,
@@ -150,6 +158,8 @@ export class LocalPhotoRepository extends Observable<PhotoRepositoryState> imple
       camera_type: input.cameraType,
       frame_type: input.frameType,
       filter: input.filter,
+      weather: input.weather,
+      mood: input.mood,
       width: input.width,
       height: input.height,
     });

@@ -32,6 +32,11 @@ const MIGRATIONS: readonly string[] = [
   ALTER TABLE photos ADD COLUMN frame_type TEXT NOT NULL DEFAULT 'square';
   ALTER TABLE photos ADD COLUMN filter TEXT NOT NULL DEFAULT 'original';
   `,
+  // v3: weather + mood noted on the camera drums (NULL for older photos).
+  `
+  ALTER TABLE photos ADD COLUMN weather TEXT;
+  ALTER TABLE photos ADD COLUMN mood TEXT;
+  `,
 ];
 
 async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {

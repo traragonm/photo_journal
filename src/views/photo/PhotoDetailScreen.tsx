@@ -6,7 +6,10 @@ import { colors, layout, printFormats, spacing } from '@/theme';
 import { dayKeyOfIso, formatWeekdayDate } from '@/utils/date';
 import { groupPhotosByDay } from '@/utils/days';
 import { useFrameStyle, usePhotoStore } from '@/viewmodels/shared';
+import { useWeatherLook } from '@/viewmodels/useAmbient';
 import { usePhotoDetailViewModel } from '@/viewmodels/usePhotoDetailViewModel';
+import { MoodButton } from '@/views/weather/MoodButton';
+import { WeatherEffects } from '@/views/weather/WeatherEffects';
 import { CaptionEditor } from './CaptionEditor';
 import { DetailTopBar } from './DetailTopBar';
 import { FilmStripBar } from './FilmStripBar';
@@ -17,6 +20,9 @@ import { PhotoNotFound } from './PhotoNotFound';
 import { PRINT_WIDTH, PRINT_WIDTH_WIDE, STRIP_WIDTH, detailScale } from './detailConstants';
 
 const MAX_PRINT_HEIGHT_RATIO = 0.56;
+/** Floating mood button (design: right 18, bottom 24). */
+const MOOD_RIGHT = 18;
+const MOOD_BOTTOM = 24;
 
 export function PhotoDetailScreen({ photoId }: { photoId: string | undefined }) {
   const vm = usePhotoDetailViewModel(photoId);
@@ -25,6 +31,8 @@ export function PhotoDetailScreen({ photoId }: { photoId: string | undefined }) 
   const { width, height } = useWindowDimensions();
   const { frame } = useFrameStyle();
   const [flipped, setFlipped] = useState(false);
+  const look = useWeatherLook();
+  const pageStyle = look.page ? { backgroundColor: look.page } : null;
   const { photo } = vm;
 
   const sameDay = useMemo(
@@ -34,7 +42,7 @@ export function PhotoDetailScreen({ photoId }: { photoId: string | undefined }) 
 
   if (!photo) {
     return (
-      <View style={[styles.screen, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+      <View style={[styles.screen, pageStyle, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
         <PhotoNotFound onBack={vm.goBack} />
       </View>
     );
@@ -51,7 +59,8 @@ export function PhotoDetailScreen({ photoId }: { photoId: string | undefined }) 
   );
 
   return (
-    <KeyboardAvoidingView style={styles.screen} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView style={[styles.screen, pageStyle]} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <WeatherEffects sky={look.effectsSky} layer="back" width={width} height={height} />
       <View style={{ paddingTop: insets.top + spacing.sm }}>
         <DetailTopBar
           title={formatWeekdayDate(new Date(photo.createdAt))}
@@ -108,6 +117,8 @@ export function PhotoDetailScreen({ photoId }: { photoId: string | undefined }) 
           )}
         </View>
       </ScrollView>
+      <WeatherEffects sky={look.effectsSky} layer="front" width={width} height={height} />
+      <MoodButton style={{ right: MOOD_RIGHT, bottom: insets.bottom + MOOD_BOTTOM }} />
       <FullPhotoViewer photo={photo} visible={vm.isViewerOpen} onClose={vm.closeViewer} />
     </KeyboardAvoidingView>
   );

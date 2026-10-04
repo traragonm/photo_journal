@@ -1,8 +1,8 @@
 import { StyleSheet, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { AppText } from '@/components';
 import { hasLocation, type PhotoEntry } from '@/models';
-import { borderRadius, colors, filmFilters, fontSizes } from '@/theme';
+import { borderRadius, colors, filmFilters, fontSizes, moodStyles, weatherStyles } from '@/theme';
 import { formatClock } from '@/utils/date';
 import { formatPlace } from '@/utils/geo';
 
@@ -15,6 +15,7 @@ const PERF_INSET = 6;
 const PERF_OPACITY = 0.85;
 const STRIP_PADDING = 7;
 const PIN_SIZE = 13;
+const NOTE_ICON_SIZE = 15;
 const LETTER_SPACING = 0.88; // .08em of 11px
 
 function PerforationRow({ width }: { width: number }) {
@@ -33,7 +34,7 @@ export interface FilmStripBarProps {
   width: number;
 }
 
-/** Dark film-strip info bar: place, time, frame and filter. */
+/** Dark film-strip info bar: place, time, frame, filter, weather and mood. */
 export function FilmStripBar({ photo, width }: FilmStripBarProps) {
   const place = hasLocation(photo) ? formatPlace(photo.locationName, photo.latitude, photo.longitude) : null;
   return (
@@ -57,6 +58,16 @@ export function FilmStripBar({ photo, width }: FilmStripBarProps) {
         <AppText variant="tab" style={styles.text}>
           {filmFilters[photo.filter].label.toUpperCase()}
         </AppText>
+        {photo.weather ? (
+          <View accessible accessibilityRole="image" accessibilityLabel={`Thời tiết: ${weatherStyles[photo.weather].label}`}>
+            <MaterialCommunityIcons name={weatherStyles[photo.weather].icon} size={NOTE_ICON_SIZE} color={colors.filmStripText} />
+          </View>
+        ) : null}
+        {photo.mood ? (
+          <View accessible accessibilityRole="image" accessibilityLabel={`Cảm xúc: ${moodStyles[photo.mood].label}`}>
+            <MaterialCommunityIcons name={moodStyles[photo.mood].icon} size={NOTE_ICON_SIZE} color={colors.filmStripText} />
+          </View>
+        ) : null}
       </View>
       <PerforationRow width={width} />
     </View>

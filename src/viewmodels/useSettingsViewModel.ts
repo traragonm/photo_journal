@@ -38,11 +38,15 @@ export interface SettingsViewModel {
   locationBlocked: boolean;
   developEffect: boolean;
   handwriting: boolean;
+  weatherEffectsEnabled: boolean;
+  weatherThemeEnabled: boolean;
   soundEnabled: boolean;
   hapticsEnabled: boolean;
   setLocationEnabled: (enabled: boolean) => void;
   setDevelopEffect: (enabled: boolean) => void;
   setHandwriting: (enabled: boolean) => void;
+  setWeatherEffectsEnabled: (enabled: boolean) => void;
+  setWeatherThemeEnabled: (enabled: boolean) => void;
   setSoundEnabled: (enabled: boolean) => void;
   setHapticsEnabled: (enabled: boolean) => void;
   reminder: ReminderState;
@@ -58,6 +62,7 @@ export interface SettingsViewModel {
   cameraPermission: PermissionStatus;
   locationPermission: PermissionStatus;
   placeNamesEnabled: boolean;
+  autoWeatherEnabled: boolean;
   appLockEnabled: boolean;
   appLockSupport: AppLockSupport;
   photoCount: number;
@@ -66,6 +71,7 @@ export interface SettingsViewModel {
   fixLocationPermission: () => void;
   refreshPermissions: () => void;
   setPlaceNamesEnabled: (enabled: boolean) => void;
+  setAutoWeatherEnabled: (enabled: boolean) => void;
   setAppLockEnabled: (enabled: boolean) => void;
   confirmDeleteAll: () => void;
   // Footer
@@ -307,11 +313,15 @@ export function useSettingsViewModel(): SettingsViewModel {
     locationBlocked: settings.locationEnabled && locationPermission === 'denied',
     developEffect: settings.developEffect,
     handwriting: settings.handwriting,
+    weatherEffectsEnabled: settings.weatherEffectsEnabled,
+    weatherThemeEnabled: settings.weatherThemeEnabled,
     soundEnabled: settings.soundEnabled,
     hapticsEnabled: settings.hapticsEnabled,
     setLocationEnabled,
     setDevelopEffect: (enabled) => persist({ developEffect: enabled }),
     setHandwriting: (enabled) => persist({ handwriting: enabled }),
+    setWeatherEffectsEnabled: (enabled) => persist({ weatherEffectsEnabled: enabled }),
+    setWeatherThemeEnabled: (enabled) => persist({ weatherThemeEnabled: enabled }),
     setSoundEnabled: (enabled) => persist({ soundEnabled: enabled }),
     setHapticsEnabled: (enabled) => persist({ hapticsEnabled: enabled }),
     reminder: {
@@ -328,6 +338,7 @@ export function useSettingsViewModel(): SettingsViewModel {
     cameraPermission,
     locationPermission,
     placeNamesEnabled: settings.placeNamesEnabled,
+    autoWeatherEnabled: settings.autoWeatherEnabled,
     appLockEnabled: settings.appLockEnabled,
     appLockSupport,
     photoCount: photos.length,
@@ -336,6 +347,7 @@ export function useSettingsViewModel(): SettingsViewModel {
     fixLocationPermission,
     refreshPermissions,
     setPlaceNamesEnabled: (enabled) => persist({ placeNamesEnabled: enabled }),
+    setAutoWeatherEnabled: (enabled) => persist({ autoWeatherEnabled: enabled }),
     setAppLockEnabled,
     confirmDeleteAll,
     appVersion: Constants.expoConfig?.version ?? FALLBACK_VERSION,

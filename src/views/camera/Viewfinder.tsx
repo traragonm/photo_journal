@@ -7,23 +7,39 @@ import Animated, {
   withTiming,
   ZoomIn,
 } from 'react-native-reanimated';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { AppText, PressableScale } from '@/components';
-import type { FilmFilter, FrameType } from '@/models';
-import { borderRadius, borderWidth, colors, durations, filmFilters, fontFamilies, layout, shadows, typography } from '@/theme';
+import type { FilmFilter, FrameType, Mood, Weather } from '@/models';
+import {
+  borderRadius,
+  borderWidth,
+  colors,
+  durations,
+  filmFilters,
+  fontFamilies,
+  layout,
+  moodStyles,
+  shadows,
+  typography,
+  weatherStyles,
+} from '@/theme';
 import { cameraColors } from './cameraTokens';
-import { fitPrint, previewCoverBox } from './dialGeometry';
+import { fitPrint, previewCoverBox } from './cameraGeometry';
 
 /** CSS `ease` — the design's `transition: width 0.35s ease`. */
 const MORPH_TIMING = { duration: durations.frameMorph, easing: Easing.bezier(0.25, 0.1, 0.25, 1) };
-const BRACKET_SIZE = 22;
-const BRACKET_INSET = 12;
+const BRACKET_SIZE = 16;
+const BRACKET_INSET = 10;
 const BRACKET_STROKE = 2;
-const BADGE_BOTTOM = 12;
+const BADGE_BOTTOM = 10;
 const BADGE_PADDING_V = 3;
-const BADGE_PADDING_H = 10;
-const FOOTER_FONT_SIZE = 20;
-const FOOTER_PADDING = 4;
+const BADGE_PADDING_H = 9;
+const BADGE_GAP = 5;
+const BADGE_ICON_SIZE = 12;
+const FOOTER_FONT_SIZE = 17;
+/** Footer text starts right of the flip button (design: padding 0 2px 0 22px). */
+const FOOTER_PADDING_LEFT = 22;
+const FOOTER_PADDING_RIGHT = 2;
 const FOOTER_LINE_HEIGHT = 1.2;
 const COUNTDOWN_FONT_SIZE = 120;
 const COUNTDOWN_SHADOW_RADIUS = 12;
@@ -46,6 +62,8 @@ export interface ViewfinderProps {
   frameType: FrameType;
   filter: FilmFilter;
   zoomLabel: string;
+  weather: Weather;
+  mood: Mood;
   /** Seconds left on the self-timer (shown big over the preview). */
   countdown: number | null;
   /** Status text while the preview is not live ("Đang mở camera…"). */
@@ -69,6 +87,8 @@ export function Viewfinder({
   frameType,
   filter,
   zoomLabel,
+  weather,
+  mood,
   countdown,
   status,
   camera,
@@ -156,6 +176,8 @@ export function Viewfinder({
         <View pointerEvents="none" style={[styles.badgeRow, { bottom: inset }]}>
           <View style={styles.badge}>
             <AppText style={styles.badgeText}>{`${zoomLabel} · ${look.label}`}</AppText>
+            <MaterialCommunityIcons name={weatherStyles[weather].icon} size={BADGE_ICON_SIZE} color={cameraColors.badgeText} />
+            <MaterialCommunityIcons name={moodStyles[mood].icon} size={BADGE_ICON_SIZE} color={cameraColors.badgeText} />
           </View>
         </View>
 
@@ -174,12 +196,12 @@ export function Viewfinder({
         ) : null}
       </Animated.View>
 
-      <View style={styles.footer}>
+      <View style={[styles.footer, { paddingLeft: u(FOOTER_PADDING_LEFT) }]}>
         <AppText
           numberOfLines={1}
           style={[styles.footerText, { fontSize: u(FOOTER_FONT_SIZE), lineHeight: u(FOOTER_FONT_SIZE) * FOOTER_LINE_HEIGHT }]}
         >
-          Viết vài chữ sau khi chụp…
+          Viết vài chữ…
         </AppText>
       </View>
 
@@ -239,6 +261,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   badge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: BADGE_GAP,
     paddingVertical: BADGE_PADDING_V,
     paddingHorizontal: BADGE_PADDING_H,
     borderRadius: borderRadius.pill,
@@ -263,7 +288,7 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.pill,
     borderWidth: borderWidth.regular,
     borderColor: colors.frameWhite,
-    backgroundColor: colors.ink,
+    backgroundColor: colors.cameraShutterWell,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: colors.black,
@@ -278,7 +303,7 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: FOOTER_PADDING,
+    paddingRight: FOOTER_PADDING_RIGHT,
   },
   footerText: {
     fontFamily: fontFamilies.hand,

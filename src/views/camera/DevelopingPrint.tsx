@@ -18,7 +18,7 @@ import { rotationFor } from '@/utils/rotation';
 import { useFrameStyle } from '@/viewmodels/shared';
 import type { DevelopingPrint as DevelopingPrintModel } from '@/viewmodels/useCameraViewModel';
 import { cameraColors } from './cameraTokens';
-import { fitPrint } from './dialGeometry';
+import { fitPrint } from './cameraGeometry';
 
 /** Print bounds relative to the pane. */
 const PRINT_WIDTH_RATIO = 0.78;

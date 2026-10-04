@@ -15,19 +15,24 @@ a{color:#26221E}a:hover{color:#000000}
 button{font:inherit}
 </style>
 </helmet>
-<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #ECE6DB; font-family: 'Be Vietnam Pro', system-ui, sans-serif; color: #26221E; display: flex; flex-direction: column">
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; isolation: isolate; background: {{wBg}}; font-family: 'Be Vietnam Pro', system-ui, sans-serif; color: {{wInk}}; display: flex; flex-direction: column; transition: background 0.6s ease, color 0.6s ease">
+<canvas ref="{{wCanvasB}}" width="780" height="1688" aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; pointer-events: none; z-index: -1"></canvas>
 
-<a href="Settings.dc.html" aria-label="Kéo xuống để mở cài đặt" style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 0 6px; text-decoration: none; color: #6B6258">
+
+<a href="Settings.dc.html" aria-label="Kéo xuống để mở cài đặt" style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 0 6px; text-decoration: none; color: {{wMuted}}">
 <span style="width: 40px; height: 5px; border-radius: 3px; background: #B9AFA2"></span>
-<span style="display: flex; color: #6B6258"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"></path></svg></span>
+<span style="display: flex; color: {{wMuted}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"></path></svg></span>
 </a>
 
 <div style="padding: 10px 28px 0; display: flex; justify-content: space-between; align-items: flex-end">
 <div>
-<div style="font-size: 12px; color: #6B6258; letter-spacing: 0.06em; text-transform: uppercase">Thứ Sáu, 2 tháng 10</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<div style="font-size: 12px; color: {{wMuted}}; letter-spacing: 0.06em; text-transform: uppercase">Thứ Sáu, 2 tháng 10</div>
+<button onClick="{{wCycle}}" aria-label="Thời tiết: {{wName}} {{wTemp}}. Chạm để đổi" style="height: 30px; margin: -7px 0; padding: 0 10px 0 8px; border-radius: 15px; border: 1px solid {{wChipBorder}}; background: {{wChipBg}}; color: {{wInk}}; display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.6s ease"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{wIcon}}"></path></svg>{{wTemp}}</button>
+</div>
 <h1 style="margin: 4px 0 0; font-size: 32px; font-weight: 600; letter-spacing: -0.01em">Hôm nay</h1>
 </div>
-<a href="Library.dc.html" aria-label="Mở thư viện ảnh" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px; margin-right: -12px; border-radius: 22px; text-decoration: none; color: #6B6258"><span style="font-family: 'Patrick Hand', cursive; font-size: 22px">3 tấm</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></a>
+<a href="Library.dc.html" aria-label="Mở thư viện ảnh" style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px; margin-right: -12px; border-radius: 22px; text-decoration: none; color: {{wMuted}}"><span style="font-family: 'Patrick Hand', cursive; font-size: 22px">3 tấm</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></a>
 </div>
 
 <div style="position: relative; height: 486px; margin-top: 6px">
@@ -55,7 +60,9 @@ button{font:inherit}
 
 </div>
 
-<p style="margin: 0; text-align: center; font-size: 12px; color: #6B6258">Chạm để xem ảnh · Giữ để viết ghi chú</p>
+<p style="margin: 0; text-align: center; font-size: 12px; color: {{wMuted}}">Chạm để xem ảnh · Giữ để viết ghi chú</p>
+
+<canvas ref="{{wCanvas}}" width="780" height="1688" aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; pointer-events: none; z-index: 4"></canvas>
 
 <a href="Map.dc.html" aria-label="Mở bản đồ" style="position: absolute; left: 0; top: 372px; width: 44px; height: 72px; display: flex; align-items: center; justify-content: flex-start; text-decoration: none; z-index: 5">
 <span style="width: 32px; height: 56px; border-radius: 0 14px 14px 0; background: #26221E; color: #F4EFE6; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px">
@@ -77,16 +84,358 @@ button{font:inherit}
 </div>
 </div>
 
-<a href="Calendar.dc.html" aria-label="Kéo lên để mở lịch ảnh" style="display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 6px 0 16px; text-decoration: none; color: #6B6258">
-<span style="display: flex; color: #6B6258"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>
+<a href="Calendar.dc.html" aria-label="Kéo lên để mở lịch ảnh" style="display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 6px 0 16px; text-decoration: none; color: {{wMuted}}">
+<span style="display: flex; color: {{wMuted}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>
 <span style="width: 40px; height: 5px; border-radius: 3px; background: #B9AFA2"></span>
 </a>
 
+<div style="position: absolute; right: 18px; bottom: 128px; width: 56px; height: 56px; z-index: 30">
+<sc-if value="{{sOpen}}" hint-placeholder-val="{{false}}">
+<div role="group" aria-label="Chọn trạng thái" style="position: absolute; right: 66px; top: 1px; width: 236px; height: 54px; box-sizing: border-box; border-radius: 14px; background: #22180C; border: 2px solid #3A3530; box-shadow: 0 10px 24px rgba(0,0,0,0.45), 0 0 0 1px #6E7888, inset 0 2px 8px rgba(0,0,0,0.8); overflow: hidden">
+<span style="position: absolute; left: 84px; top: 4px; width: 64px; height: 42px; box-sizing: border-box; border-radius: 10px; border: 2px solid #F2A65A; box-shadow: 0 0 8px rgba(242,166,90,0.6); pointer-events: none"></span>
+<div style="position: absolute; left: 0; top: 0; height: 50px; display: flex; transform: translateX({{sRowX}}px); transition: {{sTr}}">
+<sc-for list="{{sItems}}" as="it" hint-placeholder-count="5">
+<button aria-label="{{it.name}}" aria-pressed="{{it.pressed}}" onClick="{{it.pick}}" style="width: 64px; height: 50px; flex-shrink: 0; border: 0; padding: 0; background: transparent; color: {{it.fg}}; text-shadow: 0 0 6px rgba(255,181,71,0.45); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 10px; font-weight: 600; white-space: nowrap; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{it.d}}"></path></svg>{{it.name}}</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<div role="button" tabindex="0" aria-label="{{sLabel}}" aria-haspopup="true" aria-expanded="{{sExpanded}}" onPointerDown="{{sDown}}" onPointerMove="{{sMove}}" onPointerUp="{{sUp}}" onPointerCancel="{{sUp}}" onKeyDown="{{sKey}}" style="position: absolute; left: 0; top: 0; width: 56px; height: 56px; border-radius: 50%; background: #22180C; color: #FFB547; display: flex; align-items: center; justify-content: center; border: 2px solid #3A3530; box-sizing: border-box; box-shadow: 0 0 0 1px #6E7888, 0 0 0 4px #FBFAF6, 0 10px 22px rgba(38,34,30,0.4), inset 0 2px 8px rgba(0,0,0,0.8); filter: drop-shadow(0 0 0 transparent); touch-action: none; cursor: grab; user-select: none">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="filter: drop-shadow(0 0 4px rgba(255,181,71,0.6))"><path d="{{sFace}}"></path></svg>
+<span style="position: absolute; right: 1px; top: 1px; width: 13px; height: 13px; border-radius: 50%; background: #F2A65A; box-shadow: 0 0 0 2px #22180C, 0 0 6px rgba(242,166,90,0.8)"></span>
+</div>
+</div>
+
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"frame":{"editor":"color","default":"#FBFAF6","options":["#FBFAF6","#F2E6CF","#1E1C1A"]},"accent":{"editor":"color","default":"#C2402A"},"$preview":{"width":390,"height":844}}'>
+<script type="text/x-dc" data-dc-script data-props='{"frame":{"editor":"color","default":"#FBFAF6","options":["#FBFAF6","#F2E6CF","#1E1C1A"]},"accent":{"editor":"color","default":"#C2402A"},"weather":{"editor":"enum","default":"Nắng","options":["Nắng","Mây","Mưa","Tuyết","Giông"]},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
   renderVals() {
+    return { ...this.baseVals(), ...this.statusVals(), ...this.weatherVals() };
+  }
+  wTheme() {
+    const st = this.state || {};
+    const KEYS = ['sun', 'cloud', 'rain', 'snow', 'storm'];
+    const NAMES = ['Nắng', 'Mây', 'Mưa', 'Tuyết', 'Giông'];
+    const pi = Math.max(0, NAMES.indexOf(this.props.weather ?? 'Nắng'));
+    const wi = st.wi ?? pi;
+    const base = { ink: '#26221E', muted: '#6B6258', dayFg: '#4A433C', future: '#A0968A', todayBg: '#26221E', todayFg: '#F4EFE6', chipBg: 'rgba(255,255,255,0.55)', chipBorder: 'rgba(38,34,30,0.14)' };
+    const T = [
+      { ...base, bg: '#F2E8D5', temp: '33°', icon: 'M12 8a4 4 0 1 0 0 8a4 4 0 1 0 0-8M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4' },
+      { ...base, bg: '#E4E2DE', muted: '#5F5A55', future: '#9A958F', temp: '27°', icon: 'M7 18h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.5 3.5 0 0 0 7 18z' },
+      { ...base, bg: '#D3DADD', ink: '#1F2528', muted: '#4C565C', dayFg: '#3A4448', future: '#8A949A', todayBg: '#1F2528', temp: '24°', icon: 'M7 14h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 14zM8 17l-1 3M12 17l-1 3M16 17l-1 3' },
+      { ...base, bg: '#EEF2F6', ink: '#22272C', muted: '#55606A', dayFg: '#3A434C', future: '#9AA3AC', todayBg: '#22272C', temp: '−2°', icon: 'M12 2v20M4 6l16 12M20 6 4 18' },
+      { ...base, bg: '#34373F', ink: '#EEF0F3', muted: '#B8BEC7', dayFg: '#D5DAE1', future: '#7E858F', todayBg: '#EEF0F3', todayFg: '#26221E', chipBg: 'rgba(255,255,255,0.08)', chipBorder: 'rgba(255,255,255,0.22)', temp: '22°', icon: 'M7 13h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 13zM12.5 14l-2 4h3l-2 4' }
+    ][wi];
+    return { ...T, key: KEYS[wi], name: NAMES[wi], wi };
+  }
+  weatherVals() {
+    const T = this.wTheme();
+    this._wKey = T.key;
+    this._wDark = T.key === 'storm';
+    this._capCards = [[16, 22, 200, 318, -9, 1], [176, 6, 200, 318, 7, 2.3], [92, 132, 206, 328, -2, 4.1]];
+    if (T.key !== 'snow') this._acc = 0;
+    if (!this._wRef) this._wRef = (el) => { this._cv = el; };
+    if (!this._wRefB) this._wRefB = (el) => { this._cvB = el; };
+    return {
+      wBg: T.bg, wInk: T.ink, wMuted: T.muted, wChipBg: T.chipBg, wChipBorder: T.chipBorder,
+      wIcon: T.icon, wTemp: T.temp, wName: T.name,
+      wCanvas: this._wRef, wCanvasB: this._wRefB,
+      wCycle: () => this.setState({ wi: (T.wi + 1) % 5 })
+    };
+  }
+  componentDidMount() {
+    this._tick = (t) => { this.wFrame(t); this._raf = requestAnimationFrame(this._tick); };
+    this._raf = requestAnimationFrame(this._tick);
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this._raf);
+  }
+  wInit(k) {
+    const R = Math.random, W = 390, H = 844;
+    const o = { k, items: [], clouds: [], leaves: [], splash: [], spark: [] };
+    const cl = (n, y1, y2, s1, s2) => { for (let i = 0; i < n; i++) o.clouds.push({ x: -60 + R() * (W + 80), y: y1 + R() * (y2 - y1), s: s1 + R() * (s2 - s1), sp: 0.12 + R() * 0.18, ph: R() * 6.28 }); };
+    if (k === 'sun') {
+      cl(2, 200, 360, 18, 26);
+      for (let i = 0; i < 9; i++) o.spark.push({ x: 20 + R() * (W - 40), y: 150 + R() * 560, s: 4 + R() * 5, ph: R() * 6.28, sp: 0.002 + R() * 0.002 });
+    } else if (k === 'cloud') {
+      cl(5, 40, 340, 24, 46);
+      o.clouds.sort((a, b) => a.s - b.s);
+    } else if (k === 'rain' || k === 'storm') {
+      cl(k === 'storm' ? 3 : 2, 20, 110, 34, 48);
+      const n = k === 'storm' ? 95 : 60;
+      for (let i = 0; i < n; i++) o.items.push({ x: R() * (W + 80) - 40, y: R() * H, r: 2.6 + R() * 2.2, s: (k === 'storm' ? 10 : 6) + R() * 5, g: H - 30 - R() * 260 });
+      if (k === 'storm') {
+        const LC = ['#7FB04A', '#E0993A', '#C8642F', '#9BC25A', '#D9B23C'];
+        for (let i = 0; i < 10; i++) o.leaves.push({ x: R() * W, y: R() * H * 0.85, sz: 10 + R() * 7, vx: 4 + R() * 5, vy: 0.4 + R() * 1.2, rot: R() * 6.28, vr: (R() - 0.5) * 0.22, ph: R() * 6.28, col: LC[i % LC.length] });
+      }
+    } else if (k === 'snow') {
+      cl(2, 20, 100, 30, 42);
+      for (let i = 0; i < 42; i++) o.items.push({ x: R() * W, y: R() * H, r: 5 + R() * 6, s: 0.6 + R() * 1, ph: R() * 6.28, rot: R() * 6.28, vr: (R() - 0.5) * 0.03, puff: R() < 0.35 });
+    }
+    return o;
+  }
+  wRR(ctx, x, y, w, h, r) {
+    ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+  wCloud(ctx, x, y, s, fill, shade, ink) {
+    const C = [[-0.95, 0.12, 0.42], [-0.42, -0.2, 0.58], [0.22, -0.34, 0.7], [0.88, 0.02, 0.48]];
+    const shapes = (lw) => {
+      ctx.beginPath();
+      for (const [cx, cy, r] of C) { ctx.moveTo(x + cx * s + r * s, y + cy * s); ctx.arc(x + cx * s, y + cy * s, r * s, 0, 6.283); }
+      this.wRR(ctx, x - 1.35 * s, y - 0.05 * s, 2.7 * s, 0.58 * s, 0.29 * s);
+    };
+    ctx.lineJoin = 'round';
+    shapes(); ctx.strokeStyle = ink; ctx.lineWidth = 5; ctx.stroke();
+    shapes(); ctx.fillStyle = fill; ctx.fill();
+    ctx.beginPath(); this.wRR(ctx, x - 1.2 * s, y + 0.24 * s, 2.4 * s, 0.22 * s, 0.11 * s); ctx.fillStyle = shade; ctx.fill();
+    ctx.beginPath(); ctx.arc(x + 0.05 * s, y - 0.5 * s, 0.16 * s, 3.4, 4.6); ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.stroke();
+  }
+  wSun(ctx, x, y, r, rot, ink) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+    ctx.lineJoin = 'round';
+    for (let i = 0; i < 12; i++) {
+      const L = i % 2 ? r * 1.55 : r * 1.9, w = i % 2 ? 0.16 : 0.2;
+      ctx.beginPath();
+      ctx.moveTo(Math.cos(-w) * r * 1.08, Math.sin(-w) * r * 1.08);
+      ctx.lineTo(L, 0);
+      ctx.lineTo(Math.cos(w) * r * 1.08, Math.sin(w) * r * 1.08);
+      ctx.closePath();
+      ctx.fillStyle = i % 2 ? '#FFB547' : '#FFCB4C'; ctx.fill();
+      ctx.strokeStyle = ink; ctx.lineWidth = 2.5; ctx.stroke();
+      ctx.rotate(Math.PI / 6);
+    }
+    ctx.restore();
+    ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283);
+    ctx.fillStyle = '#FFD95A'; ctx.fill(); ctx.strokeStyle = ink; ctx.lineWidth = 3; ctx.stroke();
+    ctx.beginPath(); ctx.arc(x - r * 0.3, y - r * 0.32, r * 0.22, 3.6, 5.2); ctx.strokeStyle = 'rgba(255,255,255,0.85)'; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.stroke();
+    ctx.fillStyle = ink;
+    ctx.beginPath(); ctx.ellipse(x - r * 0.3, y - r * 0.05, r * 0.08, r * 0.12, 0, 0, 6.283); ctx.ellipse(x + r * 0.3, y - r * 0.05, r * 0.08, r * 0.12, 0, 0, 6.283); ctx.fill();
+    ctx.beginPath(); ctx.arc(x, y + r * 0.12, r * 0.24, 0.35, Math.PI - 0.35); ctx.strokeStyle = ink; ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.fillStyle = 'rgba(255,120,110,0.55)';
+    ctx.beginPath(); ctx.ellipse(x - r * 0.55, y + r * 0.2, r * 0.14, r * 0.09, 0, 0, 6.283); ctx.ellipse(x + r * 0.55, y + r * 0.2, r * 0.14, r * 0.09, 0, 0, 6.283); ctx.fill();
+  }
+  wDrop(ctx, x, y, r, fill, ink) {
+    ctx.beginPath();
+    ctx.moveTo(x, y - 2.3 * r);
+    ctx.bezierCurveTo(x + 0.3 * r, y - 1.4 * r, x + r, y - 0.8 * r, x + r, y);
+    ctx.arc(x, y, r, 0, Math.PI);
+    ctx.bezierCurveTo(x - r, y - 0.8 * r, x - 0.3 * r, y - 1.4 * r, x, y - 2.3 * r);
+    ctx.fillStyle = fill; ctx.fill(); ctx.strokeStyle = ink; ctx.lineWidth = 1.6; ctx.stroke();
+    ctx.beginPath(); ctx.arc(x - r * 0.35, y - r * 0.1, r * 0.28, 0, 6.283); ctx.fillStyle = 'rgba(255,255,255,0.8)'; ctx.fill();
+  }
+  wFrame(t) {
+    const c = this._cv;
+    if (!c) return;
+    const ctxF = c.getContext('2d');
+    const W = 390, H = 844, R = Math.random;
+    ctxF.setTransform(2, 0, 0, 2, 0, 0); ctxF.clearRect(0, 0, W, H);
+    const ctxB = this._cvB ? this._cvB.getContext('2d') : ctxF;
+    if (ctxB !== ctxF) { ctxB.setTransform(2, 0, 0, 2, 0, 0); ctxB.clearRect(0, 0, W, H); }
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const k = this._wKey || 'sun';
+    const dt = Math.min(50, t - (this._lt || t));
+    this._lt = t;
+    const f = dt / 16.67;
+    if (!this._p || this._p.k !== k) { this._p = this.wInit(k); this._fl = 0; this._next = t + 1500; this._bolt = null; }
+    const P = this._p;
+    const dark = this._wDark;
+    const INK = dark ? '#1C1D22' : '#3A3530';
+    const drawClouds = (fill, shade, ink) => {
+      for (const q of P.clouds) {
+        q.x += q.sp * f;
+        if (q.x - q.s * 1.5 > W) q.x = -q.s * 1.6 - R() * 60;
+        this.wCloud(ctxB, q.x, q.y + Math.sin(t * 0.0012 + q.ph) * 3, q.s, fill, shade, ink);
+      }
+    };
+    if (k === 'sun') {
+      const sx = W - 70, sy = 92, pulse = Math.sin(t * 0.002);
+      const halo = ctxB.createRadialGradient(sx, sy, 30, sx, sy, 150);
+      halo.addColorStop(0, 'rgba(255,214,90,0.35)'); halo.addColorStop(1, 'rgba(255,214,90,0)');
+      ctxB.fillStyle = halo; ctxB.beginPath(); ctxB.arc(sx, sy, 150, 0, 6.283); ctxB.fill();
+      ctxB.strokeStyle = 'rgba(255,190,70,0.45)'; ctxB.lineWidth = 3; ctxB.setLineDash([2, 10]); ctxB.lineCap = 'round';
+      ctxB.beginPath(); ctxB.arc(sx, sy, 92 + pulse * 4, 0, 6.283); ctxB.stroke(); ctxB.setLineDash([]);
+      this.wSun(ctxB, sx, sy, 32 + pulse * 1.2, t * 0.0004, INK);
+      for (const s of P.spark) {
+        const a = 0.5 + 0.5 * Math.sin(t * s.sp + s.ph), z = s.s * (0.5 + 0.5 * a);
+        ctxB.beginPath();
+        ctxB.moveTo(s.x, s.y - z); ctxB.quadraticCurveTo(s.x, s.y, s.x + z, s.y); ctxB.quadraticCurveTo(s.x, s.y, s.x, s.y + z);
+        ctxB.quadraticCurveTo(s.x, s.y, s.x - z, s.y); ctxB.quadraticCurveTo(s.x, s.y, s.x, s.y - z);
+        ctxB.fillStyle = 'rgba(255,190,60,' + (0.35 + 0.55 * a) + ')'; ctxB.fill();
+      }
+      drawClouds('#FFFFFF', '#EDE6DA', INK);
+    } else if (k === 'cloud') {
+      this.wSun(ctxB, W - 92, 84, 24, t * 0.0003, INK);
+      drawClouds('#FFFFFF', '#E3E1EA', INK);
+    } else if (k === 'rain' || k === 'storm') {
+      drawClouds(k === 'storm' ? '#6B6F7C' : '#F4F6F8', k === 'storm' ? '#555966' : '#D3DBE2', INK);
+      const wind = k === 'storm' ? 2.6 : 0.8;
+      const ang = Math.atan2(wind, 6);
+      for (const p of P.items) {
+        p.y += p.s * f; p.x += wind * f;
+        if (p.y > p.g) {
+          if (P.splash.length < 40) P.splash.push({ x: p.x, y: p.y, a: 0 });
+          p.y = -20 - R() * 60; p.x = R() * (W + 80) - 40; p.g = H - 30 - R() * 260;
+        }
+        ctxF.save(); ctxF.translate(p.x, p.y); ctxF.rotate(-ang);
+        this.wDrop(ctxF, 0, 0, p.r, dark ? '#9CC7EC' : '#7DB7E8', INK);
+        ctxF.restore();
+      }
+      ctxF.lineCap = 'round';
+      for (let i = P.splash.length - 1; i >= 0; i--) {
+        const s = P.splash[i]; s.a += 0.06 * f;
+        if (s.a >= 1) { P.splash.splice(i, 1); continue; }
+        const e = 4 + s.a * 10;
+        ctxF.strokeStyle = 'rgba(70,120,170,' + (1 - s.a) * 0.8 + ')'; ctxF.lineWidth = 2;
+        ctxF.beginPath();
+        ctxF.moveTo(s.x - e * 0.4, s.y - e * 0.2); ctxF.lineTo(s.x - e, s.y - e * 0.7);
+        ctxF.moveTo(s.x + e * 0.4, s.y - e * 0.2); ctxF.lineTo(s.x + e, s.y - e * 0.7);
+        ctxF.moveTo(s.x, s.y - e * 0.4); ctxF.lineTo(s.x, s.y - e);
+        ctxF.stroke();
+      }
+      if (k === 'storm') {
+        const gust = 1 + 0.7 * Math.sin(t * 0.0009);
+        for (const d of P.leaves) {
+          d.x += d.vx * gust * f; d.y += (d.vy + Math.sin(t * 0.003 + d.ph) * 1.6) * f; d.rot += d.vr * gust * f;
+          if (d.x > W + 40 || d.y > H + 40) { d.x = -40 - R() * 220; d.y = R() * H * 0.8; }
+          ctxF.save(); ctxF.translate(d.x, d.y); ctxF.rotate(d.rot);
+          ctxF.scale(1, 0.4 + 0.6 * Math.abs(Math.cos(t * 0.004 + d.ph)));
+          const s2 = d.sz;
+          ctxF.beginPath(); ctxF.moveTo(-s2, 0);
+          ctxF.quadraticCurveTo(0, -s2 * 0.8, s2, 0); ctxF.quadraticCurveTo(0, s2 * 0.8, -s2, 0);
+          ctxF.fillStyle = d.col; ctxF.fill(); ctxF.strokeStyle = INK; ctxF.lineWidth = 1.8; ctxF.stroke();
+          ctxF.beginPath(); ctxF.moveTo(-s2 * 1.3, 0); ctxF.lineTo(s2 * 0.7, 0); ctxF.stroke();
+          ctxF.restore();
+        }
+        if (t > this._next) {
+          this._fl = 1; this._next = t + 3500 + R() * 6000;
+          const q = P.clouds[Math.floor(R() * P.clouds.length)];
+          this._bolt = { x: Math.max(40, Math.min(W - 60, q ? q.x : W / 2)), y: (q ? q.y : 60) + 20, s: 1.3 + R() * 0.6 };
+        }
+        if (this._fl > 0.02) {
+          ctxF.fillStyle = 'rgba(255,248,210,' + this._fl * 0.28 + ')'; ctxF.fillRect(0, 0, W, H);
+          if (this._bolt && this._fl > 0.25) {
+            const b = this._bolt, B = [[0, 0], [24, 0], [12, 34], [30, 34], [-4, 96], [6, 50], [-12, 50]];
+            ctxF.beginPath();
+            B.forEach((pt, i) => { const X = b.x + pt[0] * b.s, Y = b.y + pt[1] * b.s; i ? ctxF.lineTo(X, Y) : ctxF.moveTo(X, Y); });
+            ctxF.closePath(); ctxF.lineJoin = 'round';
+            ctxF.fillStyle = '#FFE066'; ctxF.fill(); ctxF.strokeStyle = INK; ctxF.lineWidth = 3; ctxF.stroke();
+          }
+          this._fl *= Math.pow(0.9, f);
+        }
+      }
+    } else if (k === 'snow') {
+      drawClouds('#FFFFFF', '#DCE6F0', INK);
+      ctxF.lineCap = 'round';
+      for (const p of P.items) {
+        p.y += p.s * f; p.x += Math.sin(t * 0.0012 + p.ph) * 0.6 * f; p.rot += p.vr * f;
+        if (p.y > H + 14) { p.y = -14; p.x = R() * W; }
+        if (p.puff) {
+          ctxF.beginPath(); ctxF.arc(p.x, p.y, p.r * 0.55, 0, 6.283);
+          ctxF.fillStyle = '#FFFFFF'; ctxF.fill(); ctxF.strokeStyle = INK; ctxF.lineWidth = 1.6; ctxF.stroke();
+          continue;
+        }
+        ctxF.save(); ctxF.translate(p.x, p.y); ctxF.rotate(p.rot);
+        ctxF.beginPath();
+        for (let j = 0; j < 6; j++) {
+          ctxF.moveTo(0, 0); ctxF.lineTo(0, -p.r);
+          ctxF.moveTo(0, -p.r * 0.55); ctxF.lineTo(-p.r * 0.3, -p.r * 0.82);
+          ctxF.moveTo(0, -p.r * 0.55); ctxF.lineTo(p.r * 0.3, -p.r * 0.82);
+          ctxF.rotate(Math.PI / 3);
+        }
+        ctxF.strokeStyle = INK; ctxF.lineWidth = 4.2; ctxF.stroke();
+        ctxF.strokeStyle = '#FFFFFF'; ctxF.lineWidth = 2; ctxF.stroke();
+        ctxF.restore();
+      }
+      if (this._capCards) {
+        this._acc = Math.min(1, (this._acc || 0) + dt / 25000);
+        const cr = c.getBoundingClientRect();
+        const sc = cr.width / W || 1;
+        const fan = c.parentElement && c.parentElement.querySelector('figure');
+        const box = fan && fan.parentElement;
+        if (box) {
+          const br = box.getBoundingClientRect();
+          const ox = (br.left - cr.left) / sc, oy = (br.top - cr.top) / sc;
+          const h = 9 * this._acc;
+          for (const [l, tp, w, hh, deg, seed] of this._capCards) {
+            const rr = deg * Math.PI / 180, cs = Math.cos(rr), sn = Math.sin(rr);
+            const cx = ox + l + w / 2, cy = oy + tp + hh / 2;
+            const pt = (u, v) => [cx + u * cs - v * sn, cy + u * sn + v * cs];
+            ctxF.beginPath();
+            for (let i = 0; i <= 14; i++) { const q = pt(-w / 2 - 2 + (w + 4) * i / 14, -hh / 2 + 1); i ? ctxF.lineTo(q[0], q[1]) : ctxF.moveTo(q[0], q[1]); }
+            for (let i = 14; i >= 0; i--) {
+              const u = -w / 2 - 2 + (w + 4) * i / 14;
+              const edge = Math.min(1, Math.min(i, 14 - i) / 2);
+              const q = pt(u, -hh / 2 - h * edge * (0.75 + 0.25 * Math.sin(i * 1.9 + seed)));
+              ctxF.lineTo(q[0], q[1]);
+            }
+            ctxF.closePath(); ctxF.lineJoin = 'round';
+            ctxF.fillStyle = '#FFFFFF'; ctxF.fill();
+            ctxF.strokeStyle = INK; ctxF.lineWidth = 1.8; ctxF.stroke();
+          }
+        }
+      }
+    }
+  }
+  statusVals() {
+    const st = this.state || {};
+    const FACE = 'M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18';
+    const MO = [
+      { name: 'Vui', d: FACE + 'M9 10h.01M15 10h.01M8 14c1.2 1.6 2.5 2.4 4 2.4s2.8-.8 4-2.4' },
+      { name: 'Bình yên', d: FACE + 'M7.5 10.5c.6-.6 1.4-.6 2 0M14.5 10.5c.6-.6 1.4-.6 2 0M9.5 15c1.5 1 3.5 1 5 0' },
+      { name: 'Hào hứng', d: FACE + 'M9 8.5v3M15 8.5v3M7.5 14h9c-.6 2-2.3 3-4.5 3s-3.9-1-4.5-3z' },
+      { name: 'Buồn', d: FACE + 'M9 10h.01M15 10h.01M8 16.5c1.2-1.6 2.5-2.4 4-2.4s2.8.8 4 2.4' },
+      { name: 'Mệt', d: FACE + 'M8 10h2.5M13.5 10h2.5M9 15.5h6' }
+    ];
+    const n = MO.length;
+    const clamp = (i) => Math.max(0, Math.min(n - 1, i));
+    const cur = st.sMood ?? 1;
+    const drag = st.sDrag;
+    const open = !!drag || !!st.sOpen;
+    const dx = drag ? Math.max(-(n - 1 - drag.start) * 64 - 24, Math.min(drag.start * 64 + 24, drag.dx)) : 0;
+    const hover = drag ? clamp(Math.round(drag.start - dx / 64)) : cur;
+    return {
+      sFace: MO[cur].d,
+      sLabel: 'Trạng thái: ' + MO[cur].name + '. Giữ và kéo ngang để đổi',
+      sOpen: open,
+      sRowX: Math.round(116 - 32 - (drag ? drag.start : cur) * 64 + dx),
+      sTr: drag ? 'none' : 'transform 0.2s ease',
+      sExpanded: open ? 'true' : 'false',
+      sItems: MO.map((m, i) => ({
+        name: m.name, d: m.d,
+        fg: i === hover ? '#FFB547' : '#7A5A2E',
+        pressed: i === cur ? 'true' : 'false',
+        pick: () => this.setState({ sMood: i, sOpen: false })
+      })),
+      sDown: (e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        try { e.currentTarget.setPointerCapture(e.pointerId); } catch (x) {}
+        this.setState({ sDrag: { x: e.clientX, scale: (r.width / 56) || 1, start: (this.state || {}).sMood ?? 1, dx: 0 } });
+      },
+      sMove: (e) => {
+        const d = (this.state || {}).sDrag;
+        if (!d) return;
+        this.setState({ sDrag: { ...d, dx: (e.clientX - d.x) / d.scale } });
+      },
+      sUp: () => {
+        const s2 = this.state || {};
+        const d = s2.sDrag;
+        if (!d) return;
+        if (Math.abs(d.dx) < 6) this.setState({ sDrag: null, sOpen: !s2.sOpen });
+        else this.setState({ sDrag: null, sOpen: false, sMood: clamp(Math.round(d.start - d.dx / 64)) });
+      },
+      sKey: (e) => {
+        const s2 = this.state || {};
+        const c = s2.sMood ?? 1;
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.setState({ sOpen: !s2.sOpen }); }
+        if (e.key === 'Escape') this.setState({ sOpen: false });
+        if (e.key === 'ArrowLeft') this.setState({ sMood: clamp(c - 1) });
+        if (e.key === 'ArrowRight') this.setState({ sMood: clamp(c + 1) });
+      }
+    };
+  }
+  baseVals() {
     const frame = this.props.frame ?? '#FBFAF6';
     const hex = frame.replace('#', '');
     const r = parseInt(hex.slice(0, 2), 16), g = parseInt(hex.slice(2, 4), 16), b = parseInt(hex.slice(4, 6), 16);
@@ -100,13 +449,14 @@ class Component extends DCLogic {
       { dow: 'T7', num: '3', has: false, future: true },
       { dow: 'CN', num: '4', has: false, future: true }
     ];
+    const T = this.wTheme();
     const days = raw.map((d) => ({
       dow: d.dow,
       num: d.num,
       label: d.dow + ' ngày ' + d.num + (d.has ? ', có ảnh' : ''),
-      bg: d.today ? '#26221E' : 'transparent',
-      fg: d.today ? '#F4EFE6' : (d.future ? '#A0968A' : '#4A433C'),
-      dot: d.has ? (d.today ? '#F4EFE6' : '#C2402A') : 'transparent'
+      bg: d.today ? T.todayBg : 'transparent',
+      fg: d.today ? T.todayFg : (d.future ? T.future : T.dayFg),
+      dot: d.has ? (d.today ? T.todayFg : '#C2402A') : 'transparent'
     }));
     return {
       frame,

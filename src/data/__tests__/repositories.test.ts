@@ -15,6 +15,8 @@ function newEntry(id: string, createdAt: string, overrides: Partial<NewPhotoEntr
     cameraType: 'back',
     frameType: 'square',
     filter: 'original',
+    weather: 'sunny',
+    mood: 'calm',
     width: 1080,
     height: 1440,
     ...overrides,
@@ -48,12 +50,12 @@ describe('LocalPhotoRepository', () => {
   it('persists across a restart (new repository over the same storage)', async () => {
     const { db, storage, repo } = setup();
     await repo.load();
-    await repo.create(newEntry('a', '2026-10-01T10:00:00.000Z', { caption: 'Một buổi chiều bình thường', frameType: 'wide', filter: 'warm' }));
+    await repo.create(newEntry('a', '2026-10-01T10:00:00.000Z', { caption: 'Một buổi chiều bình thường', frameType: 'wide', filter: 'warm', weather: 'rainy', mood: 'tired' }));
 
     const restarted = new LocalPhotoRepository(db.asDatabase(), storage.asStorage());
     await restarted.load();
     expect(restarted.getSnapshot().photos).toHaveLength(1);
-    expect(restarted.getById('a')).toMatchObject({ caption: 'Một buổi chiều bình thường', frameType: 'wide', filter: 'warm' });
+    expect(restarted.getById('a')).toMatchObject({ caption: 'Một buổi chiều bình thường', frameType: 'wide', filter: 'warm', weather: 'rainy', mood: 'tired' });
   });
 
   it('ignores a duplicate create of the same capture', async () => {

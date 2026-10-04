@@ -9,18 +9,20 @@ import {
   type FilmFilter,
   type FlashMode,
   type FrameType,
+  type Mood,
   type PhotoEntry,
   type PhotoEntryPatch,
   type TimerSeconds,
+  type Weather,
   type ZoomStop,
 } from '@/models';
 import { useAppServices } from '@/services/AppServices';
 import { createFeedbackService, type FeedbackPreferences } from '@/services/FeedbackService';
 import { LocationService, type Coordinates, type LocationPermission } from '@/services/LocationService';
 import { openPermissionSettings } from '@/services/openPermissionSettings';
-import { dayKeyOfIso } from '@/utils/date';
 import { useHomeNav } from '@/views/home/HomeNavigator';
-import { usePhoto, usePhotoStore, useSettings } from './shared';
+import { usePhoto, useSettings } from './shared';
+import { useAmbient } from './useAmbient';
 
 /** JPEG quality: visually lossless for a diary, much smaller files than 1.0. */
 const CAPTURE_QUALITY = 0.8;
@@ -28,8 +30,8 @@ const TOAST_DURATION_MS = 3200;
 const COUNTDOWN_TICK_MS = 1000;
 /** Keeps a warm GPS fix while the camera is open, so captures rarely wait on GPS. */
 const GPS_WARMUP_MS = 20_000;
-const FRAME_CYCLE: readonly FrameType[] = ['mini', 'square', 'wide'];
 const DEFAULT_ZOOM: ZoomStop = 1;
+const DEFAULT_WEATHER: Weather = 'sunny';
 
 const MESSAGES = {
   captureFailed: 'Kẹt phim rồi! Ảnh chưa lưu được — thử lại nhé.',
@@ -74,11 +76,13 @@ export interface CameraViewModel {
   zoom: ZoomStop;
   frameType: FrameType;
   filter: FilmFilter;
+  /** Noted on the next capture (kept for the session, like zoom). */
+  weather: Weather;
+  mood: Mood;
   /** Increments on every exposure; drives the white flash overlay. */
   flashTrigger: number;
   /** Seconds left on the self-timer, or null when no countdown is running. */
   countdown: number | null;
-  lastPhoto: PhotoEntry | undefined;
   showLocationPrompt: boolean;
   developing: DevelopingPrint | null;
   captionMaxLength: number;
@@ -95,9 +99,8 @@ export interface CameraViewModel {
     selectZoom: (zoom: ZoomStop) => void;
     selectFilter: (filter: FilmFilter) => void;
     selectFrameType: (frameType: FrameType) => void;
-    cycleFrameType: () => void;
-    /** Last-print button: opens the diary on the day of the latest photo. */
-    openDiary: () => void;
+    selectWeather: (weather: Weather) => void;
+    selectMood: (mood: Mood) => void;
     allowLocation: () => void;
     dismissLocationPrompt: () => void;
     setCaption: (text: string) => void;
@@ -126,7 +129,6 @@ function useIsAppActive(): boolean {
 export function useCameraViewModel(cameraRef: RefObject<CameraView | null>): CameraViewModel {
   const { photoRepository, settingsRepository } = useAppServices();
   const { settings, updateSettings } = useSettings();
-  const { photos } = usePhotoStore();
   const nav = useHomeNav();
   const isAppActive = useIsAppActive();
   const [cameraPermission, requestPermission, refreshPermission] = useCameraPermissions();
@@ -143,6 +145,21 @@ export function useCameraViewModel(cameraRef: RefObject<CameraView | null>): Cam
   const [flashTrigger, setFlashTrigger] = useState(0);
   const [countdown, setCountdown] = useState<number | null>(null);
   const [zoom, setZoom] = useState<ZoomStop>(DEFAULT_ZOOM);
+  const ambient = useAmbient();
+  const [weather, setWeather] = useState<Weather>(ambient.weather ?? DEFAULT_WEATHER);
+  const { mood, setMood } = ambient;
+  // The drum follows the local forecast (or the sky picked on the diary's weather chip); a
+  // manual turn stays until that source changes (adjusting state while rendering, per React docs).
+  const [followedWeather, setFollowedWeather] = useState(ambient.weather);
+  if (followedWeather !== ambient.weather) {
+    setFollowedWeather(ambient.weather);
+    if (ambient.weather) setWeather(ambient.weather);
+  }
+  /** Latest notes for the async capture flow (which outlives the render it started in). */
+  const notesRef = useRef({ weather, mood });
+  useEffect(() => {
+    notesRef.current = { weather, mood };
+  }, [weather, mood]);
   const [locationPermission, setLocationPermission] = useState<LocationPermission | null>(null);
   const [developingState, setDevelopingState] = useState<Omit<DevelopingPrint, 'photo'> | null>(null);
   const [toast, setToast] = useState<CameraToast | null>(null);
@@ -269,6 +286,7 @@ export function useCameraViewModel(cameraRef: RefObject<CameraView | null>): Cam
     const id = Crypto.randomUUID();
     const createdAt = new Date().toISOString();
     const { cameraFacing: cameraType, frameType, filter, developEffect } = captureSettings;
+    const notes = notesRef.current;
 
     setFlashTrigger((value) => value + 1);
     feedback.shutter(feedbackPreferences());
@@ -324,6 +342,8 @@ export function useCameraViewModel(cameraRef: RefObject<CameraView | null>): Cam
           cameraType,
           frameType,
           filter,
+          weather: notes.weather,
+          mood: notes.mood,
           width: picture.width,
           height: picture.height,
         });
@@ -445,10 +465,23 @@ export function useCameraViewModel(cameraRef: RefObject<CameraView | null>): Cam
     [tick, persistSetting, currentSettings],
   );
 
-  const cycleFrameType = useCallback(() => {
-    const index = FRAME_CYCLE.indexOf(currentSettings().frameType);
-    selectFrameType(FRAME_CYCLE[(index + 1) % FRAME_CYCLE.length]);
-  }, [currentSettings, selectFrameType]);
+  const selectWeather = useCallback(
+    (next: Weather) => {
+      if (next === weather) return;
+      tick();
+      setWeather(next);
+    },
+    [weather, tick],
+  );
+
+  const selectMood = useCallback(
+    (next: Mood) => {
+      if (next === mood) return;
+      tick();
+      setMood(next);
+    },
+    [mood, tick, setMood],
+  );
 
   const requestCameraPermission = useCallback(() => {
     if (permission === 'blocked') {
@@ -457,14 +490,6 @@ export function useCameraViewModel(cameraRef: RefObject<CameraView | null>): Cam
     }
     requestPermission().catch((error: unknown) => console.warn('[Camera] permission request failed', error));
   }, [permission, requestPermission]);
-
-  const lastPhoto = photos[0];
-  const lastPhotoDay = lastPhoto ? dayKeyOfIso(lastPhoto.createdAt) : null;
-  const { goTo, selectDay } = nav;
-  const openDiary = useCallback(() => {
-    if (lastPhotoDay) selectDay(lastPhotoDay);
-    goTo('diary');
-  }, [lastPhotoDay, selectDay, goTo]);
 
   const allowLocation = useCallback(() => {
     persistSetting({ hasSeenLocationPrompt: true });
@@ -545,9 +570,10 @@ export function useCameraViewModel(cameraRef: RefObject<CameraView | null>): Cam
     zoom,
     frameType: settings.frameType,
     filter: settings.filter,
+    weather,
+    mood,
     flashTrigger,
     countdown,
-    lastPhoto,
     showLocationPrompt,
     developing,
     captionMaxLength: CAPTION_MAX_LENGTH,
@@ -563,8 +589,8 @@ export function useCameraViewModel(cameraRef: RefObject<CameraView | null>): Cam
       selectZoom,
       selectFilter,
       selectFrameType,
-      cycleFrameType,
-      openDiary,
+      selectWeather,
+      selectMood,
       allowLocation,
       dismissLocationPrompt,
       setCaption,

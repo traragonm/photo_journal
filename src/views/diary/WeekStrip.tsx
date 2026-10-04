@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppText, PressableScale } from '@/components';
-import { borderRadius, borderWidth, colors, layout, spacing } from '@/theme';
+import { borderRadius, borderWidth, colors, diaryPalettes, layout, spacing, type DiaryPalette } from '@/theme';
 import type { DayKey } from '@/utils/date';
 import type { WeekDay } from '@/utils/days';
 
@@ -11,6 +11,8 @@ export interface WeekStripProps {
   onSelect: (day: DayKey) => void;
   onPreviousWeek: () => void;
   onNextWeek: () => void;
+  /** Page colours (the diary follows the weather theme). */
+  palette?: DiaryPalette;
 }
 
 const CHEVRON_WIDTH = 26;
@@ -29,7 +31,14 @@ function dayLabel(day: WeekDay): string {
  * Monday-first week of day buttons. Weeks are paged with the side chevrons (not a swipe),
  * so horizontal drags on the strip still belong to the pane swipe.
  */
-export function WeekStrip({ week, canGoNext, onSelect, onPreviousWeek, onNextWeek }: WeekStripProps) {
+export function WeekStrip({
+  week,
+  canGoNext,
+  onSelect,
+  onPreviousWeek,
+  onNextWeek,
+  palette = diaryPalettes.paper,
+}: WeekStripProps) {
   return (
     <View style={styles.row}>
       <PressableScale
@@ -39,12 +48,12 @@ export function WeekStrip({ week, canGoNext, onSelect, onPreviousWeek, onNextWee
         accessibilityLabel="Tuần trước"
         style={styles.chevron}
       >
-        <Ionicons name="chevron-back" size={CHEVRON_SIZE} color={colors.muted} />
+        <Ionicons name="chevron-back" size={CHEVRON_SIZE} color={palette.muted} />
       </PressableScale>
       <View style={styles.days}>
         {week.map((day) => {
-          const textColor = day.isSelected ? colors.onInk : day.isFuture ? colors.faint : colors.inkSoft;
-          const dotColor = !day.hasPhotos ? colors.transparent : day.isSelected ? colors.onInk : colors.accent;
+          const textColor = day.isSelected ? palette.todayFg : day.isFuture ? palette.future : palette.day;
+          const dotColor = !day.hasPhotos ? colors.transparent : day.isSelected ? palette.todayFg : colors.accent;
           return (
             <PressableScale
               key={day.key}
@@ -55,7 +64,7 @@ export function WeekStrip({ week, canGoNext, onSelect, onPreviousWeek, onNextWee
               accessibilityState={{ selected: day.isSelected, disabled: day.isFuture }}
               style={[
                 styles.day,
-                day.isSelected && styles.daySelected,
+                day.isSelected && { backgroundColor: palette.todayBg },
                 day.isToday && !day.isSelected && styles.dayToday,
               ]}
             >
@@ -79,7 +88,7 @@ export function WeekStrip({ week, canGoNext, onSelect, onPreviousWeek, onNextWee
         accessibilityState={{ disabled: !canGoNext }}
         style={[styles.chevron, !canGoNext && styles.chevronDisabled]}
       >
-        <Ionicons name="chevron-forward" size={CHEVRON_SIZE} color={colors.muted} />
+        <Ionicons name="chevron-forward" size={CHEVRON_SIZE} color={palette.muted} />
       </PressableScale>
     </View>
   );
@@ -115,9 +124,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 3,
-  },
-  daySelected: {
-    backgroundColor: colors.ink,
   },
   dayToday: {
     borderColor: colors.handle,

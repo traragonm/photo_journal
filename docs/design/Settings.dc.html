@@ -17,7 +17,7 @@ button{font:inherit}
 </helmet>
 <div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #ECE6DB; font-family: 'Be Vietnam Pro', system-ui, sans-serif; color: #26221E">
 
-<div style="position: absolute; left: 0; right: 0; top: 0; height: 776px; box-sizing: border-box; padding: 28px 22px 0; background: #F7F3EC; border-radius: 0 0 28px 28px; box-shadow: 0 10px 30px rgba(60,40,20,0.18); display: flex; flex-direction: column; gap: 18px">
+<div style="position: absolute; left: 0; right: 0; top: 0; height: 776px; box-sizing: border-box; padding: 20px 22px 0; background: #F7F3EC; border-radius: 0 0 28px 28px; box-shadow: 0 10px 30px rgba(60,40,20,0.18); display: flex; flex-direction: column; gap: 14px">
 
 <h1 style="margin: 0; font-size: 30px; font-weight: 600; letter-spacing: -0.01em">Cài đặt</h1>
 
@@ -53,7 +53,7 @@ button{font:inherit}
 <section style="display: flex; flex-direction: column; gap: 10px">
 <h2 style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #6B6258">Nhật ký</h2>
 <div style="background: #FFFFFF; border-radius: 16px; padding: 4px 16px">
-<sc-for list="{{toggles}}" as="t" hint-placeholder-count="3">
+<sc-for list="{{toggles}}" as="t" hint-placeholder-count="5">
 <button aria-pressed="{{t.pressed}}" onClick="{{t.flip}}" style="width: 100%; height: 50px; border: 0; background: transparent; padding: 0; display: flex; align-items: center; justify-content: space-between; color: #26221E; font-size: 15px; text-align: left; cursor: pointer">{{t.label}}<span style="display: flex; align-items: center; gap: 8px"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{t.led}}; box-shadow: {{t.glow}}"></span><span style="position: relative; width: 56px; height: 24px; box-sizing: border-box; border-radius: 12px; background: #1F1C19; border: 1px solid #3A3530; box-shadow: inset 0 2px 4px rgba(0,0,0,0.8)"><span style="position: absolute; left: {{t.thumb}}px; top: 2px; width: 26px; height: 18px; border-radius: 9px; background: repeating-linear-gradient(90deg, #E2D9CA 0px 2px, #A99F92 2px 4px); box-shadow: 0 2px 4px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.6); transition: left 0.18s ease"></span></span></span></button>
 </sc-for>
 <button style="width: 100%; height: 50px; border: 0; background: transparent; padding: 0; display: flex; align-items: center; justify-content: space-between; color: #26221E; font-size: 15px; text-align: left; cursor: pointer">Nhắc chụp mỗi ngày<span style="display: flex; align-items: center; gap: 4px; color: #6B6258; font-size: 14px">20:00<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></span></button>
@@ -82,13 +82,15 @@ button{font:inherit}
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { location: true, develop: true, handwriting: true, ft: 0, border: 0 };
+    this.state = { location: true, develop: true, handwriting: true, weatherFx: true, weatherTheme: true, ft: 0, border: 0 };
   }
   renderVals() {
     const defs = [
       { key: 'location', label: 'Ghi vị trí vào ảnh' },
       { key: 'develop', label: 'Hiệu ứng ảnh hiện dần' },
-      { key: 'handwriting', label: 'Ghi chú kiểu chữ viết tay' }
+      { key: 'handwriting', label: 'Ghi chú kiểu chữ viết tay' },
+      { key: 'weatherFx', label: 'Hiệu ứng thời tiết' },
+      { key: 'weatherTheme', label: 'Màu giao diện theo thời tiết' }
     ];
     const toggles = defs.map((d) => {
       const on = !!this.state[d.key];

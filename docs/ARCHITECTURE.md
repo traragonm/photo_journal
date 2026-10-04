@@ -17,7 +17,7 @@ Model (src/models, src/data, src/services)     domain types, repositories, devic
 ```
 
 - **Model**
-  - `src/models` — `PhotoEntry` (incl. `frameType` Mini/Square/Wide and film `filter`), `NewPhotoEntry`,
+  - `src/models` — `PhotoEntry` (incl. `frameType` Mini/Square/Wide, film `filter`, `weather` and `mood`), `NewPhotoEntry`,
     `AppSettings` (+ `sanitizeSettings`), `DEFAULT_SETTINGS`, `hasLocation()`.
   - `src/data` — `contracts.ts` (`IPhotoRepository`, `ISettingsRepository`); native: `LocalPhotoRepository`
     (SQLite rows + image files), `LocalSettingsRepository`, `ImageStorage`, `database.ts` (migrations via
@@ -76,7 +76,8 @@ One codebase; Metro picks `*.web.ts(x)` over `*.ts(x)` on web.
 
 ## Privacy
 
-Photos, captions and GPS never leave the device; there is no backend and no account. Two optional,
-platform-level network touches exist: reverse geocoding (only when "Tên địa điểm" is on, off by default)
-and map tiles (Google/Apple natively, OpenStreetMap on web), which reveal the area being viewed to the
+Photos, captions and GPS never leave the device; there is no backend and no account. Three optional
+network touches exist: reverse geocoding (only when "Tên địa điểm" is on, off by default), local weather
+for the camera's weather drum (`WeatherService` → Open-Meteo, coordinates rounded to ~1 km; "Thời tiết tự
+động", on by default, needs location) and map tiles (Google/Apple natively, OpenStreetMap on web), which reveal the area being viewed to the
 tile provider — never the photos.

@@ -1,4 +1,5 @@
-import type { FilmFilter, FrameColor } from '@/models';
+import type { MaterialCommunityIcons } from '@expo/vector-icons';
+import type { FilmFilter, FrameColor, Mood, Weather } from '@/models';
 import { colors } from './colors';
 
 export interface FrameColorStyle {
@@ -67,4 +68,30 @@ export const filmFilters: Record<FilmFilter, FilmFilterStyle> = {
     filter: 'sepia(0.7) contrast(0.95)',
     tint: { color: '#A9805A', opacity: 0.2 },
   },
+};
+
+/** A MaterialCommunityIcons glyph name. */
+export type NoteIcon = keyof typeof MaterialCommunityIcons.glyphMap;
+
+export interface NoteStyle {
+  /** Vietnamese name shown on the camera drum. */
+  label: string;
+  icon: NoteIcon;
+}
+
+/** Weather options on the camera's left drum, in drum order. */
+export const weatherStyles: Record<Weather, NoteStyle> = {
+  sunny: { label: 'Nắng', icon: 'weather-sunny' },
+  cloudy: { label: 'Mây', icon: 'weather-cloudy' },
+  rainy: { label: 'Mưa', icon: 'weather-rainy' },
+  cold: { label: 'Lạnh', icon: 'snowflake' },
+};
+
+/** Mood options on the camera's right drum, in drum order. */
+export const moodStyles: Record<Mood, NoteStyle> = {
+  happy: { label: 'Vui', icon: 'emoticon-happy-outline' },
+  calm: { label: 'Bình yên', icon: 'emoticon-outline' },
+  excited: { label: 'Hào hứng', icon: 'emoticon-excited-outline' },
+  sad: { label: 'Buồn', icon: 'emoticon-sad-outline' },
+  tired: { label: 'Mệt', icon: 'emoticon-neutral-outline' },
 };

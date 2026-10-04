@@ -12,20 +12,30 @@ export interface HandleProps {
   barPosition?: 'top' | 'bottom';
   onPress?: () => void;
   accessibilityLabel?: string;
+  /** Icon / label colour (default muted ink). */
+  tint?: string;
   style?: StyleProp<ViewStyle>;
 }
 
 const ICON_SIZE = 18;
 
 /** Grab bar + hint, used at sheet edges. Tappable as an alternative to dragging. */
-export function Handle({ label, icon, barPosition = 'top', onPress, accessibilityLabel, style }: HandleProps) {
+export function Handle({
+  label,
+  icon,
+  barPosition = 'top',
+  onPress,
+  accessibilityLabel,
+  tint = colors.muted,
+  style,
+}: HandleProps) {
   const bar = <View style={styles.bar} />;
 
   // Show text only when label is provided (backward compat)
   const text = label ? (
     <View style={styles.labelRow}>
-      {icon ? <Ionicons name={icon} size={ICON_SIZE} color={colors.muted} /> : null}
-      <AppText variant="caption" color="textMuted">
+      {icon ? <Ionicons name={icon} size={ICON_SIZE} color={tint} /> : null}
+      <AppText variant="caption" style={{ color: tint }}>
         {label}
       </AppText>
     </View>
@@ -33,7 +43,7 @@ export function Handle({ label, icon, barPosition = 'top', onPress, accessibilit
 
   // Show icon-only when label is not provided but icon is
   const iconOnly = !label && icon ? (
-    <Ionicons name={icon} size={ICON_SIZE} color={colors.muted} />
+    <Ionicons name={icon} size={ICON_SIZE} color={tint} />
   ) : null;
 
   const content = (

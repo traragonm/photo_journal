@@ -1,7 +1,7 @@
 # Photo Diary
 
 A tiny, private photo diary that feels like carrying a cute early-2000s digital camera.
-Camera → memory → Polaroid → timeline → map. Local-first: no account, no server, no uploads.
+Camera → memory → Polaroid → timeline → map. Local-first: no account, no server, no uploads (the only optional network calls are place names, local weather and map tiles).
 
 Runs on **iPhone, Android and Web** from one Expo (SDK 57) + TypeScript codebase, structured as MVVM.
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
@@ -11,7 +11,7 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 <table>
   <tr>
     <td align="center"><img src="docs/screenshots/main.png" width="200" alt="Diary — today's prints"><br><sub><b>Diary</b> · today's prints</sub></td>
-    <td align="center"><img src="docs/screenshots/camera.png" width="200" alt="Camera — zoom and film dial"><br><sub><b>Camera</b> · zoom &amp; film dial</sub></td>
+    <td align="center"><img src="docs/screenshots/camera.png" width="200" alt="Camera — zoom ruler and film strip"><br><sub><b>Camera</b> · zoom ruler &amp; film strip</sub></td>
     <td align="center"><img src="docs/screenshots/map.png" width="200" alt="Map — where today's photos were taken"><br><sub><b>Map</b> · where you've been</sub></td>
   </tr>
   <tr>

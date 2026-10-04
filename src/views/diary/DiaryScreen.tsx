@@ -4,22 +4,34 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppText, EmptyState, Handle, PressableScale } from '@/components';
 import { borderRadius, colors, layout, shadows, spacing } from '@/theme';
+import { useWeatherLook } from '@/viewmodels/useAmbient';
 import { useDiaryViewModel } from '@/viewmodels/useDiaryViewModel';
+import { useHomeNav } from '@/views/home/HomeNavigator';
 import { SheetPullZone } from '@/views/home/SheetPullZone';
+import { MoodButton } from '@/views/weather/MoodButton';
+import { WeatherEffects } from '@/views/weather/WeatherEffects';
 import { CaptionModal } from './CaptionModal';
 import { PrintPile } from './PrintPile';
+import { WeatherChip } from './WeatherChip';
 import { WeekStrip } from './WeekStrip';
 
 const HEADER_GUTTER = 28;
 const HINT_TEXT = 'Chạm để xem ảnh · Giữ để viết ghi chú';
 const LIBRARY_ICON_SIZE = 20;
 const BOTTOM_EXTRA = spacing.xs;
+/** Floating mood button (design: right 18, bottom 128 — above the week strip). */
+const MOOD_RIGHT = 18;
+const MOOD_BOTTOM = 128;
 
 /** Main "Hôm nay" pane: a day's prints scattered on the table, the week strip and the sheet handles. */
 export function DiaryScreen() {
   const vm = useDiaryViewModel();
   const insets = useSafeAreaInsets();
   const [area, setArea] = useState({ width: 0, height: 0 });
+  const [page, setPage] = useState({ width: 0, height: 0 });
+  const look = useWeatherLook();
+  const palette = look.diary;
+  const isShowing = useHomeNav().isPaneActive('diary');
   const hasPhotos = vm.photos.length > 0;
 
   const onAreaLayout = (event: LayoutChangeEvent) => {
@@ -27,18 +39,43 @@ export function DiaryScreen() {
     setArea((current) => (current.width === width && current.height === height ? current : { width, height }));
   };
 
+  const onPageLayout = (event: LayoutChangeEvent) => {
+    const { width, height } = event.nativeEvent.layout;
+    setPage((current) => (current.width === width && current.height === height ? current : { width, height }));
+  };
+
   return (
-    <View style={[styles.root, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+    <View
+      style={[styles.root, { paddingTop: insets.top, paddingBottom: insets.bottom, backgroundColor: palette.page }]}
+      onLayout={onPageLayout}
+    >
+      <WeatherEffects
+        sky={look.effectsSky}
+        layer="back"
+        width={page.width}
+        height={page.height}
+        active={isShowing}
+        dark={palette.dark}
+      />
       <SheetPullZone sheet="settings" intent="open" style={styles.topZone}>
-        <Handle icon="settings-outline" onPress={vm.openSettings} accessibilityLabel="Mở cài đặt" />
+        <Handle icon="settings-outline" onPress={vm.openSettings} accessibilityLabel="Mở cài đặt" tint={palette.muted} />
       </SheetPullZone>
 
       <View style={styles.header}>
         <View style={styles.headerText}>
-          <AppText variant="eyebrow" color="textMuted">
-            {vm.eyebrow}
-          </AppText>
-          <AppText variant="display" accessibilityRole="header" numberOfLines={1} adjustsFontSizeToFit>
+          <View style={styles.eyebrowRow}>
+            <AppText variant="eyebrow" style={{ color: palette.muted }}>
+              {vm.eyebrow}
+            </AppText>
+            <WeatherChip palette={palette} />
+          </View>
+          <AppText
+            variant="display"
+            accessibilityRole="header"
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            style={{ color: palette.ink }}
+          >
             {vm.title}
           </AppText>
         </View>
@@ -49,10 +86,10 @@ export function DiaryScreen() {
           accessibilityLabel="Mở thư viện ảnh"
           style={styles.libraryPill}
         >
-          <AppText variant="handLarge" color="textMuted">
+          <AppText variant="handLarge" style={{ color: palette.muted }}>
             {vm.countLabel}
           </AppText>
-          <Ionicons name="grid-outline" size={LIBRARY_ICON_SIZE} color={colors.textMuted} />
+          <Ionicons name="grid-outline" size={LIBRARY_ICON_SIZE} color={palette.muted} />
         </PressableScale>
       </View>
 
@@ -95,7 +132,7 @@ export function DiaryScreen() {
       </View>
 
       {hasPhotos ? (
-        <AppText variant="caption" color="textMuted" align="center" style={styles.hint}>
+        <AppText variant="caption" align="center" style={[styles.hint, { color: palette.muted }]}>
           {HINT_TEXT}
         </AppText>
       ) : null}
@@ -107,6 +144,7 @@ export function DiaryScreen() {
           onSelect={vm.selectDay}
           onPreviousWeek={vm.goPreviousWeek}
           onNextWeek={vm.goNextWeek}
+          palette={palette}
         />
       </View>
 
@@ -116,8 +154,19 @@ export function DiaryScreen() {
           barPosition="bottom"
           onPress={vm.openCalendar}
           accessibilityLabel="Mở lịch ảnh"
+          tint={palette.muted}
         />
       </SheetPullZone>
+
+      <WeatherEffects
+        sky={look.effectsSky}
+        layer="front"
+        width={page.width}
+        height={page.height}
+        active={isShowing}
+        dark={palette.dark}
+      />
+      <MoodButton style={{ right: MOOD_RIGHT, bottom: insets.bottom + MOOD_BOTTOM }} />
 
       <CaptionModal editor={vm.caption} />
     </View>
@@ -142,6 +191,11 @@ const styles = StyleSheet.create({
   },
   headerText: {
     flexShrink: 1,
+  },
+  eyebrowRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
   },
   libraryPill: {
     flexDirection: 'row',
